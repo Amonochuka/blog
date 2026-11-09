@@ -1,7 +1,4 @@
 import Image from "next/image";
-import { readingTime } from "@/src/utils/readingTime";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
@@ -9,7 +6,6 @@ export default function BookChapterPage({
   params,
 }: { params: { slug: string; chapter: string } }) {
   const chapterNum = parseInt(params.chapter);
-  const isDayFree = chapterNum <= 3; // First 3 days are free
 
   return (
     <BaseLayout>
@@ -88,12 +84,12 @@ export default function BookChapterPage({
                   X
                 </a>
               </div>
-              <a
+              <Link
                 href="/books/the-100-day-heartbeat"
                 className="font-medium text-be-600 hover:text-be-900 transition-colors"
               >
                 ← Back to Book
-              </a>
+              </Link>
             </div>
           </article>
         </div>

@@ -1,10 +1,7 @@
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,17 +15,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Beard & Diapers",
-  description: "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong.",
+  description:
+    "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong.",
+  ...title && { title },
+  ...description && { description },
 };
 
 export default function BaseLayout({
   children,
-  title,
-  description,
 }: {
   children: React.ReactNode;
-  title?: string;
-  description?: string;
 }) {
   return (
     <html

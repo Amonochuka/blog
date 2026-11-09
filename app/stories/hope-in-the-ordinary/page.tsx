@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { readingTime } from "@/src/utils/readingTime";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import { Footer } from "@/components/Footer";
 
 export default function StoryPage() {
   return (
@@ -27,8 +25,10 @@ export default function StoryPage() {
             <p>We are tempted to measure impact in projects completed and funds raised. But the deeper work of hope is quieter.</p>
 
             <blockquote>
-              <p>"We believe every community carries God-given potential."</p>
-            </blockquote>
+                <p>
+                  We believe every community carries God-given potential.
+                </p>
+              </blockquote>
 
             <h2 className="text-2xl font-bold text-be-900 mt-8">A library corner</h2>
             <p>In a small hospital ward, a reading corner became a place of healing. Not because of the books alone, but because someone chose to sit and read with a stranger.</p>

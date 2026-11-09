@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { readingTime } from "@/src/utils/readingTime";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import { Footer } from "@/components/Footer";
 
 export default function StoryPage() {
   return (

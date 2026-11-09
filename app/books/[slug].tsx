@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
@@ -42,19 +40,28 @@ export default function BookPage({
               <h3 className="text-2xl font-bold text-be-900 mb-4">Table of Contents</h3>
               <ol className="space-y-2 text-be-700 dark:text-zinc-400">
                 <li>
-                  <a href="/books/the-100-day-heartbeat/day-1" className="hover:text-be-600 transition-colors">
+                  <Link
+                    href="/books/the-100-day-heartbeat/day-1"
+                    className="hover:text-be-600 transition-colors"
+                  >
                     Day 1 — The Quiet Beginning
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/books/the-100-day-heartbeat/day-2" className="hover:text-be-600 transition-colors">
+                  <Link
+                    href="/books/the-100-day-heartbeat/day-2"
+                    className="hover:text-be-600 transition-colors"
+                  >
                     Day 2 — Listening Again
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/books/the-100-day-heartbeat/day-3" className="hover:text-be-600 transition-colors">
+                  <Link
+                    href="/books/the-100-day-heartbeat/day-3"
+                    className="hover:text-be-600 transition-colors"
+                  >
                     Day 3 — Growing Where You Are Planted
-                  </a>
+                  </Link>
                 </li>
                 {/* More chapters can be added */}
               </ol>

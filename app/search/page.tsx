@@ -1,6 +1,3 @@
-import { Head } from "@next/headers";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
@@ -15,7 +12,9 @@ export default async function SearchPage({
       q
     )}`
   );
-  const { results, query } = await res.json();
+  const data = await res.json();
+  const results = data?.results || [];
+  const query = data?.query || "";
 
   return (
     <BaseLayout>
@@ -23,78 +22,46 @@ export default async function SearchPage({
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-5xl font-bold text-be-900 mb-4">Search Results</h2>
-            {query && (
-              <p className="text-be-600 dark:text-zinc-400">
-                Results for“{query}”
-              </p>
-            )}
+            {query && <p className="text-be-600 dark:text-zinc-400">Results for: {query}</p>}
           </div>
 
           {results.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-be-600 dark:text-zinc-400">
-                No stories, books, or projects found matching“{query}”.
-              </p>
+              <p className="text-be-600 dark:text-zinc-400">No results found.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map((result) => {
-                if (result.id.startsWith("hope")) {
-                  const story = {
-                    hope-in-the-ordinary:
-                      "Hope in the Ordinary",
-                    walking-together: "Walking Together",
-                    fathers-day-reflection: "Father's Day Reflection",
-                    hospital-visit: "A Hospital Visit Remembered",
-                  }[result.id];
-                  return (
-                    <Link
-                      key={result.id}
-                      to `/stories/${result.id}`
-                      className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-                    >
-                      <div className="p-4">
-                        <h3 className="text-be-900 mb-2">{story}</h3>
-                        <p className="text-be-600 text-sm">
-                          {result.category || "Personal Reflections"}
-                        </p>
-                      </div>
-                    </Link>
-                  );
+                let href = "/";
+                let title = "";
+                if (result.id?.startsWith("hope")) {
+                  href = "/stories/" + result.id;
+                  const titles = {
+                    "hope-in-the-ordinary": "Hope in the Ordinary",
+                    "walking-together": "Walking Together",
+                    "fathers-day-reflection": "Father's Day Reflection",
+                    "hospital-visit": "A Hospital Visit Remembered",
+                  };
+                  title = titles[result.id];
+                } else if (result.id?.startsWith("the-100-day-heartbeat")) {
+                  href = "/books/" + result.id;
+                  title = result.title;
+                } else if (result.id?.startsWith("hospital-reading-corner")) {
+                  href = "/projects/" + result.id;
+                  title = result.name;
                 }
-                if (result.id.startsWith("the-100-day-heartbeat")) {
-                  return (
-                    <Link
-                      key={result.id}
-                      to `/books/${result.id}`
-                      className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-                    >
-                      <div className="p-4">
-                        <h3 className="text-be-900 mb-2">{result.title}</h3>
-                        <p className="text-be-600 text-sm">
-                          {result.description?.substring(0, 80)}...
-                        </p>
-                      </div>
-                    </Link>
-                  );
-                }
-                if (result.id.startsWith("hospital-reading-corner")) {
-                  return (
-                    <Link
-                      key={result.id}
-                      to `/projects/${result.id}`
-                      className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-                    >
-                      <div className="p-4">
-                        <h3 className="text-be-900 mb-2">{result.name}</h3>
-                        <p className="text-be-600 text-sm">
-                          {result.location}
-                        </p>
-                      </div>
-                    </Link>
-                  );
-                }
-                return null;
+                return result.id ? (
+                  <Link
+                    key={result.id}
+                    href={href}
+                    className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-3">
+                      <h3 className="text-be-900 mb-2">{title}</h3>
+                      <p className="text-be-600 text-sm">{result.category || ""}</p>
+                    </div>
+                  </Link>
+                ) : null;
               })}
             </div>
           )}

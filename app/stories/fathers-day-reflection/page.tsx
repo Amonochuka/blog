@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { readingTime } from "@/src/utils/readingTime";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import { Footer } from "@/components/Footer";
 
 export default function StoryPage() {
   return (
@@ -16,7 +14,7 @@ export default function StoryPage() {
               className="w-full h-64 object-cover mb-6 rounded-md"
               loading="lazy"
             />
-            <h1 className="text-4xl font-bold text-be-900 mb-6">Father's Day Reflection</h1>
+            <h1 className="text-4xl font-bold text-be-900 mb-6">Fathers Day Reflection</h1>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-be-500 text-sm">Fatherhood</span>
               <span className="text-be-400 text-sm">· 2025-06-15</span>
@@ -27,7 +25,9 @@ export default function StoryPage() {
             <p>The greatest legacy a father can leave is not what he accumulated, but what he awakened.</p>
 
             <blockquote>
-              <p>It is in the ordinary moments — the conversations, the teachings, the presence — that we pass on the most valuable things.</p>
+              <p>
+                It is in the ordinary moments — the conversations, the teachings, the presence — that we pass on the most valuable things.
+              </p>
             </blockquote>
 
             <h2 className="text-2xl font-bold text-be-900 mt-8">Continue the journey</h2>
@@ -43,7 +43,7 @@ export default function StoryPage() {
               </nav>
               <div className="ml-auto flex gap-2">
                 <a
-                  href={`https://wa.me/?text=Check%20out%20this%20story:%20Father%27s%20Day%20Reflection%20from%20Beard%20%26%20Diapers`}
+                  href="https://wa.me/?text=Check%20out%20this%20story%3A%20Fathers%20Day%20Reflection%20from%20Beard%20%26%20Diapers"
                   className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
                   target="_blank"
                   rel="noopener"
@@ -51,15 +51,15 @@ export default function StoryPage() {
                   WhatsApp
                 </a>
                 <a
-                  href={`https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection`}
-                  className="flex items-center gap-1 px^3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  href="https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection"
+                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
                   target="_blank"
                   rel="noopener"
                 >
                   Facebook
                 </a>
                 <a
-                  href={`https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection&text=Father%27s%20Day%20Reflection%20from%20Beard%20%26%20Diapers`}
+                  href="https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection&text=Fathers%20Day%20Reflection%20from%20Beard%20%26%20Diapers"
                   className="flex items-center gap-1 px-3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
                   target="_blank"
                   rel="noopener"

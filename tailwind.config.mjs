@@ -1,5 +1,6 @@
 import tailwind from "tailwindcss";
 import { type Config } from "tailwindcss/config";
+import tailorwindTypography from "@tailwindcss/typography";
 
 export default tailwind({
   content: [
@@ -17,10 +18,9 @@ export default tailwind({
       colors: {
         beige: "#F5F0E9",
         brown: "#6B4B3A",
-        gold: "#D4A853",
-        green: "#7A9A6E",
+        gold: "#D4A53",
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [tailorwindTypography],
 } satisfies Config);

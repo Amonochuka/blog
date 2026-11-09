@@ -1,5 +1,4 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
@@ -20,7 +19,7 @@ export default async function StoriesPage() {
             {stories.map((story) => (
               <Link
                 key={story.id}
-                to `/stories/${story.id}`
+                href={`/stories/${story.id}`}
                 className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <Image
@@ -56,7 +55,7 @@ export default async function StoriesPage() {
           <div className="bg-white dark:bg-be-900 rounded-2xl p-8 text-center">
             <h3 className="text-3xl font-bold text-be-900 mb-4">Share Your Story</h3>
             <p className="text-be-600 dark:text-zinc-400 mb-8 max-w-2xl mx-auto">
-              We'd love to hear your story of how hope has shown up in your community. Submit your
+              We love to hear your story of how hope has shown up in your community. Submit your
               reflection, experience, or narrative for possible feature on Beard & Diapers.
             </p>
             <a

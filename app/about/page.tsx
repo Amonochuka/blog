@@ -1,11 +1,8 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
-import Link from "next/link";
 
 export default async function AboutPage() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
-  const { stories, books, projects } = await res.json();
+  const { stories } = await res.json();
 
   return (
     <BaseLayout>
@@ -24,7 +21,9 @@ export default async function AboutPage() {
                 together for the common good.
               </p>
               <blockquote className="border-l-4 border-be-400 pl-6 italic text-be-600 dark:text-zinc-300 mb-6">
-                <p>"We believe every community carries God-given potential."</p>
+                <p>
+                  We believe every community carries God-given potential.
+                </p>
               </blockquote>
               <a
                 className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"

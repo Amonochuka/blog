@@ -1,35 +1,5 @@
-const metadata = {
-  title: "Beard & Diapers | Advancing Hope Where People Live, Learn, Heal, and Belong",
-  description:
-    "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong. Discover stories, books, projects, and ways to get involved.",
-  keywords:
-    "Beard & Diapers, Christian advocacy, hope, storytelling, community, Nairobi, Kenya",
-  authors: {
-    name: "Roy Ochuka",
-  },
-  openGraph: {
-    title: "Beard & Diapers | Advancing Hope Where People Live, Learn, Heal, and Belong",
-    description:
-      "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong.",
-    images: [
-      {
-        url: "https://beardanddiapers.org/images/og-default.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Beard & Diapers - Advancing hope where people live, learn, heal, and belong",
-      },
-    ],
-    type: "website",
-    siteName: "Beard & Diapers",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Beard & Diapers | Advancing Hope Where People Live, Learn, Heal, and Belong",
-    description:
-      "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong.",
-    images: ["https://beardanddiapers.org/images/og-default.jpg"],
-  },
-};
+import Image from "next/image";
+import metadata from "./metadata";
 
 export default function Home() {
   return (

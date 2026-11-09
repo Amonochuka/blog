@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
-import Link from "next/link";
 
 export default async function ProjectsPage() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
@@ -21,9 +20,9 @@ export default async function ProjectsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <Link
+              <a
                 key={project.id}
-                to `/projects/${project.id}`
+                href={`/projects/${project.id}`}
                 className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="relative group-hover:translate-y-2 transition-transform">
@@ -38,8 +37,8 @@ export default async function ProjectsPage() {
                     <p className="text-sm mt-1">{project.location} · {project.year}</p>
                   </div>
                 </div>
-              </Link>
-            ))}
+</a>
+              ))}
           </div>
         </div>
       </section>

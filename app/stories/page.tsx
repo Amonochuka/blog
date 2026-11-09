@@ -2,9 +2,11 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
-import readingTime from "@/src/utils/readingTime";
 
-export default function StoriesPage() {
+export default async function StoriesPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
+  const { stories } = await res.json();
+
   return (
     <BaseLayout>
       <section className="py-24 md:py-32 bg-white dark:bg-be-900">
@@ -15,90 +17,35 @@ export default function StoriesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Story card 1 */}
-            <Link
-              to="/stories/hope-in-the-ordinary"
-              className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <Image
-                src="/images/story-1.jpg"
-                alt="Hope in the Ordinary"
-                className="w-full h-48 object-cover"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-be-500 text-xs category">Personal Reflections</span>
-                </div>
-                <h3 className="text-xl font-bold text-be-900 mb-2">Hope in the Ordinary</h3>
-                <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-3">
-                  Sometimes hope does not arrive as a grand event.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-be-500 text-xs">Roy Ochuka</span>
-                    <span className="text-be-400 text-xs">· 2025-01-15</span>
+            {stories.map((story) => (
+              <Link
+                key={story.id}
+                to `/stories/${story.id}`
+                className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <Image
+                  src={story.image}
+                  alt={story.title}
+                  className="w-full h-48 object-cover"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-be-500 text-xs category">{story.category}</span>
                   </div>
-                  <span className="text-be-400 text-xs">{readingTime}</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Story card 2 */}
-            <Link
-              to="/stories/walking-together"
-              className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <Image
-                src="/images/story-2.jpg"
-                alt="Walking Together"
-                className="w-full h-48 object-cover"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-be-500 text-xs category">Community</span>
-                </div>
-                <h3 className="text-xl font-bold text-be-900 mb-2">Walking Together</h3>
-                <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-3">
-                  Hope is not meant to be carried alone.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-be-500 text-xs">Roy Ochuka</span>
-                    <span className="text-be-400 text-xs">· 2025-02-10</span>
+                  <h3 className="text-xl font-bold text-be-900 mb-2">{story.title}</h3>
+                  <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-3">
+                    {story.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-be-500 text-xs">{story.author}</span>
+                      <span className="text-be-400 text-xs">· {story.date}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-
-            {/* Story card 3 */}
-            <Link
-              to="/stories/fathers-day-reflection"
-              className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <Image
-                src="/images/story-3.jpg"
-                alt="Father's Day Reflection"
-                className="w-full h-48 object-cover"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-be-500 text-xs category">Fatherhood</span>
-                </div>
-                <h3 className="text-xl font-bold text-be-900 mb-2">Father's Day Reflection</h3>
-                <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-3">
-                  The legacy we leave and the stories we inherit.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-be-500 text-xs">Roy Ochuka</span>
-                    <span className="text-be-400 text-xs">· 2025-06-15</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

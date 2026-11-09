@@ -1,8 +1,12 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import Link from "next/link";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
+  const { stories, books, projects } = await res.json();
+
   return (
     <BaseLayout>
       <section className="py-24 md:py-32 bg-white dark:bg-be-900">
@@ -289,7 +293,7 @@ export default function AboutPage() {
                   X
                 </a>
                 <a
-                  className="text-zinc-400 hover:text-white transition-colors"
+                  className="text-zinc-400 hover:text-white transition-colirms"
                   href="https://linkedin.com/in/roy-ochuka" target="_blank" rel="noopener"
                 >
                   LinkedIn
@@ -315,6 +319,40 @@ export default function AboutPage() {
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Stories sidebar */}
+      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-be-900 mb-4">Recent Stories</h2>
+            <p className="text-be-600 dark:text-zinc-400">Latest from our community</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {stories
+              .filter((s) => s.featured)
+              .slice(0, 3)
+              .map((story) => (
+                <div
+                  key={story.id}
+                  className="bg-white dark:bg-be-900 rounded-xl p-4 hover:shadow-md transition-shadow"
+                >
+                  <Image
+                    src={story.image}
+                    alt={story.title}
+                    className="w-full h-24 object-cover mb-3"
+                    loading="lazy"
+                  />
+                  <h4 className="text-bold text-be-900 mb-2">
+                    {story.title}
+                  </h4>
+                  <p className="text-be-600 text-sm">
+                    {story.excerpt}
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </section>

@@ -52,7 +52,7 @@ export default function BookChapterPage({
 
             <p>Take a breath. Notice the ordinary. God is already here.</p>
 
-            <div className="mt-8 flex justify-between items-center">
+            <div className="mt-8 flex items-center gap-2">
               <div className="flex items-center gap-2 text-be-500">
                 <span>→</span>
                 <a
@@ -60,6 +60,32 @@ export default function BookChapterPage({
                   className="font-medium hover:text-be-600 transition-colors"
                 >
                   Next Chapter →
+                </a>
+              </div>
+              <div className="ml-auto flex gap-2">
+                <a
+                  href={`https://wa.me/?text=Check%20out%20this%20chapter:%20Day%20${chapterNum}%20of%20the%20100-Day%20Heartbeat%20from%20Beard%20%26%20Diapers`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  WhatsApp
+                </a>
+                <a
+                  href={`https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fbooks%2Fthe-100-day-heartbeat%2Fday-${chapterNum}`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Facebook
+                </a>
+                <a
+                  href={`https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fbooks%2Fthe-100-day-heartbeat%2Fday-${chapterNum}&text=Day%20${chapterNum}%20of%20the%20100-Day%20Heartbeat%20from%20Beard%20%26%20Diapers`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  X
                 </a>
               </div>
               <a

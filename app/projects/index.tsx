@@ -4,7 +4,10 @@ import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
+  const { projects } = await res.json();
+
   return (
     <BaseLayout>
       <section className="py-24 md:py-32 bg-white dark:bg-be-900">
@@ -17,25 +20,26 @@ export default function ProjectsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link
-              to="/projects/hospital-reading-corner"
-              className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <div className="relative group-hover:translate-y-2 transition-transform">
-                <Image
-                  src="/images/project-1.jpg"
-                  alt="Hospital Reading Corners"
-                  className="w-full h-64 object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
-                  <h3 className="font-bold">Hospital Reading Corners</h3>
-                  <p className="text-sm mt-1">Small reading corners in hospital wards</p>
+            {projects.map((project) => (
+              <Link
+                key={project.id}
+                to `/projects/${project.id}`
+                className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <div className="relative group-hover:translate-y-2 transition-transform">
+                  <Image
+                    src="/images/project-1.jpg"
+                    alt={project.name}
+                    className="w-full h-64 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
+                    <h3 className="font-bold">{project.name}</h3>
+                    <p className="text-sm mt-1">{project.location} · {project.year}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-
-            {/* More project cards can be added */}
+              </Link>
+            ))}
           </div>
         </div>
       </section>

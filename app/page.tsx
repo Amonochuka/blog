@@ -61,7 +61,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="flex flex-col items-center gap-3 text-be-500 text-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-be-500 text-sm">
             <span>Get Involved</span>
             <a
               className="font-medium text-gold underline underline-offset-2 hover:text-be-600 transition-colors"
@@ -69,6 +69,28 @@ export default function Home() {
             >
               Join the movement
             </a>
+          </div>
+          <div className="mt-4 sm:mt-0">
+            <form
+              className="bg-be-800 rounded-xl p-6 max-w-md mx-auto"
+              action="/api/newsletter"
+              method="POST"
+            >
+              <div className="flex gap-3 mb-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-3 rounded-md bg-be-900 border-none text-white focus:outline-none focus:ring-2 focus:ring-be-600"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-be-600 text-be-900 font-medium rounded-md hover:bg-be-700 transition-colors"
+                >
+                  Subscribe
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </section>

@@ -34,7 +34,7 @@ export default function StoryPage() {
             <p>In a small hospital ward, a reading corner became a place of healing. Not because of the books alone, but because someone chose to sit and read with a stranger.</p>
             <p>That is the heartbeat of Beard & Diapers.</p>
 
-            <div className="mt-8">
+            <div className="mt-8 flex items-center gap-2">
               <nav className="lower-alpha">
                 <ol>
                   <li>
@@ -42,6 +42,32 @@ export default function StoryPage() {
                   </li>
                 </ol>
               </nav>
+              <div className="ml-auto flex gap-2">
+                <a
+                  href={`https://wa.me/?text=Check%20out%20this%20story:%20Hope%20in%20the%20Ordinary%20from%20Beard%20%26%20Diapers`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  WhatsApp
+                </a>
+                <a
+                  href={`https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Fhope-in-the-ordinary`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Facebook
+                </a>
+                <a
+                  href={`https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Fhope-in-the-ordinary&text=Hope%20in%20the%20Ordinary%20from%20Beard%20%26%20Diapers`}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  X
+                </a>
+              </div>
             </div>
           </article>
         </div>

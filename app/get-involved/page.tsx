@@ -18,15 +18,15 @@ export default function GetInvolvedPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Tell Your Story section */}
-            <div>
+<div>
               <h3 className="text-2xl font-bold text-be-900 mb-6">Tell Your Story</h3>
               <p className="text-be-600 dark:text-zinc-400 mb-6">
                 Share your story of how hope has shown up in your community. Submitted stories enter
                 moderation before publication.
               </p>
               <a
+                href="/submit-story"
                 className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"
-                href="/get-involved/submit-story"
               >
                 Submit Your Story
               </a>

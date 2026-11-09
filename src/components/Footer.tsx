@@ -83,7 +83,7 @@ export function Footer() {
 
         <div className="border-t border-be-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-zinc-500 text-sm copyright">
-            © {new Date().getFullYear()} Beard & Diapers. All rights reserved.
+            © 2026 Beard & Diapers. All rights reserved.
           </p>
           <div className="flex gap-2">
             <a

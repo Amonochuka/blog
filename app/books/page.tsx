@@ -4,7 +4,10 @@ import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
 
-export default function BooksPage() {
+export default async function BooksPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
+  const { books } = await res.json();
+
   return (
     <BaseLayout>
       <section className="py-24 md:py-32 bg-white dark:bg-be-900">
@@ -15,25 +18,26 @@ export default function BooksPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link
-              to="/books/the-100-day-heartbeat"
-              className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <div className="relative group-hover:translate-y-2 transition-transform">
-                <Image
-                  src="/images/heartbeat-cover.jpg"
-                  alt="The 100-Day Heartbeat cover"
-                  className="w-full h-64 object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
-                  <h3 className="font-bold">The 100-Day Heartbeat</h3>
-                  <p className="text-sm mt-1">100 days. 100 reflections. One journey of becoming.</p>
+            {books.map((book) => (
+              <Link
+                key={book.id}
+                to `/books/${book.slug}`
+                className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <div className="relative group-hover:translate-y-2 transition-transform">
+                  <Image
+                    src={book.cover}
+                    alt={book.title}
+                    className="w-full h-64 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
+                    <h3 className="font-bold">{book.title}</h3>
+                    <p className="text-sm mt-1">{book.tagline}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-
-            {/* More books can be added here */}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -45,7 +49,7 @@ export default function BooksPage() {
             <div>
               <h2 className="text-4xl font-bold text-be-900 mb-4">Currently Serializing</h2>
               <p className="text-be-600 dark:text-zinc-400 mb-6">
-                The 100-Day Heartbeat — a journey of daily reflections preparing the soul for transformation.
+                {books[0]?.title} — {books[0]?.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <span className="inline-block px-3 py-1 bg-be-600 text-white text-sm rounded">Currently Serializing</span>

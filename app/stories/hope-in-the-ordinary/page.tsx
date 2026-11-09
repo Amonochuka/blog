@@ -13,7 +13,9 @@ export default function StoryPage() {
               alt="Hope in the Ordinary - featured image"
               className="w-full h-64 object-cover mb-6 rounded-md"
               loading="lazy"
-            />
+            width={800}
+                  height={400}
+                />
             <h1 className="text-4xl font-bold text-be-900 mb-6">Hope in the Ordinary</h1>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-be-500 text-sm">Personal Reflections</span>

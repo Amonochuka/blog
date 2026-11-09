@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
+import { Footer } from "@/components/Footer";
 
-export default function BookPage({
+export default async function BookPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const isSerializing = params.slug === "the-100-day-heartbeat" && true; // Simplified check
+  const { slug } = await params;
+  const isSerializing = slug === "the-100-day-heartbeat" && true; // Simplified check
 
   return (
     <BaseLayout>
@@ -20,7 +22,9 @@ export default function BookPage({
                 alt="The 100-Day Heartbeat cover"
                 className="rounded-2xl w-full h-64 object-cover mb-6"
                 loading="lazy"
-              />
+              width={800}
+                  height={400}
+                />
               <h2 className="text-4xl font-bold text-be-900">The 100-Day Heartbeat</h2>
               <p className="text-be-600 dark:text-zinc-400 mt-2">
                 Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.

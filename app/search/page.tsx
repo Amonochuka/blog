@@ -31,7 +31,7 @@ export default async function SearchPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {results.map((result) => {
+              {results.map((result: any) => {
                 let href = "/";
                 let title = "";
                 if (result.id?.startsWith("hope")) {
@@ -42,7 +42,7 @@ export default async function SearchPage({
                     "fathers-day-reflection": "Father's Day Reflection",
                     "hospital-visit": "A Hospital Visit Remembered",
                   };
-                  title = titles[result.id];
+                  title = (titles as any)[result.id];
                 } else if (result.id?.startsWith("the-100-day-heartbeat")) {
                   href = "/books/" + result.id;
                   title = result.title;

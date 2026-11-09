@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 
 export default async function AboutPage() {
@@ -331,9 +332,9 @@ export default async function AboutPage() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             {stories
-              .filter((s) => s.featured)
+              .filter((s: any) => s.featured)
               .slice(0, 3)
-              .map((story) => (
+              .map((story: any) => (
                 <div
                   key={story.id}
                   className="bg-white dark:bg-be-900 rounded-xl p-4 hover:shadow-md transition-shadow"
@@ -343,7 +344,9 @@ export default async function AboutPage() {
                     alt={story.title}
                     className="w-full h-24 object-cover mb-3"
                     loading="lazy"
-                  />
+                  width={800}
+                  height={400}
+                />
                   <h4 className="text-bold text-be-900 mb-2">
                     {story.title}
                   </h4>

@@ -16,7 +16,7 @@ export default async function StoriesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stories.map((story) => (
+            {stories.map((story: any) => (
               <Link
                 key={story.id}
                 href={`/stories/${story.id}`}
@@ -27,6 +27,8 @@ export default async function StoriesPage() {
                   alt={story.title}
                   className="w-full h-48 object-cover"
                   loading="lazy"
+                width={800}
+                  height={400}
                 />
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-3">

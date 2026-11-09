@@ -1,19 +1,14 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
+import { Footer } from "@/components/Footer";
 
-export default function BookChapterPage({
+export default async function BookChapterPage({
   params,
-}: { params: { slug: string; chapter: string } }) {
-  const chapterNum = parseInt(params.chapter);
-  const storedProgress = typeof window !== "undefined" ? localStorage.getItem("b&d-reading-progress") : null;
-  const savedChapter = storedProgress ? parseInt(storedProgress) : 1;
-  const progress = Math.min(chapterNum, savedChapter);
-
-  // Update progress in localStorage when navigating
-  if (typeof window !== "undefined") {
-    localStorage.setItem("b&d-reading-progress", chapterNum.toString());
-  }
+}: { params: Promise<{ slug: string; chapter: string }> }) {
+  const { chapter } = await params;
+  const chapterNum = parseInt(chapter);
+  const progress = chapterNum;
 
   return (
     <BaseLayout>
@@ -25,7 +20,9 @@ export default function BookChapterPage({
               alt="The 100-Day Heartbeat"
               className="w-full h-48 object-cover mb-6 rounded-md"
               loading="lazy"
-            />
+            width={800}
+                  height={400}
+                />
 
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-be-900">The 100-Day Heartbeat</h1>
@@ -43,24 +40,9 @@ export default function BookChapterPage({
 
               <div className="grid grid-cols-2 gap-2">
                 {[1, 2, 3].map((day) => (
-                  <div
-                    key={day}
-                    className={`px-3 py-1 rounded text-xs ${
-                      day <= progress
-                        ? "bg-be-600 text-white"
-                        : day === chapterNum
-                          ? "bg-be-100 text-be-900"
-                          : "text-be-500 hover:text-be-900 transition-colors"
-                    }`}
-                    onClick={() => {
-                      if (typeof window !== "undefined") {
-                        localStorage.setItem("b&d-reading-progress", day.toString());
-                        window.location.href = `/books/the-100-day-heartbeat/day-${day}`;
-                      }
-                    }}
-                  >
+                  <Link key={day} href={`/books/the-100-day-heartbeat/day-${day}`} className={`block px-3 py-1 rounded text-xs ${day === chapterNum ? "bg-be-600 text-white" : "text-be-500 hover:text-be-900 transition-colors"}`}>
                     Day {day}
-                  </div>
+                  </Link>
                 ))}
               </div>
             </header>
@@ -124,19 +106,6 @@ export default function BookChapterPage({
       <Footer />
     </BaseLayout>
   );
-}
-
-// Generate static params for ISR
-export const getStaticParams = async () => {
-  const params = [];
-  for (let i = 1; i <= 3; i++) {
-    params.push({
-      slug: "the-100-day-heartbeat",
-      chapter: i.toString(),
-    });
-  }
-  return params;
-};
 }
 
 // Generate static params for ISR

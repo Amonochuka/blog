@@ -13,7 +13,9 @@ export default function StoryPage() {
               alt="Father's Day Reflection - featured image"
               className="w-full h-64 object-cover mb-6 rounded-md"
               loading="lazy"
-            />
+            width={800}
+                  height={400}
+                />
             <h1 className="text-4xl font-bold text-be-900 mb-6">Fathers Day Reflection</h1>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-be-500 text-sm">Fatherhood</span>

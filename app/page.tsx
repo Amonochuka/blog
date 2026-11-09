@@ -1,5 +1,6 @@
 import Image from "next/image";
-import metadata from "./metadata";
+import Link from "next/link";
+import { BaseLayout } from "@/components/BaseLayout";
 
 export default function Home() {
   return (
@@ -150,7 +151,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Link
-              to="/stories/hope-in-the-ordinary"
+              href="/stories/hope-in-the-ordinary"
               className="group hover:text-be-900 transition-colors"
             >
               <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
@@ -175,7 +176,7 @@ export default function Home() {
             </Link>
 
             <Link
-              to="/stories/walking-together"
+              href="/stories/walking-together"
               className="group hover:text-be-900 transition-colors"
             >
               <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
@@ -200,7 +201,7 @@ export default function Home() {
             </Link>
 
             <Link
-              to="/stories/fathers-day-reflection"
+              href="/stories/fathers-day-reflection"
               className="group hover:text-be-900 transition-colors"
             >
               <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
@@ -281,7 +282,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Link
-              to="/projects/hospital-reading-corner"
+              href="/projects/hospital-reading-corner"
               className="group hover:text-be-900 transition-colors"
             >
               <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden h-full transition-colors">
@@ -290,6 +291,8 @@ export default function Home() {
                   alt="Hospital Reading Corners"
                   className="w-full h-48 object-cover"
                   loading="lazy"
+                width={800}
+                  height={400}
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-be-900 mb-2">Hospital Reading Corners</h3>
@@ -322,7 +325,9 @@ export default function Home() {
               alt="Featured story"
               className="h-64 w-full object-cover"
               loading="lazy"
-            />
+            width={800}
+                  height={400}
+                />
             <div className="p-6">
               <h3 className="text-2xl font-bold text-be-900 mb-2">A Hospital Visit Remembered</h3>
               <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">

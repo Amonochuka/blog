@@ -18,10 +18,10 @@ export default async function BooksPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {books.map((book) => (
+            {books.map((book: any) => (
               <Link
                 key={book.id}
-                to `/books/${book.slug}`
+                href={`/books/${book.slug}`}
                 className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="relative group-hover:translate-y-2 transition-transform">
@@ -30,7 +30,9 @@ export default async function BooksPage() {
                     alt={book.title}
                     className="w-full h-64 object-cover"
                     loading="lazy"
-                  />
+                  width={800}
+                  height={400}
+                />
                   <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
                     <h3 className="font-bold">{book.title}</h3>
                     <p className="text-sm mt-1">{book.tagline}</p>

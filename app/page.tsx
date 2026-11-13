@@ -11,7 +11,7 @@ export default function Home() {
         <div className="absolute -bottom-4 -left-4 w-64 h-64 bg-be-500 rounded-full opacity-10 blur-xl"></div>
 
         <div className="relative flex flex-col items-center justify-center text-center px-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
+          <h1 className="hero-title-flip text-4xl sm:text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
             Beard & Diapers
           </h1>
           <p className="text-2xl text-be-600 md:text-3xl max-w-2xl leading-relaxed mb-8">

@@ -17,9 +17,6 @@ export function Footer() {
                 className="mb-5 h-auto w-40 sm:w-44"
               />
             </Link>
-            <p className="max-w-xs text-zinc-400 text-sm">
-              Advancing hope where people live, learn, heal, and belong.
-            </p>
           </div>
 
           <div>

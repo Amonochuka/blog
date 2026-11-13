@@ -84,11 +84,6 @@ export function Footer() {
                   Contact
                 </a>
               </li>
-              <li>
-                <Link className="hover:text-white transition-colors" href="/admin">
-                  Blog Admin
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

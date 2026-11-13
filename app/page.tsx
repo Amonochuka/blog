@@ -58,7 +58,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Who We Are section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -92,7 +91,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What We Do section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
@@ -139,7 +137,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Latest Stories section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-reading-story.jpg"
@@ -220,7 +217,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* From the Book section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
@@ -262,7 +258,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-outdoor-cooking.jpg"
@@ -271,56 +266,68 @@ export default function Home() {
           secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="mx-auto max-w-4xl rounded-[1.5rem] bg-white/80 p-8 shadow-sm backdrop-blur-sm">
-            <div className="flex flex-col items-center text-center">
-              <span className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-be-700">Projects</span>
-              <h2 className="text-4xl font-bold text-be-900 leading-tight">Hospital Reading Corners</h2>
-            </div>
-            <div className="mt-8 overflow-hidden rounded-[1.2rem]">
-              <Image
-                src="/images/project-hospital.jpg"
-                alt="Hospital Reading Corners"
-                className="h-[280px] w-full object-cover"
-                width={1200}
-                height={700}
-                loading="lazy"
-              />
-            </div>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-be-900 mb-4">Projects</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link href="/projects#hospital-reading-corners" className="group hover:text-be-900 transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+                <Image
+                  src="/images/racist.jpeg"
+                  alt="Black mother and child reading together"
+                  className="h-72 w-full object-cover"
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
+                  <h3 className="text-2xl font-bold leading-tight">Hospital Reading Corners</h3>
+                </div>
+              </article>
+            </Link>
+
+            <Link href="/projects#childrens-home" className="group hover:text-be-900 transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+                <Image
+                  src="/images/project-1.jpg"
+                  alt="Children's Home"
+                  className="h-72 w-full object-cover"
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
+                  <h3 className="text-2xl font-bold leading-tight">Children&apos;s Home</h3>
+                </div>
+              </article>
+            </Link>
+
+            <Link href="/projects#community-care" className="group hover:text-be-900 transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+                <Image
+                  src="/images/hero-community.jpg"
+                  alt="Community Care"
+                  className="h-72 w-full object-cover"
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
+                  <h3 className="text-2xl font-bold leading-tight">Community Care</h3>
+                </div>
+              </article>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Story section */}
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
-        <FamilyPhotoBackdrop
-          firstSrc="/images/family-hospital-visit.jpg"
-          secondSrc="/images/family-newborn-hospital.jpg"
-          firstObjectPosition="center 45%"
-          secondObjectPosition="center 50%"
-        />
-        <div className="relative z-10 max-w-6xl mx-auto px-6">
-          <div className="overflow-hidden rounded-[1.5rem] bg-white/80 p-8 shadow-sm backdrop-blur-sm">
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="mb-3 inline-block text-sm font-medium uppercase tracking-[0.16em] text-be-700">Featured Story</span>
-              <h2 className="text-4xl font-bold text-be-900 leading-[0.95] sm:text-5xl">
-                A Hospital Visit Remembered
-              </h2>
-            </div>
-            <div className="mt-8 overflow-hidden rounded-[1.25rem]">
-              <Image
-                src="/images/family-hospital-visit.jpg"
-                alt="A Hospital Visit Remembered"
-                className="h-[360px] w-full object-cover"
-                width={1200}
-                height={700}
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Get Involved section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -353,7 +360,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/african-family-meal.jpg"

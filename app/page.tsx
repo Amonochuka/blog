@@ -33,14 +33,16 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 text-be-500 text-sm">
-            <span>Get Involved</span>
-            <a
-              className="font-medium text-gold underline underline-offset-2 hover:text-be-600 transition-colors"
+          <div className="flex flex-col items-center gap-3 text-sm sm:flex-row">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-be-900">
+              Get Involved
+            </span>
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-[#7d6231] bg-white/70 px-5 py-2 font-semibold text-be-900 shadow-sm transition-colors hover:bg-[#7d6231] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7d6231]"
               href="/get-involved"
             >
-              Join the movement
-            </a>
+              Join the movement <span aria-hidden="true">→</span>
+            </Link>
           </div>
           <div className="mt-4 w-full max-w-md sm:mt-0">
             <NewsletterForm compact />

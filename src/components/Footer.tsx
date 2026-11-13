@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -6,8 +7,17 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div>
-            <h4 className="font-bold text-white mb-4">Beard & Diapers</h4>
-            <p className="text-zinc-400 text-sm">
+            <Link href="/" aria-label="Beard & Diapers home" className="inline-flex rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-be-400">
+              <Image
+                src="/images/beard-diapers-logo.svg"
+                alt="Beard & Diapers — Epic Talks | Endless Stories"
+                width={240}
+                height={201}
+                unoptimized
+                className="mb-5 h-auto w-40 sm:w-44"
+              />
+            </Link>
+            <p className="max-w-xs text-zinc-400 text-sm">
               Advancing hope where people live, learn, heal, and belong.
             </p>
           </div>

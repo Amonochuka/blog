@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AdminNavSignOut } from "@/components/AdminNavSignOut";
 
@@ -32,10 +33,19 @@ export function Header() {
     <header className="border-b border-[#e8ddc9] bg-white dark:bg-be-900 sticky top-0 z-50">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <Link
-          className="flex items-center gap-2"
+          className="flex shrink-0 items-center gap-2"
           href="/"
         >
-          <span className="text-lg font-bold text-be-900 dark:text-white sm:text-2xl">Beard & Diapers</span>
+          <Image
+            src="/images/beard-diapers-mark.svg"
+            alt=""
+            aria-hidden="true"
+            width={278}
+            height={571}
+            unoptimized
+            className="h-10 w-auto sm:h-12"
+          />
+          <span className="font-serif text-lg font-semibold tracking-tight text-be-900 dark:text-white sm:text-2xl">Beard & Diapers</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

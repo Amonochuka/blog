@@ -45,7 +45,7 @@
   }
 }
 
-@keyframes hero-family-photo-first {
+@keyframes family-photo-backdrop-first {
   0%,
   42% {
     opacity: 1;
@@ -59,7 +59,7 @@
   }
 }
 
-@keyframes hero-family-photo-second {
+@keyframes family-photo-backdrop-second {
   0%,
   42% {
     opacity: 0;
@@ -73,37 +73,63 @@
   }
 }
 
-.hero-family-photo-first {
+.family-photo-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.family-photo-backdrop__image {
+  object-fit: cover;
+}
+
+.family-photo-backdrop__image--first {
   opacity: 1;
-  animation: hero-family-photo-first 24s ease-in-out infinite;
+  animation: family-photo-backdrop-first 24s ease-in-out infinite;
 }
 
-.hero-family-photo-second {
+.family-photo-backdrop__image--second {
   opacity: 0;
-  animation: hero-family-photo-second 24s ease-in-out infinite;
+  animation: family-photo-backdrop-second 24s ease-in-out infinite;
 }
 
-.hero-family-photo-tint {
+.family-photo-backdrop__tint {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(2px);
+}
+
+.family-photo-backdrop--light .family-photo-backdrop__tint {
   background: linear-gradient(
     110deg,
     rgb(250 247 242 / 84%) 0%,
     rgb(245 240 233 / 76%) 48%,
     rgb(232 221 201 / 84%) 100%
   );
-  backdrop-filter: blur(2px);
+}
+
+.family-photo-backdrop--dark .family-photo-backdrop__tint {
+  background: linear-gradient(
+    110deg,
+    rgb(61 44 32 / 88%) 0%,
+    rgb(61 44 32 / 80%) 48%,
+    rgb(61 44 32 / 88%) 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-family-photo-first,
-  .hero-family-photo-second {
+  .family-photo-backdrop__image--first,
+  .family-photo-backdrop__image--second {
     animation: none;
   }
 
-  .hero-family-photo-first {
+  .family-photo-backdrop__image--first {
     opacity: 1;
   }
 
-  .hero-family-photo-second {
+  .family-photo-backdrop__image--second {
     opacity: 0;
   }
 }

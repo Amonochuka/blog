@@ -1,33 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
+import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
 
 export default function Home() {
   return (
     <BaseLayout>
       <section className="relative isolate flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200 py-10 sm:py-16">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="/images/community-family-kenya.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            quality={72}
-            preload
-            className="hero-family-photo hero-family-photo-first object-cover object-[center_65%]"
-          />
-          <Image
-            src="/images/community-family-urban-kenya.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            quality={72}
-            loading="eager"
-            className="hero-family-photo hero-family-photo-second object-cover object-center"
-          />
-          <div className="hero-family-photo-tint absolute inset-0" />
-        </div>
+        <FamilyPhotoBackdrop
+          firstSrc="/images/community-family-kenya.jpg"
+          secondSrc="/images/community-family-urban-kenya.jpg"
+          preloadFirst
+          firstObjectPosition="center 65%"
+        />
 
         <div className="absolute -top-4 -right-4 z-10 h-96 w-96 rounded-full bg-be-400 opacity-20 blur-xl"></div>
         <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-be-500 opacity-10 blur-xl"></div>
@@ -73,8 +59,14 @@ export default function Home() {
       </section>
 
       {/* Who We Are section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/community-family-urban-kenya.jpg"
+          secondSrc="/images/kenya-community-gathering.jpg"
+          firstObjectPosition="center 42%"
+          secondObjectPosition="center 38%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-be-900 mb-6 leading-tight">
@@ -107,8 +99,14 @@ export default function Home() {
       </section>
 
       {/* What We Do section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/kenya-community-gathering.jpg"
+          secondSrc="/images/community-family-kenya.jpg"
+          firstObjectPosition="center 38%"
+          secondObjectPosition="center 65%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-be-900 mb-4 md:mb-6 leading-tight">
               What We Do
@@ -148,8 +146,14 @@ export default function Home() {
       </section>
 
       {/* Latest Stories section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/family-reading-story.jpg"
+          secondSrc="/images/family-reading-library.jpg"
+          firstObjectPosition="center 42%"
+          secondObjectPosition="center 42%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Latest Stories</h2>
             <p className="text-be-600 dark:text-zinc-400">Recently published reflections and narratives</p>
@@ -235,8 +239,14 @@ export default function Home() {
       </section>
 
       {/* From the Book section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/family-reading-story.jpg"
+          secondSrc="/images/family-reading-library.jpg"
+          firstObjectPosition="center 42%"
+          secondObjectPosition="center 42%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
               <Image
@@ -277,8 +287,14 @@ export default function Home() {
       </section>
 
       {/* Projects section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/community-family-kenya.jpg"
+          secondSrc="/images/community-family-urban-kenya.jpg"
+          firstObjectPosition="center 65%"
+          secondObjectPosition="center 46%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Projects / Where Hope Is Taking Root</h2>
             <p className="text-be-600 dark:text-zinc-400">
@@ -316,8 +332,14 @@ export default function Home() {
       </section>
 
       {/* Featured Story section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/family-hospital-visit.jpg"
+          secondSrc="/images/family-reading-story.jpg"
+          firstObjectPosition="center 45%"
+          secondObjectPosition="center 42%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Featured Story</h2>
             <p className="text-be-600 dark:text-zinc-400">
@@ -351,8 +373,15 @@ export default function Home() {
       </section>
 
       {/* Get Involved section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/kenya-community-gathering.jpg"
+          secondSrc="/images/community-family-urban-kenya.jpg"
+          tone="dark"
+          firstObjectPosition="center 38%"
+          secondObjectPosition="center 46%"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
@@ -403,8 +432,15 @@ export default function Home() {
       </section>
 
       {/* Newsletter section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-900">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
+        <FamilyPhotoBackdrop
+          firstSrc="/images/family-reading-library.jpg"
+          secondSrc="/images/community-family-kenya.jpg"
+          tone="dark"
+          firstObjectPosition="center 42%"
+          secondObjectPosition="center 65%"
+        />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
             Stories, ideas and opportunities for hope — delivered occasionally.
           </h2>

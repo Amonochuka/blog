@@ -45,7 +45,14 @@ export function Header() {
             unoptimized
             className="h-10 w-auto sm:h-12"
           />
-          <span className="font-serif text-lg font-semibold tracking-tight text-be-900 dark:text-white sm:text-2xl">Beard & Diapers</span>
+          <span className="flex flex-col gap-0.5">
+            <span className="font-serif text-lg font-semibold leading-none tracking-tight text-be-900 dark:text-white sm:text-2xl">
+              Beard &amp; Diapers
+            </span>
+            <span className="font-sans text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-be-500 sm:text-[10px]">
+              Epic Talks | Endless Stories
+            </span>
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

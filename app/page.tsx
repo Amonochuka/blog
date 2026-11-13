@@ -158,23 +158,19 @@ export default function Home() {
               href="/stories/hope-in-the-ordinary"
               className="group hover:text-be-900 transition-colors"
             >
-              <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/story-1.jpg"
+                  src="/images/family-community-home.jpg"
                   alt="Hope in the Ordinary"
-                  className="w-full h-48 object-cover"
+                  className="h-72 w-full object-cover"
                   width={800}
-                  height={400}
+                  height={600}
                   loading="lazy"
                 />
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-be-500 text-sm">Personal Reflections</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-be-900 mb-2">Hope in the Ordinary</h3>
-                  <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
-                    Sometimes hope does not arrive as a grand event.
-                  </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
+                  <h3 className="text-2xl font-bold leading-tight">Hope in the Ordinary</h3>
                 </div>
               </article>
             </Link>
@@ -183,23 +179,19 @@ export default function Home() {
               href="/stories/walking-together"
               className="group hover:text-be-900 transition-colors"
             >
-              <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/story-2.jpg"
+                  src="/images/african-family-meal.jpg"
                   alt="Walking Together"
-                  className="w-full h-48 object-cover"
+                  className="h-72 w-full object-cover"
                   width={800}
-                  height={400}
+                  height={600}
                   loading="lazy"
                 />
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-be-500 text-sm">Community</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-be-900 mb-2">Walking Together</h3>
-                  <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
-                    Hope is not meant to be carried alone.
-                  </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
+                  <h3 className="text-2xl font-bold leading-tight">Walking Together</h3>
                 </div>
               </article>
             </Link>
@@ -208,23 +200,19 @@ export default function Home() {
               href="/stories/fathers-day-reflection"
               className="group hover:text-be-900 transition-colors"
             >
-              <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden transition-colors">
+              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/story-3.jpg"
+                  src="/images/family-nairobi-father.jpg"
                   alt="Father's Day Reflection"
-                  className="w-full h-48 object-cover"
+                  className="h-72 w-full object-cover"
                   width={800}
-                  height={400}
+                  height={600}
                   loading="lazy"
                 />
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-be-500 text-sm">Fatherhood</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-be-900 mb-2">Father&apos;s Day Reflection</h3>
-                  <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
-                    The legacy we leave and the stories we inherit.
-                  </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
+                  <h3 className="text-2xl font-bold leading-tight">Father&apos;s Day Reflection</h3>
                 </div>
               </article>
             </Link>
@@ -283,38 +271,21 @@ export default function Home() {
           secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-be-900 mb-4">Projects / Where Hope Is Taking Root</h2>
-            <p className="text-be-600 dark:text-zinc-400">
-              Visual stories of what Beard & Diapers is actually doing.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link
-              href="/projects#hospital-reading-corners"
-              className="group hover:text-be-900 transition-colors"
-            >
-              <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden h-full transition-colors">
-                <Image
-                  src="/images/project-1.jpg"
-                  alt="Hospital Reading Corners"
-                  className="w-full h-48 object-cover"
-                  loading="lazy"
-                width={800}
-                  height={400}
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-be-900 mb-2">Hospital Reading Corners</h3>
-                  <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
-                    Small reading corners in hospital wards where volunteers read with patients and families.
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-[#e8ddc9]">
-                    <span className="text-be-500 text-sm">2024 · Nairobi, Kenya</span>
-                  </div>
-                </div>
-              </article>
-            </Link>
+          <div className="mx-auto max-w-4xl rounded-[1.5rem] bg-white/80 p-8 shadow-sm backdrop-blur-sm">
+            <div className="flex flex-col items-center text-center">
+              <span className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-be-700">Projects</span>
+              <h2 className="text-4xl font-bold text-be-900 leading-tight">Hospital Reading Corners</h2>
+            </div>
+            <div className="mt-8 overflow-hidden rounded-[1.2rem]">
+              <Image
+                src="/images/project-hospital.jpg"
+                alt="Hospital Reading Corners"
+                className="h-[280px] w-full object-cover"
+                width={1200}
+                height={700}
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -327,34 +298,23 @@ export default function Home() {
           firstObjectPosition="center 45%"
           secondObjectPosition="center 50%"
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-be-900 mb-4">Featured Story</h2>
-            <p className="text-be-600 dark:text-zinc-400">
-              A visually prominent human story encountering hope.
-            </p>
-          </div>
-
-          <div className="rounded-xl bg-white dark:bg-be-900 overflow-hidden h-full">
-            <Image
-              src="/images/featured-story.jpg"
-              alt="Featured story"
-              className="h-64 w-full object-cover"
-              loading="lazy"
-            width={800}
-                  height={400}
-                />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-be-900 mb-2">A Hospital Visit Remembered</h3>
-              <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">
-                When words meet presence, healing begins.
-              </p>
-              <Link
-                className="font-medium text-be-600 hover:text-be-900 transition-colors"
-                href="/stories/hospital-visit"
-              >
-                Read full story
-              </Link>
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
+          <div className="overflow-hidden rounded-[1.5rem] bg-white/80 p-8 shadow-sm backdrop-blur-sm">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="mb-3 inline-block text-sm font-medium uppercase tracking-[0.16em] text-be-700">Featured Story</span>
+              <h2 className="text-4xl font-bold text-be-900 leading-[0.95] sm:text-5xl">
+                A Hospital Visit Remembered
+              </h2>
+            </div>
+            <div className="mt-8 overflow-hidden rounded-[1.25rem]">
+              <Image
+                src="/images/family-hospital-visit.jpg"
+                alt="A Hospital Visit Remembered"
+                className="h-[360px] w-full object-cover"
+                width={1200}
+                height={700}
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

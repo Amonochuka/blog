@@ -17,6 +17,20 @@
   --color-brown: #6b4b3a;
   --color-gold: #d4a853;
   --color-green: #7a9a6e;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-fraunces), Georgia, serif;
+    letter-spacing: -0.025em;
+  }
 }
 
 @layer utilities {

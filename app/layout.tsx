@@ -2,15 +2,15 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Fraunces } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -29,9 +29,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${dmSans.variable} ${fraunces.variable} antialiased`}
     >
-      <body suppressHydrationWarning className="flex min-h-screen flex-col bg-be-100 dark:bg-be-900">
+      <body suppressHydrationWarning className={`${dmSans.className} flex min-h-screen flex-col bg-be-100 dark:bg-be-900`}>
         <Header />
 
         <main className="min-w-0 flex-1">

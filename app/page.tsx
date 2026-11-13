@@ -72,11 +72,11 @@ export default function Home() {
             </div>
             <div className="relative flex justify-center">
               <Image
-                src="/images/hero-community.svg"
-                alt="Community gathering"
-                className="mx-auto w-full max-w-xl rounded-2xl object-cover"
-                width={600}
-                height={400}
+                src="/images/community-family-kenya.jpg"
+                alt="A father spending time outdoors with his two children"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover"
+                width={1600}
+                height={1067}
                 loading="lazy"
               />
             </div>

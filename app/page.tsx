@@ -59,14 +59,8 @@ export default function Home() {
       </section>
 
       {/* Who We Are section */}
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
-        <FamilyPhotoBackdrop
-          firstSrc="/images/community-family-urban-kenya.jpg"
-          secondSrc="/images/kenya-community-gathering.jpg"
-          firstObjectPosition="center 42%"
-          secondObjectPosition="center 38%"
-        />
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-be-900 mb-6 leading-tight">
@@ -86,9 +80,9 @@ export default function Home() {
             </div>
             <div className="relative flex justify-center">
               <Image
-                src="/images/community-family-kenya.jpg"
-                alt="A father spending time outdoors with his two children"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_65%]"
+                src="/images/family-community-home.jpg"
+                alt="A family sharing a moment together at home"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_30%]"
                 width={1600}
                 height={1067}
                 loading="lazy"
@@ -102,9 +96,9 @@ export default function Home() {
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
-          secondSrc="/images/community-family-kenya.jpg"
+          secondSrc="/images/kenya-community-gathering-2.jpg"
           firstObjectPosition="center 38%"
-          secondObjectPosition="center 65%"
+          secondObjectPosition="center 50%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -149,9 +143,9 @@ export default function Home() {
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-reading-story.jpg"
-          secondSrc="/images/family-reading-library.jpg"
-          firstObjectPosition="center 42%"
-          secondObjectPosition="center 42%"
+          secondSrc="/images/book-reading.jpg"
+          firstObjectPosition="center 24%"
+          secondObjectPosition="center 50%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -239,14 +233,8 @@ export default function Home() {
       </section>
 
       {/* From the Book section */}
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
-        <FamilyPhotoBackdrop
-          firstSrc="/images/family-reading-story.jpg"
-          secondSrc="/images/family-reading-library.jpg"
-          firstObjectPosition="center 42%"
-          secondObjectPosition="center 42%"
-        />
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
               <Image
@@ -289,10 +277,10 @@ export default function Home() {
       {/* Projects section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <FamilyPhotoBackdrop
-          firstSrc="/images/community-family-kenya.jpg"
-          secondSrc="/images/community-family-urban-kenya.jpg"
-          firstObjectPosition="center 65%"
-          secondObjectPosition="center 46%"
+          firstSrc="/images/family-outdoor-cooking.jpg"
+          secondSrc="/images/african-father-child-outdoors.jpg"
+          firstObjectPosition="center 50%"
+          secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -335,9 +323,9 @@ export default function Home() {
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-hospital-visit.jpg"
-          secondSrc="/images/family-reading-story.jpg"
+          secondSrc="/images/family-newborn-hospital.jpg"
           firstObjectPosition="center 45%"
-          secondObjectPosition="center 42%"
+          secondObjectPosition="center 50%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -373,59 +361,32 @@ export default function Home() {
       </section>
 
       {/* Get Involved section */}
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
-        <FamilyPhotoBackdrop
-          firstSrc="/images/kenya-community-gathering.jpg"
-          secondSrc="/images/community-family-urban-kenya.jpg"
-          tone="dark"
-          firstObjectPosition="center 38%"
-          secondObjectPosition="center 46%"
-        />
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
-                Get Involved
-              </h2>
-              <p className="text-zinc-400 mb-6 leading-relaxed">
-                There are many ways to participate in what Beard & Diapers is doing.
-              </p>
+      <section className="bg-[#4b3627] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#f3efe9] shadow-[0_18px_55px_rgba(35,22,16,0.18)]">
+            <div className="pointer-events-none absolute -left-8 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-[#bfcc90] opacity-90" />
+            <div className="pointer-events-none absolute -right-10 bottom-8 h-28 w-28 rounded-full bg-[#8d6a4d] opacity-90" />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
-                  <div className="text-2xl font-bold text-white mb-2">📖</div>
-                  <h3 className="text-lg font-medium text-white mb-1">Tell Your Story</h3>
-                  <p className="text-zinc-300 text-sm">Share your story of hope</p>
-                </div>
-                <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
-                  <div className="text-2xl font-bold text-white mb-2">🤝</div>
-                  <h3 className="text-lg font-medium text-white mb-1">Volunteer</h3>
-                  <p className="text-zinc-300 text-sm">Join our volunteer team</p>
-                </div>
+            <div className="relative z-10 grid items-center gap-8 px-6 py-8 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:py-12">
+              <div className="flex flex-col items-center justify-center text-center lg:items-start lg:text-left">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#4b3627]">
+                  Community
+                </p>
+                <h2 className="text-4xl font-bold leading-tight text-[#3d2c20] sm:text-5xl">
+                  Get Involved
+                </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
-                  <div className="text-2xl font-bold text-white mb-2">💼</div>
-                  <h3 className="text-lg font-medium text-white mb-1">Partner With Us</h3>
-                  <p className="text-zinc-300 text-sm">Churches, organisations, businesses</p>
-                </div>
-                <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
-                  <div className="text-2xl font-bold text-white mb-2">🌱</div>
-                  <h3 className="text-lg font-medium text-white mb-1">Start Something</h3>
-                  <p className="text-zinc-300 text-sm">Propose a community initiative</p>
-                </div>
+              <div className="overflow-hidden rounded-[1.6rem] border border-[#d8cab6] bg-white/20 shadow-inner">
+                <Image
+                  src="/images/family-outdoor-cooking.jpg"
+                  alt="A parent showing a child how to do a task together"
+                  className="h-[260px] w-full object-cover sm:h-[320px]"
+                  width={900}
+                  height={700}
+                  loading="lazy"
+                />
               </div>
-            </div>
-            <div className="relative flex justify-center">
-              <Image
-                src="/images/get-involved.jpg"
-                alt="People getting involved"
-                className="rounded-2xl w-full max-w-md object-cover"
-                width={600}
-                height={400}
-                loading="lazy"
-              />
             </div>
           </div>
         </div>
@@ -434,11 +395,11 @@ export default function Home() {
       {/* Newsletter section */}
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
         <FamilyPhotoBackdrop
-          firstSrc="/images/family-reading-library.jpg"
-          secondSrc="/images/community-family-kenya.jpg"
+          firstSrc="/images/african-family-meal.jpg"
+          secondSrc="/images/family-kenyan-mother-child.jpg"
           tone="dark"
-          firstObjectPosition="center 42%"
-          secondObjectPosition="center 65%"
+          firstObjectPosition="center 24%"
+          secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">

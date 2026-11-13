@@ -361,38 +361,33 @@ export default function Home() {
       </section>
 
       {/* Get Involved section */}
-      <section className="bg-[#4b3627] py-16 sm:py-20 lg:py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#f3efe9] shadow-[0_18px_55px_rgba(35,22,16,0.18)]">
-            <div className="pointer-events-none absolute -left-8 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-[#bfcc90] opacity-90" />
-            <div className="pointer-events-none absolute -right-10 bottom-8 h-28 w-28 rounded-full bg-[#8d6a4d] opacity-90" />
-
-            <div className="relative z-10 grid items-center gap-8 px-6 py-8 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:py-12">
-              <div className="flex flex-col items-center justify-center text-center lg:items-start lg:text-left">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#4b3627]">
-                  Community
-                </p>
-                <h2 className="text-4xl font-bold leading-tight text-[#3d2c20] sm:text-5xl">
-                  Get Involved
-                </h2>
-                <Link
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#4b3627] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2f211a]"
-                  href="/get-involved"
-                >
-                  Join the movement <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-
-              <div className="overflow-hidden rounded-[1.6rem] border border-[#d8cab6] bg-white/20 shadow-inner">
-                <Image
-                  src="/images/family-outdoor-cooking.jpg"
-                  alt="A parent showing a child how to do a task together"
-                  className="h-[260px] w-full object-cover sm:h-[320px]"
-                  width={900}
-                  height={700}
-                  loading="lazy"
-                />
-              </div>
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-be-900 mb-6 leading-tight">
+                Get Involved
+              </h2>
+              <p className="text-be-700 dark:text-zinc-300 leading-relaxed mb-6">
+                We believe hope grows when communities show up for one another in practical, everyday ways.
+                There are many ways to take part—through service, encouragement, storytelling, and partnership.
+              </p>
+              <Link
+                className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm mt-4"
+                href="/get-involved"
+              >
+                Learn More
+              </Link>
+            </div>
+            <div className="relative flex justify-center">
+              <Image
+                src="/images/family-outdoor-cooking.jpg"
+                alt="A parent showing a child how to do a task together"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-center"
+                width={1600}
+                height={1000}
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

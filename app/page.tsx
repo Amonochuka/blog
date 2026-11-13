@@ -44,7 +44,7 @@ export default function Home() {
               Join the movement <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <div className="mt-4 w-full max-w-md sm:mt-0">
+          <div className="mt-8 w-full max-w-md">
             <NewsletterForm compact />
           </div>
         </div>

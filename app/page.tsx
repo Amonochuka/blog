@@ -6,11 +6,33 @@ import { NewsletterForm } from "@/components/NewsletterForm";
 export default function Home() {
   return (
     <BaseLayout>
-      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200 py-10 sm:py-16">
-        <div className="absolute -top-4 -right-4 w-96 h-96 bg-be-400 rounded-full opacity-20 blur-xl"></div>
-        <div className="absolute -bottom-4 -left-4 w-64 h-64 bg-be-500 rounded-full opacity-10 blur-xl"></div>
+      <section className="relative isolate flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200 py-10 sm:py-16">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <Image
+            src="/images/community-family-kenya.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            quality={72}
+            preload
+            className="hero-family-photo hero-family-photo-first object-cover object-[center_65%]"
+          />
+          <Image
+            src="/images/community-family-urban-kenya.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            quality={72}
+            loading="eager"
+            className="hero-family-photo hero-family-photo-second object-cover object-center"
+          />
+          <div className="hero-family-photo-tint absolute inset-0" />
+        </div>
 
-        <div className="relative flex flex-col items-center justify-center text-center px-6">
+        <div className="absolute -top-4 -right-4 z-10 h-96 w-96 rounded-full bg-be-400 opacity-20 blur-xl"></div>
+        <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-be-500 opacity-10 blur-xl"></div>
+
+        <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center">
           <h1 className="hero-title-flip text-4xl sm:text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
             Beard & Diapers
           </h1>

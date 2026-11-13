@@ -74,7 +74,7 @@ export default function Home() {
               <Image
                 src="/images/community-family-kenya.jpg"
                 alt="A father spending time outdoors with his two children"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_65%]"
                 width={1600}
                 height={1067}
                 loading="lazy"

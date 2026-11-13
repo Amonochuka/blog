@@ -37,7 +37,7 @@
   0% {
     transform: perspective(900px) rotateY(0deg);
   }
-  48% {
+  50% {
     transform: perspective(900px) rotateY(180deg);
   }
   100% {
@@ -47,7 +47,7 @@
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .hero-title-flip:hover {
-    animation: hero-title-flip 700ms cubic-bezier(0.22, 0.68, 0.26, 1);
+    animation: hero-title-flip 1.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

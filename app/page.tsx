@@ -375,6 +375,12 @@ export default function Home() {
                 <h2 className="text-4xl font-bold leading-tight text-[#3d2c20] sm:text-5xl">
                   Get Involved
                 </h2>
+                <Link
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#4b3627] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2f211a]"
+                  href="/get-involved"
+                >
+                  Join the movement <span aria-hidden="true">→</span>
+                </Link>
               </div>
 
               <div className="overflow-hidden rounded-[1.6rem] border border-[#d8cab6] bg-white/20 shadow-inner">

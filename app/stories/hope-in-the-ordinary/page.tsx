@@ -1,11 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
-import { Footer } from "@/components/Footer";
 
 export default function StoryPage() {
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <article className="prose lg:prose-2xl max-w-2xl mx-auto">
             <Image
@@ -36,15 +36,15 @@ export default function StoryPage() {
             <p>In a small hospital ward, a reading corner became a place of healing. Not because of the books alone, but because someone chose to sit and read with a stranger.</p>
             <p>That is the heartbeat of Beard & Diapers.</p>
 
-            <div className="mt-8 flex items-center gap-2">
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-2">
               <nav className="lower-alpha">
                 <ol>
                   <li>
-                    <a href="/stories">← Back to Stories</a>
+                    <Link href="/stories">← Back to Stories</Link>
                   </li>
                 </ol>
               </nav>
-              <div className="ml-auto flex gap-2">
+              <div className="flex flex-wrap gap-2 sm:ml-auto">
                 <a
                   href={`https://wa.me/?text=Check%20out%20this%20story:%20Hope%20in%20the%20Ordinary%20from%20Beard%20%26%20Diapers`}
                   className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
@@ -55,7 +55,7 @@ export default function StoryPage() {
                 </a>
                 <a
                   href={`https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Fhope-in-the-ordinary`}
-                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1877f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#166fe5]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -63,7 +63,7 @@ export default function StoryPage() {
                 </a>
                 <a
                   href={`https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Fhope-in-the-ordinary&text=Hope%20in%20the%20Ordinary%20from%20Beard%20%26%20Diapers`}
-                  className="flex items-center gap-1 px-3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1da1f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#1a91da]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -75,7 +75,6 @@ export default function StoryPage() {
         </div>
       </section>
 
-      <Footer />
     </BaseLayout>
   );
 }

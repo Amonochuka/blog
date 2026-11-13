@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+
+export const dynamic = "force-dynamic";
 
 const stories = [
   {
@@ -71,8 +74,37 @@ export async function GET(request: Request) {
 
   const lowercaseQuery = query.toLowerCase();
 
+  let searchableStories = stories;
+  if (getSupabaseConfig()) {
+    try {
+      const databaseStories = await supabaseRest<Array<{
+        slug: string;
+        title: string;
+        subtitle: string;
+        category: string;
+        excerpt: string;
+        author_name: string;
+        content: string;
+      }>>("stories?select=slug,title,excerpt,category,author_name,content&status=eq.published");
+      searchableStories = [
+        ...databaseStories.map((story) => ({
+          id: story.slug,
+          title: story.title,
+          subtitle: story.excerpt,
+          author: story.author_name,
+          category: story.category,
+          tags: [] as string[],
+          body: story.content,
+        })),
+        ...stories,
+      ];
+    } catch (error) {
+      console.error("Could not load stories for search:", error);
+    }
+  }
+
   const results = [
-    ...stories.filter(
+    ...searchableStories.filter(
       (s) =>
         s.title.toLowerCase().includes(lowercaseQuery) ||
         s.subtitle.toLowerCase().includes(lowercaseQuery) ||

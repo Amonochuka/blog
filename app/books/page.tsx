@@ -1,24 +1,23 @@
 import Image from "next/image";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import { getAppBaseUrl } from "@/lib/site-url";
 import Link from "next/link";
 
 export default async function BooksPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
-  const { books } = await res.json();
+  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
+  const { books } = await res.json() as { books: Array<{ id: string; slug: string; cover: string; title: string; tagline: string; description: string }> };
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-be-900 mb-4">Books</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-4">Books</h2>
             <p className="text-be-600 dark:text-zinc-400">Serialized stories and reflections</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {books.map((book: any) => (
+            {books.map((book) => (
               <Link
                 key={book.id}
                 href={`/books/${book.slug}`}
@@ -45,7 +44,7 @@ export default async function BooksPage() {
       </section>
 
       {/* Book serialization info section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -55,12 +54,12 @@ export default async function BooksPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <span className="inline-block px-3 py-1 bg-be-600 text-white text-sm rounded">Currently Serializing</span>
-                <a
+                <Link
                   className="text-be-500 hover:text-be-600 transition-colors text-sm"
                   href="/books/the-100-day-heartbeat"
                 >
                   Start Reading
-                </a>
+                </Link>
               </div>
             </div>
             <div className="relative">

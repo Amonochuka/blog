@@ -1,11 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
-import { Footer } from "@/components/Footer";
 
 export default function StoryPage() {
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <article className="prose lg:prose-xl max-w-2xl mx-auto">
             <Image
@@ -35,15 +35,15 @@ export default function StoryPage() {
             <h2 className="text-2xl font-bold text-be-900 mt-8">Continue the journey</h2>
             <p>Every story matters. Your story might be the one someone needs to hear today.</p>
 
-            <div className="mt-8 flex items-center gap-2">
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-2">
               <nav className="lower-alpha">
                 <ol>
                   <li>
-                    <a href="/stories">← Back to Stories</a>
+                    <Link href="/stories">← Back to Stories</Link>
                   </li>
                 </ol>
               </nav>
-              <div className="ml-auto flex gap-2">
+              <div className="flex flex-wrap gap-2 sm:ml-auto">
                 <a
                   href="https://wa.me/?text=Check%20out%20this%20story%3A%20Fathers%20Day%20Reflection%20from%20Beard%20%26%20Diapers"
                   className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
@@ -54,7 +54,7 @@ export default function StoryPage() {
                 </a>
                 <a
                   href="https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection"
-                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1877f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#166fe5]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -62,7 +62,7 @@ export default function StoryPage() {
                 </a>
                 <a
                   href="https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fstories%2Ffathers-day-reflection&text=Fathers%20Day%20Reflection%20from%20Beard%20%26%20Diapers"
-                  className="flex items-center gap-1 px-3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1da1f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#1a91da]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -74,7 +74,6 @@ export default function StoryPage() {
         </div>
       </section>
 
-      <Footer />
     </BaseLayout>
   );
 }

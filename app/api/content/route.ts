@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+
+export const dynamic = "force-dynamic";
 
 const stories = [
   {
@@ -93,10 +96,38 @@ const projects = [
 ];
 
 export async function GET() {
-  return NextResponse.json({ stories, books, projects });
-}
-
-export async function POST(request: Request) {
-  const body = await request.json();
-  return NextResponse.json({ received: true, body }, { status: 201 });
+  let publishedStories = stories;
+  if (getSupabaseConfig()) {
+    try {
+      const databaseStories = await supabaseRest<Array<{
+        slug: string;
+        title: string;
+        excerpt: string;
+        category: string;
+        author_name: string;
+        image_url: string;
+        published_at: string | null;
+      }>>("stories?select=slug,title,excerpt,category,author_name,image_url,published_at&status=eq.published&order=published_at.desc");
+      publishedStories = [
+        ...databaseStories.map((story) => ({
+          id: story.slug,
+          title: story.title,
+          subtitle: story.excerpt,
+          author: story.author_name,
+          date: story.published_at?.slice(0, 10) || "",
+          category: story.category,
+          tags: [],
+          featured: false,
+          excerpt: story.excerpt,
+          body: "",
+          readingTime: "",
+          image: story.image_url,
+        })),
+        ...stories,
+      ];
+    } catch (error) {
+      console.error("Could not load published stories from Supabase:", error);
+    }
+  }
+  return NextResponse.json({ stories: publishedStories, books, projects });
 }

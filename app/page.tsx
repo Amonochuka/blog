@@ -1,31 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export default function Home() {
   return (
     <BaseLayout>
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200">
+      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200 py-10 sm:py-16">
         <div className="absolute -top-4 -right-4 w-96 h-96 bg-be-400 rounded-full opacity-20 blur-xl"></div>
         <div className="absolute -bottom-4 -left-4 w-64 h-64 bg-be-500 rounded-full opacity-10 blur-xl"></div>
 
-        <div className="relative flex flex-col items-center justify-center text-center px-6 pt-20">
-          <h1 className="text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
+        <div className="relative flex flex-col items-center justify-center text-center px-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
             Beard & Diapers
           </h1>
           <p className="text-2xl text-be-600 md:text-3xl max-w-2xl leading-relaxed mb-8">
             Advancing hope where people live, learn, heal, and belong.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 pb-8">
+          <div className="flex flex-col items-center gap-4 pb-8 sm:flex-row">
             <Link
-              className="inline-block px-8 py-4 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-lg"
+              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-be-600 px-8 text-lg font-medium text-white transition-colors hover:bg-be-700"
               href="/stories"
             >
               Explore Our Stories
             </Link>
             <Link
-              className="inline-block px-8 py-4 border-2 border-be-700 text-be-900 font-medium rounded-full hover:bg-be-50 transition-colors text-lg"
+              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-[#7d6231] px-8 text-lg font-medium text-be-900 transition-colors hover:bg-be-50"
               href="/books"
             >
               Read the Book
@@ -41,33 +42,14 @@ export default function Home() {
               Join the movement
             </a>
           </div>
-          <div className="mt-4 sm:mt-0">
-            <form
-              className="bg-be-800 rounded-xl p-6 max-w-md mx-auto"
-              action="/api/newsletter"
-              method="POST"
-            >
-              <div className="flex gap-3 mb-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-md bg-be-900 border-none text-white focus:outline-none focus:ring-2 focus:ring-be-600"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-be-600 text-be-900 font-medium rounded-md hover:bg-be-700 transition-colors"
-                >
-                  Subscribe
-                </button>
-              </div>
-            </form>
+          <div className="mt-4 w-full max-w-md sm:mt-0">
+            <NewsletterForm compact />
           </div>
         </div>
       </section>
 
       {/* Who We Are section */}
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -77,7 +59,7 @@ export default function Home() {
               <p className="text-be-700 dark:text-zinc-300 leading-relaxed mb-6">
                 We believe every community carries God-given potential. Our mission is to awaken that potential
                 through storytelling, creative community projects, and acts of service that strengthen
-                society's capacity to care for its own.
+                society&apos;s capacity to care for its own.
               </p>
               <Link
                 className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm mt-4"
@@ -88,9 +70,9 @@ export default function Home() {
             </div>
             <div className="relative flex justify-center">
               <Image
-                src="/images/hero-community.jpg"
+                src="/images/hero-community.svg"
                 alt="Community gathering"
-                className="rounded-2xl w-full max-w- mx-0 object-cover"
+                className="mx-auto w-full max-w-xl rounded-2xl object-cover"
                 width={600}
                 height={400}
                 loading="lazy"
@@ -101,7 +83,7 @@ export default function Home() {
       </section>
 
       {/* What We Do section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-be-900 mb-4 md:mb-6 leading-tight">
@@ -109,7 +91,7 @@ export default function Home() {
             </h2>
             <p className="text-be-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
               Through storytelling, creative community projects, and acts of service, we strengthen
-              society's capacity to care for its own.
+              society&apos;s capacity to care for its own.
             </p>
           </div>
 
@@ -142,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* Latest Stories section */}
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Latest Stories</h2>
@@ -217,7 +199,7 @@ export default function Home() {
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-be-500 text-sm">Fatherhood</span>
                   </div>
-                  <h3 className="text-xl font-bold text-be-900 mb-2">Father's Day Reflection</h3>
+                  <h3 className="text-xl font-bold text-be-900 mb-2">Father&apos;s Day Reflection</h3>
                   <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
                     The legacy we leave and the stories we inherit.
                   </p>
@@ -229,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* From the Book section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
@@ -271,7 +253,7 @@ export default function Home() {
       </section>
 
       {/* Projects section */}
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Projects / Where Hope Is Taking Root</h2>
@@ -282,7 +264,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Link
-              href="/projects/hospital-reading-corner"
+              href="/projects#hospital-reading-corners"
               className="group hover:text-be-900 transition-colors"
             >
               <article className="rounded-xl bg-white dark:bg-be-900 overflow-hidden h-full transition-colors">
@@ -299,7 +281,7 @@ export default function Home() {
                   <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
                     Small reading corners in hospital wards where volunteers read with patients and families.
                   </p>
-                  <div className="mt-4 pt-4 border-t border-be-200">
+                  <div className="mt-4 pt-4 border-t border-[#e8ddc9]">
                     <span className="text-be-500 text-sm">2024 · Nairobi, Kenya</span>
                   </div>
                 </div>
@@ -310,7 +292,7 @@ export default function Home() {
       </section>
 
       {/* Featured Story section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Featured Story</h2>
@@ -333,19 +315,19 @@ export default function Home() {
               <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">
                 When words meet presence, healing begins.
               </p>
-              <a
+              <Link
                 className="font-medium text-be-600 hover:text-be-900 transition-colors"
                 href="/stories/hospital-visit"
               >
                 Read full story
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Get Involved section */}
-      <section className="py-24 md:py-32 bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -356,7 +338,7 @@ export default function Home() {
                 There are many ways to participate in what Beard & Diapers is doing.
               </p>
 
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
                   <div className="text-2xl font-bold text-white mb-2">📖</div>
                   <h3 className="text-lg font-medium text-white mb-1">Tell Your Story</h3>
@@ -369,7 +351,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-be-800 hover:bg-be-700 transition-colors">
                   <div className="text-2xl font-bold text-white mb-2">💼</div>
                   <h3 className="text-lg font-medium text-white mb-1">Partner With Us</h3>
@@ -397,7 +379,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter section */}
-      <section className="py-24 md:py-32 bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-900">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
             Stories, ideas and opportunities for hope — delivered occasionally.
@@ -407,21 +389,7 @@ export default function Home() {
             to participate in what God is doing.
           </p>
 
-          <form className="bg-be-800 rounded-xl p-8 max-w-md mx-auto">
-            <div className="flex gap-3 mb-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-md bg-be-900 border-none text-white focus:outline-none focus:ring-2 focus:ring-be-600"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-be-600 text-be-900 font-medium rounded-md hover:bg-be-700 transition-colors"
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
+          <NewsletterForm />
         </div>
       </section>
     </BaseLayout>

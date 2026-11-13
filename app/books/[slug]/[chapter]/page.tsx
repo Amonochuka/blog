@@ -1,18 +1,17 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
 
 export default async function BookChapterPage({
   params,
 }: { params: Promise<{ slug: string; chapter: string }> }) {
   const { chapter } = await params;
-  const chapterNum = parseInt(chapter);
+  const chapterNum = Number(chapter.replace(/^day-/, ""));
   const progress = chapterNum;
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-2xl mx-auto px-6">
           <article className="prose lg:prose-xl max-w-2xl mx-auto">
             <Image
@@ -56,17 +55,18 @@ export default async function BookChapterPage({
 
             <p>Take a breath. Notice the ordinary. God is already here.</p>
 
-            <div className="mt-8 flex items-center gap-2">
-              <div className="flex items-center gap-2 text-be-500">
-                <span>→</span>
-                <a
-                  href={`/books/the-100-day-heartbeat/day-${chapterNum + 1}`}
-                  className="font-medium hover:text-be-600 transition-colors"
-                >
-                  Next Chapter →
-                </a>
-              </div>
-              <div className="ml-auto flex gap-2">
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-2">
+              {chapterNum < 3 ? (
+                <div className="flex items-center gap-2 text-be-500">
+                  <span>→</span>
+                  <a href={`/books/the-100-day-heartbeat/day-${chapterNum + 1}`} className="font-medium hover:text-be-600 transition-colors">
+                    Next Chapter →
+                  </a>
+                </div>
+              ) : (
+                <p className="text-sm text-be-500">You’re at the latest available chapter.</p>
+              )}
+              <div className="flex flex-wrap gap-2 sm:ml-auto">
                 <a
                   href={`https://wa.me/?text=Check%20out%20this%20chapter:%20Day%20${chapterNum}%20of%20the%20100-Day%20Heartbeat%20from%20Beard%20%26%20Diapers`}
                   className="flex items-center gap-1 px-3 py-1.5 bg-green-400 text-white text-sm rounded hover:bg-green-500 transition-colors"
@@ -77,7 +77,7 @@ export default async function BookChapterPage({
                 </a>
                 <a
                   href={`https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeardanddiapers.org%2Fbooks%2Fthe-100-day-heartbeat%2Fday-${chapterNum}`}
-                  className="flex items-center gap-1 px-3 py-1.5 bg-#1877f2 text-white text-sm rounded hover:bg-#166fe5 transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1877f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#166fe5]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -85,7 +85,7 @@ export default async function BookChapterPage({
                 </a>
                 <a
                   href={`https://x.com/intent/tweet?url=https%3A%2F%2Fbeardanddiapers.org%2Fbooks%2Fthe-100-day-heartbeat%2Fday-${chapterNum}&text=Day%20${chapterNum}%20of%20the%20100-Day%20Heartbeat%20from%20Beard%20%26%20Diapers`}
-                  className="flex items-center gap-1 px^3 py-1.5 bg-#1da1f2 text-white text-sm rounded hover:#1a91da transition-colors"
+                  className="flex items-center gap-1 rounded bg-[#1da1f2] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#1a91da]"
                   target="_blank"
                   rel="noopener"
                 >
@@ -103,18 +103,17 @@ export default async function BookChapterPage({
         </div>
       </section>
 
-      <Footer />
     </BaseLayout>
   );
 }
 
-// Generate static params for ISR
-export const getStaticParams = async () => {
+// Generate static params for the chapters currently available.
+export const generateStaticParams = async () => {
   const params = [];
   for (let i = 1; i <= 3; i++) {
     params.push({
       slug: "the-100-day-heartbeat",
-      chapter: i.toString(),
+      chapter: `day-${i}`,
     });
   }
   return params;

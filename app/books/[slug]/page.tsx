@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
 
 export default async function BookPage({
   params,
@@ -9,11 +9,11 @@ export default async function BookPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const isSerializing = slug === "the-100-day-heartbeat" && true; // Simplified check
+  if (slug !== "the-100-day-heartbeat") notFound();
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -74,7 +74,6 @@ export default async function BookPage({
         </div>
       </section>
 
-      <Footer />
     </BaseLayout>
   );
 }

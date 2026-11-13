@@ -1,17 +1,18 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
+import { getAppBaseUrl } from "@/lib/site-url";
 
 export default async function AboutPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
-  const { stories } = await res.json();
+  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
+  const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string; category: string; featured: boolean; excerpt: string }> };
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-5xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-6 leading-tight">
                 Our Story
               </h2>
               <p className="text-be-700 dark:text-zinc-400 text-lg leading-relaxed mb-8">
@@ -21,7 +22,7 @@ export default async function AboutPage() {
                 hope in practical ways has grown into a movement of stories, projects, and people joining
                 together for the common good.
               </p>
-              <blockquote className="border-l-4 border-be-400 pl-6 italic text-be-600 dark:text-zinc-300 mb-6">
+              <blockquote className="border-l-4 border-[#c9a96a] pl-6 italic text-be-600 dark:text-zinc-300 mb-6">
                 <p>
                   We believe every community carries God-given potential.
                 </p>
@@ -49,21 +50,21 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Belief section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-5xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-6 leading-tight">
                 Our Belief
               </h2>
               <p className="text-be-700 dark:text-zinc-400 text-lg leading-relaxed mb-8">
                 We hold a Christian understanding of human dignity, community, and hope. Every person
                 is created in the image of God with inherent worth and potential. Community is not just a
                 social construct but the primary context where that potential is awakened. Hope is not
-                wishful thinking but the confident expectation of God's goodness breaking into the world.
+                wishful thinking but the confident expectation of God&apos;s goodness breaking into the world.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="p-4 rounded-xl bg-white dark:bg-be-900 text-center">
                 <div className="text-3xl font-bold text-be-600">💫</div>
                 <div>
@@ -91,13 +92,13 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Mission section */}
-      <section id="our-mission" className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section id="our-mission" className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Our Mission</h2>
             <p className="text-be-600 dark:text-zinc-400 max-w-2xl mx-auto">
-              "To awaken God-given potential through storytelling, creative community projects, and acts
-              of service that strengthen society's capacity to care for its own."
+              &ldquo;To awaken God-given potential through storytelling, creative community projects, and acts
+              of service that strengthen society&apos;s capacity to care for its own.&rdquo;
             </p>
           </div>
 
@@ -130,15 +131,15 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Approach section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-5xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-6 leading-tight">
                 Our Approach
               </h2>
               <p className="text-be-700 dark:text-zinc-400 text-lg leading-relaxed mb-8">
-                We create "small ecosystems of hope" — intentional spaces where stories, relationships,
+                We create &ldquo;small ecosystems of hope&rdquo; — intentional spaces where stories, relationships,
                 and care can flourish. Rather than top-down solutions, we work alongside communities to
                 identify and nurture the potential already present.
               </p>
@@ -171,9 +172,9 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Values section */}
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="rounded-xl bg-be-900 p-8">
               <h3 className="text-xl font-bold text-white mb-6">Our Values</h3>
               <div className="space-y-4">
@@ -250,7 +251,7 @@ export default async function AboutPage() {
                 </div>
                 <div>
                   <h4 className="font-medium text-white mb-1">Faith</h4>
-                  <p className="text-zinc-400 text-sm">We trust God's ongoing work.</p>
+                  <p className="text-zinc-400 text-sm">We trust God&apos;s ongoing work.</p>
                 </div>
               </div>
             </div>
@@ -259,11 +260,11 @@ export default async function AboutPage() {
       </section>
 
       {/* Founder & Team section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-3 gap-12 items-center">
             <div>
-              <h2 className="text-5xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-6 leading-tight">
                 Founder
               </h2>
               <div className="flex items-center gap-4 mb-4">
@@ -301,7 +302,7 @@ export default async function AboutPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="p-4 rounded-xl bg-white dark:bg-be-900">
                 <h4 className="font-semibold text-be-900 mb-3">Team Members</h4>
                 <ul className="space-y-2 text-be-600 dark:text-zinc-400 text-sm">
@@ -324,17 +325,17 @@ export default async function AboutPage() {
       </section>
 
       {/* Recent Stories sidebar */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-be-900 mb-4">Recent Stories</h2>
             <p className="text-be-600 dark:text-zinc-400">Latest from our community</p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {stories
-              .filter((s: any) => s.featured)
+              .filter((story) => story.featured)
               .slice(0, 3)
-              .map((story: any) => (
+              .map((story) => (
                 <div
                   key={story.id}
                   className="bg-white dark:bg-be-900 rounded-xl p-4 hover:shadow-md transition-shadow"

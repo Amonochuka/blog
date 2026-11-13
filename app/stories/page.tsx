@@ -1,22 +1,23 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
+import { getAppBaseUrl } from "@/lib/site-url";
 import Link from "next/link";
 
 export default async function StoriesPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
-  const { stories } = await res.json();
+  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
+  const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string; category: string; author: string; date: string; excerpt: string }> };
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-be-900 mb-4">Stories</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-4">Stories</h2>
             <p className="text-be-600 dark:text-zinc-400">A collection of narratives from Beard & Diapers community</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stories.map((story: any) => (
+            {stories.map((story) => (
               <Link
                 key={story.id}
                 href={`/stories/${story.id}`}
@@ -52,7 +53,7 @@ export default async function StoriesPage() {
       </section>
 
       {/* Call to action for story submissions */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-3xl mx-auto px-6">
           <div className="bg-white dark:bg-be-900 rounded-2xl p-8 text-center">
             <h3 className="text-3xl font-bold text-be-900 mb-4">Share Your Story</h3>

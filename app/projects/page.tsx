@@ -1,28 +1,27 @@
 import Image from "next/image";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { BaseLayout } from "@/components/BaseLayout";
+import { getAppBaseUrl } from "@/lib/site-url";
 
 export default async function ProjectsPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`);
-  const { projects } = await res.json();
+  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
+  const { projects } = await res.json() as { projects: Array<{ id: string; name: string; location: string; year: string }> };
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-be-900 mb-4">Projects / Where Hope Is Taking Root</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-4">Projects / Where Hope Is Taking Root</h2>
             <p className="text-be-600 dark:text-zinc-400">
               Visual stories of what Beard & Diapers is actually doing.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project: any) => (
+            {projects.map((project) => (
               <a
                 key={project.id}
-                href={`/projects/${project.id}`}
+                href="/projects#hospital-reading-corners"
                 className="group hover:text-be-900 transition-colors rounded-xl bg-white dark:bg-be-900 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="relative group-hover:translate-y-2 transition-transform">
@@ -46,7 +45,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Project detail section */}
-      <section className="py-24 md:py-32 bg-be-50 dark:bg-be-900">
+      <section id="hospital-reading-corners" className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>

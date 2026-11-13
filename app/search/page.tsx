@@ -1,27 +1,24 @@
 import { BaseLayout } from "@/components/BaseLayout";
+import { getAppBaseUrl } from "@/lib/site-url";
 import Link from "next/link";
 
 export default async function SearchPage({
-  params,
+  searchParams,
 }: {
-  params: { q?: string };
+  searchParams: Promise<{ q?: string }>;
 }) {
-  const q = params.q || "";
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/search?q=${encodeURIComponent(
-      q
-    )}`
-  );
-  const data = await res.json();
+  const { q = "" } = await searchParams;
+  const res = await fetch(`${getAppBaseUrl()}/api/search?q=${encodeURIComponent(q)}`, { cache: "no-store" });
+  const data = await res.json() as { results?: Array<{ id: string; title?: string; name?: string; category?: string }>; query?: string };
   const results = data?.results || [];
   const query = data?.query || "";
 
   return (
     <BaseLayout>
-      <section className="py-24 md:py-32 bg-white dark:bg-be-900">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-be-900 mb-4">Search Results</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-be-900 mb-4">Search Results</h2>
             {query && <p className="text-be-600 dark:text-zinc-400">Results for: {query}</p>}
           </div>
 
@@ -31,24 +28,24 @@ export default async function SearchPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {results.map((result: any) => {
-                let href = "/";
-                let title = "";
-                if (result.id?.startsWith("hope")) {
+              {results.map((result) => {
+                let href = "/stories";
+                let title = result.title || result.name || "View result";
+                const storyIds = [
+                  "hope-in-the-ordinary",
+                  "walking-together",
+                  "fathers-day-reflection",
+                  "hospital-visit",
+                ];
+                if (storyIds.includes(result.id)) {
                   href = "/stories/" + result.id;
-                  const titles = {
-                    "hope-in-the-ordinary": "Hope in the Ordinary",
-                    "walking-together": "Walking Together",
-                    "fathers-day-reflection": "Father's Day Reflection",
-                    "hospital-visit": "A Hospital Visit Remembered",
-                  };
-                  title = (titles as any)[result.id];
+                  title = result.title || title;
                 } else if (result.id?.startsWith("the-100-day-heartbeat")) {
                   href = "/books/" + result.id;
-                  title = result.title;
+                  title = result.title || title;
                 } else if (result.id?.startsWith("hospital-reading-corner")) {
-                  href = "/projects/" + result.id;
-                  title = result.name;
+                  href = "/projects#hospital-reading-corners";
+                  title = result.name || title;
                 }
                 return result.id ? (
                   <Link

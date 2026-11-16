@@ -116,59 +116,60 @@ export function StoryArticleLayout({
             </div>
           </header>
 
-          <div className="mx-auto mt-12 grid max-w-6xl gap-10 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16">
-            <div className="story-article-body min-w-0 max-w-[70ch] text-lg leading-8 text-be-800 dark:text-zinc-200">
+          <div className="mx-auto mt-12 max-w-[70ch] lg:mt-16">
+            <div className="story-article-body text-lg leading-8 text-be-800 dark:text-zinc-200">
               {children}
             </div>
 
-            <aside className="self-start border-t border-be-300 pt-6 lg:sticky lg:top-28 lg:border-t-0 lg:border-l lg:pl-7 lg:pt-0 dark:border-be-700">
-              <h2 className="text-lg font-bold text-be-900 dark:text-white">Share this story</h2>
-              <div className="mt-4 flex items-center gap-3">
-                <a
-                  href={`https://wa.me/?text=${encodedShareText}`}
-                  aria-label="Share on WhatsApp"
-                  title="Share on WhatsApp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
-                >
-                  <ShareIcon network="whatsapp" />
-                </a>
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
-                  aria-label="Share on Facebook"
-                  title="Share on Facebook"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
-                >
-                  <ShareIcon network="facebook" />
-                </a>
-                <a
-                  href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodeURIComponent(title)}`}
-                  aria-label="Share on X"
-                  title="Share on X"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
-                >
-                  <ShareIcon network="x" />
-                </a>
-              </div>
+            <footer className="mt-12 border-t border-be-300 pt-7 dark:border-be-700">
+              <div className="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-be-900 dark:text-white">Share this story</h2>
+                  <div className="mt-3 flex items-center gap-2">
+                    <a
+                      href={`https://wa.me/?text=${encodedShareText}`}
+                      aria-label="Share on WhatsApp"
+                      title="Share on WhatsApp"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="story-share-icon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+                    >
+                      <ShareIcon network="whatsapp" />
+                    </a>
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+                      aria-label="Share on Facebook"
+                      title="Share on Facebook"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="story-share-icon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+                    >
+                      <ShareIcon network="facebook" />
+                    </a>
+                    <a
+                      href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodeURIComponent(title)}`}
+                      aria-label="Share on X"
+                      title="Share on X"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="story-share-icon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+                    >
+                      <ShareIcon network="x" />
+                    </a>
+                  </div>
+                </div>
 
-              <div className="mt-8 rounded-2xl bg-white p-5 dark:bg-be-800">
-                <p className="font-semibold text-be-900 dark:text-white">Have a story to share?</p>
-                <p className="mt-2 text-sm leading-6 text-be-600 dark:text-zinc-300">
-                  Your experience may encourage someone else.
-                </p>
-                <Link
-                  href="/submit-story"
-                  className="mt-4 inline-flex font-semibold text-be-700 underline decoration-be-400 underline-offset-4 hover:text-be-900 dark:text-be-200 dark:hover:text-white"
-                >
-                  Submit your story
-                </Link>
+                <div>
+                  <p className="font-semibold text-be-900 dark:text-white">Have a story to share?</p>
+                  <Link
+                    href="/submit-story"
+                    className="mt-1 inline-flex items-center gap-1 font-semibold text-be-700 underline decoration-be-400 underline-offset-4 hover:text-be-900 dark:text-be-200 dark:hover:text-white"
+                  >
+                    Submit your story <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               </div>
-            </aside>
+            </footer>
           </div>
         </article>
       </div>

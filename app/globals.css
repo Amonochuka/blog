@@ -70,6 +70,31 @@
   color: var(--color-be-200);
 }
 
+.story-share-icon {
+  display: inline-grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 2.75rem;
+  place-items: center;
+  border-radius: 9999px;
+  color: var(--color-be-700);
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.story-share-icon:hover {
+  background-color: var(--color-be-200);
+  color: var(--color-be-900);
+}
+
+.dark .story-share-icon {
+  color: var(--color-be-200);
+}
+
+.dark .story-share-icon:hover {
+  background-color: var(--color-be-800);
+  color: white;
+}
+
 @keyframes family-photo-backdrop-first {
   0%,
   30%,

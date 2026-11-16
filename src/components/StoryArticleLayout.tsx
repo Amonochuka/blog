@@ -14,6 +14,31 @@ type StoryArticleLayoutProps = {
   children: ReactNode;
 };
 
+function ShareIcon({ network }: { network: "whatsapp" | "facebook" | "x" }) {
+  if (network === "whatsapp") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20.2 11.8a8.2 8.2 0 0 1-12.1 7.2L4 20l1.1-4A8.2 8.2 0 1 1 20.2 11.8Z" />
+        <path d="M8.3 7.7c-.4.4-.7.9-.7 1.5 0 2.6 3.4 6 6 6 .6 0 1.1-.3 1.5-.7l.3-.4-1.9-1.3-1 .7c-1.1-.5-1.8-1.2-2.3-2.3l.7-1-1.3-1.9-.4.4Z" />
+      </svg>
+    );
+  }
+
+  if (network === "facebook") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+      <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.6 22H2.4l7.3-8.4L1.8 2h6.5l4.5 6.8L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z" />
+    </svg>
+  );
+}
+
 function formatDate(date?: string | null) {
   if (!date) return null;
   const dateValue = new Date(`${date.slice(0, 10)}T12:00:00Z`);
@@ -98,30 +123,36 @@ export function StoryArticleLayout({
 
             <aside className="self-start border-t border-be-300 pt-6 lg:sticky lg:top-28 lg:border-t-0 lg:border-l lg:pl-7 lg:pt-0 dark:border-be-700">
               <h2 className="text-lg font-bold text-be-900 dark:text-white">Share this story</h2>
-              <div className="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start">
+              <div className="mt-4 flex items-center gap-3">
                 <a
                   href={`https://wa.me/?text=${encodedShareText}`}
+                  aria-label="Share on WhatsApp"
+                  title="Share on WhatsApp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center rounded-full border border-be-300 px-4 text-sm font-medium text-be-700 transition-colors hover:border-be-600 hover:bg-white dark:border-be-700 dark:text-zinc-200 dark:hover:bg-be-800"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
                 >
-                  WhatsApp
+                  <ShareIcon network="whatsapp" />
                 </a>
                 <a
                   href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+                  aria-label="Share on Facebook"
+                  title="Share on Facebook"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center rounded-full border border-be-300 px-4 text-sm font-medium text-be-700 transition-colors hover:border-be-600 hover:bg-white dark:border-be-700 dark:text-zinc-200 dark:hover:bg-be-800"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
                 >
-                  Facebook
+                  <ShareIcon network="facebook" />
                 </a>
                 <a
                   href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodeURIComponent(title)}`}
+                  aria-label="Share on X"
+                  title="Share on X"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center rounded-full border border-be-300 px-4 text-sm font-medium text-be-700 transition-colors hover:border-be-600 hover:bg-white dark:border-be-700 dark:text-zinc-200 dark:hover:bg-be-800"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-be-300 bg-white text-be-700 shadow-sm transition-colors hover:border-be-600 hover:bg-be-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 dark:border-be-700 dark:bg-be-800 dark:text-zinc-200 dark:hover:bg-be-700"
                 >
-                  X
+                  <ShareIcon network="x" />
                 </a>
               </div>
 

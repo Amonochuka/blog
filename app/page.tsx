@@ -207,7 +207,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="latest-stories" className="relative isolate scroll-mt-28 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/mother-son-reading-story.jpg"
           secondSrc="/images/family-reading-library.jpg"
@@ -215,7 +215,7 @@ export default async function Home() {
           firstObjectPosition="center 24%"
           secondObjectPosition="center 50%"
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
           <div className="text-center mb-12">
             <h2 className="mb-4 text-4xl font-bold text-brand-gold">Latest Stories</h2>
             <p className="text-brand-gold-muted">Recently published reflections and narratives</p>
@@ -413,7 +413,7 @@ export default async function Home() {
                 {[
                   ["Volunteer", "/get-involved#volunteer"],
                   ["Partner", "/get-involved#partner"],
-                  ["Share a Story", "/get-involved#share-story"],
+                  ["Share a Story", "/#latest-stories"],
                   ["Support a Project", "/get-involved#support-project"],
                 ].map(([label, href]) => (
                   <Link

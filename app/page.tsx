@@ -94,7 +94,7 @@ export default function Home() {
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
-          secondSrc="/images/family-hospital-visit.jpg"
+          secondSrc="/images/family-hope.jpeg"
           firstObjectPosition="center 38%"
           secondObjectPosition="center 50%"
         />

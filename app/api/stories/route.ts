@@ -103,6 +103,8 @@ export async function POST(request: Request) {
         author_name: name,
         author_email: email,
         status: "pending",
+        publication_permission: permission,
+        publication_permission_at: new Date().toISOString(),
         attachment_path: attachmentPath,
       }),
     });

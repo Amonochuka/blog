@@ -12,6 +12,8 @@ type StoryAdminRow = {
   author_name: string;
   author_email: string;
   status: string;
+  publication_permission: boolean;
+  publication_permission_at: string | null;
   created_at: string;
 };
 

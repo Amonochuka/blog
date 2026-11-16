@@ -24,6 +24,8 @@ type Story = {
   attachment_path: string | null;
   status: string;
   created_at: string;
+  publication_permission: boolean;
+  publication_permission_at: string | null;
 };
 
 type ContactMessage = {
@@ -203,6 +205,11 @@ export function AdminDashboard() {
               {story.attachment_path && <a className="mb-4 inline-flex text-sm font-medium text-be-700 underline underline-offset-2 hover:text-be-900 dark:text-be-300 dark:hover:text-white" href={`/api/admin/stories/${story.id}/attachment`} target="_blank" rel="noopener noreferrer">Download attached document</a>}
               <div className="flex flex-wrap gap-3 text-xs text-be-500">
                 <span>Received {new Date(story.created_at).toLocaleString()}</span>
+                <span>
+                  {story.publication_permission
+                    ? `Publication permission recorded${story.publication_permission_at ? ` ${new Date(story.publication_permission_at).toLocaleString()}` : ""}`
+                    : "Publication permission not recorded"}
+                </span>
                 {story.status === "published" && <a className="underline" href={`/stories/${story.slug}`}>View published story</a>}
               </div>
               {story.status !== "published" && (

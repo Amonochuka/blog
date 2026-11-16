@@ -10,14 +10,37 @@ create table if not exists public.stories (
   author_name text not null,
   author_email text not null,
   status text not null default 'pending' check (status in ('pending', 'published', 'rejected')),
+  publication_permission boolean not null default false,
+  publication_permission_at timestamptz,
   image_url text not null default '/images/community-family-kenya.jpg',
   attachment_path text,
   created_at timestamptz not null default now(),
-  published_at timestamptz
+  published_at timestamptz,
+  constraint stories_publication_permission_check
+    check (not publication_permission or publication_permission_at is not null)
 );
 
 alter table public.stories add column if not exists attachment_path text;
+alter table public.stories add column if not exists publication_permission boolean not null default false;
+alter table public.stories add column if not exists publication_permission_at timestamptz;
 alter table public.stories alter column image_url set default '/images/community-family-kenya.jpg';
+
+update public.stories
+set publication_permission_at = created_at
+where publication_permission and publication_permission_at is null;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'stories_publication_permission_check'
+      and conrelid = 'public.stories'::regclass
+  ) then
+    alter table public.stories
+      add constraint stories_publication_permission_check
+      check (not publication_permission or publication_permission_at is not null);
+  end if;
+end $$;
 
 update public.stories
 set image_url = case slug

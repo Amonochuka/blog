@@ -288,8 +288,8 @@ export default function Home() {
             <Link href="/projects#childrens-home" className="group hover:text-be-900 transition-colors">
               <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/family-village-africa.jpg"
-                  alt="A family standing together outside a home in an African village"
+                  src="/images/childrens-home-community.jpeg"
+                  alt="A teacher engaging a group of children outdoors at their school"
                   className="h-72 w-full object-cover"
                   width={800}
                   height={600}

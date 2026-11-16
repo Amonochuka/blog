@@ -55,9 +55,9 @@ export default async function Home() {
             </Link>
             <Link
               className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-brand-gold px-8 text-lg font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
-              href="/books"
+              href="/about"
             >
-              Read the Book
+              Discover Beard &amp; Diapers
             </Link>
           </div>
 
@@ -70,6 +70,12 @@ export default async function Home() {
               href="/get-involved"
             >
               Join the movement <span aria-hidden="true">→</span>
+            </Link>
+            <Link
+              className="font-semibold text-brand-gold-light underline underline-offset-4 transition-colors hover:text-brand-gold"
+              href="/books"
+            >
+              Read the Book
             </Link>
           </div>
           <div className="mt-8 w-full max-w-md">
@@ -125,12 +131,12 @@ export default async function Home() {
               What We Do
             </h2>
             <p className="mx-auto max-w-2xl leading-relaxed text-brand-gold-muted">
-              Through storytelling, creative community projects, and acts of service, we strengthen
-              society&apos;s capacity to care for its own.
+              Through storytelling, creative community projects, acts of service, and advocacy, we
+              strengthen society&apos;s capacity to care for its own.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border border-brand-gold/35 bg-brand-black/80 p-6 transition-colors hover:border-brand-gold">
               <div className="mb-4 text-brand-gold">
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 7v14" /><path d="M3 18V5a2 2 0 0 1 2-2h2a5 5 0 0 1 5 5v13a4 4 0 0 0-4-3H5a2 2 0 0 0-2 2Z" /><path d="M21 18V5a2 2 0 0 0-2-2h-2a5 5 0 0 0-5 5v13a4 4 0 0 1 4-3h3a2 2 0 0 1 2 2Z" /></svg>
@@ -158,6 +164,21 @@ export default async function Home() {
               <h3 className="mb-2 text-xl font-bold text-brand-gold-light">Acts of Service</h3>
               <p className="text-sm leading-relaxed text-brand-gold-muted">
                 Serving communities where hope is needed most.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-brand-gold/35 bg-brand-black/80 p-6 transition-colors hover:border-brand-gold">
+              <div className="mb-4 text-brand-gold">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 11v2a2 2 0 0 0 2 2h2l9 4V5l-9 4H5a2 2 0 0 0-2 2Z" />
+                  <path d="M7 15l2 6h3l-2.3-5" />
+                  <path d="M19 9.5a4 4 0 0 1 0 5" />
+                  <path d="M21 7a8 8 0 0 1 0 10" />
+                </svg>
+              </div>
+              <h3 className="mb-2 text-xl font-bold text-brand-gold-light">Advocacy</h3>
+              <p className="text-sm leading-relaxed text-brand-gold-muted">
+                Speaking up for dignity, belonging, and community-led care.
               </p>
             </div>
           </div>

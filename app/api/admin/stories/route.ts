@@ -12,6 +12,7 @@ type StoryAdminRow = {
   category: string;
   author_name: string;
   author_email: string;
+  image_path: string | null;
   status: string;
   publication_permission: boolean;
   publication_permission_at: string | null;

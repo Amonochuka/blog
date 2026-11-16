@@ -9,7 +9,7 @@ type StoryArticleLayoutProps = {
   author: string;
   date?: string | null;
   readingTime?: string;
-  image: string;
+  image: string | null;
   imageAlt: string;
   children: ReactNode;
 };
@@ -79,7 +79,7 @@ export function StoryArticleLayout({
         </Link>
 
         <article className="mt-8">
-          <header className="grid items-center gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14">
+          <header className={`grid items-center gap-8 ${image ? "lg:grid-cols-[0.88fr_1.12fr] lg:gap-14" : ""}`}>
             <div className="py-2">
               <p className="mb-5 inline-flex rounded-full bg-be-200 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-be-800 dark:bg-be-800 dark:text-be-100">
                 {category}
@@ -104,16 +104,18 @@ export function StoryArticleLayout({
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-be-200 shadow-sm sm:aspect-[16/10]">
-              <Image
-                src={image}
-                alt={imageAlt}
-                fill
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                className="object-cover"
-                preload
-              />
-            </div>
+            {image && (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-be-200 shadow-sm sm:aspect-[16/10]">
+                <Image
+                  src={image}
+                  alt={imageAlt}
+                  fill
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  className="object-cover"
+                  preload
+                />
+              </div>
+            )}
           </header>
 
           <div className="mx-auto mt-12 max-w-[70ch] lg:mt-16">

@@ -30,6 +30,17 @@ export async function uploadStoryAttachment(path: string, file: File) {
   if (!response.ok) throw new Error(`Attachment upload failed (${response.status}).`);
 }
 
+export async function uploadStoryImage(path: string, file: File, contentType: string) {
+  const { config, headers } = storageHeaders(contentType);
+  const response = await fetch(`${config.url}/storage/v1/object/${BUCKET}/${encodedPath(path)}`, {
+    method: "POST",
+    headers: { ...headers, "Content-Disposition": "inline" },
+    body: Buffer.from(await file.arrayBuffer()),
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`Story image upload failed (${response.status}).`);
+}
+
 export async function removeStoryAttachment(path: string) {
   const { config, headers } = storageHeaders();
   await fetch(`${config.url}/storage/v1/object/${BUCKET}/${encodedPath(path)}`, {
@@ -38,6 +49,8 @@ export async function removeStoryAttachment(path: string) {
     cache: "no-store",
   });
 }
+
+export const removeStoryImage = removeStoryAttachment;
 
 export async function createStoryAttachmentUrl(path: string) {
   const { config, headers } = storageHeaders();
@@ -53,4 +66,14 @@ export async function createStoryAttachmentUrl(path: string) {
   return result.signedURL.startsWith("http")
     ? result.signedURL
     : new URL(`/storage/v1${result.signedURL}`, config.url).toString();
+}
+
+export const createStoryImageUrl = createStoryAttachmentUrl;
+
+export async function downloadStoryImage(path: string) {
+  const { config, headers } = storageHeaders();
+  return fetch(`${config.url}/storage/v1/object/authenticated/${BUCKET}/${encodedPath(path)}`, {
+    headers,
+    cache: "no-store",
+  });
 }

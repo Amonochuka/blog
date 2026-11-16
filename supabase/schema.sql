@@ -12,7 +12,8 @@ create table if not exists public.stories (
   status text not null default 'pending' check (status in ('pending', 'published', 'rejected')),
   publication_permission boolean not null default false,
   publication_permission_at timestamptz,
-  image_url text not null default '/images/community-family-kenya.jpg',
+  image_url text,
+  image_path text,
   attachment_path text,
   created_at timestamptz not null default now(),
   published_at timestamptz,
@@ -21,9 +22,11 @@ create table if not exists public.stories (
 );
 
 alter table public.stories add column if not exists attachment_path text;
+alter table public.stories add column if not exists image_path text;
 alter table public.stories add column if not exists publication_permission boolean not null default false;
 alter table public.stories add column if not exists publication_permission_at timestamptz;
-alter table public.stories alter column image_url set default '/images/community-family-kenya.jpg';
+alter table public.stories alter column image_url drop default;
+alter table public.stories alter column image_url drop not null;
 
 update public.stories
 set publication_permission_at = created_at
@@ -41,16 +44,6 @@ begin
       check (not publication_permission or publication_permission_at is not null);
   end if;
 end $$;
-
-update public.stories
-set image_url = case slug
-  when 'hope-in-the-ordinary' then '/images/family-community-home.jpg'
-  when 'walking-together' then '/images/african-family-meal.jpg'
-  when 'fathers-day-reflection' then '/images/family-nairobi-father.jpg'
-  when 'hospital-visit' then '/images/hospital-reading-corners.jpeg'
-  else '/images/community-family-kenya.jpg'
-end
-where image_url ~ '/(story-[123]|featured-story)[.]jpg([?#].*)?$';
 
 create index if not exists stories_status_created_at_idx on public.stories (status, created_at desc);
 

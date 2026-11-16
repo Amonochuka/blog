@@ -1,10 +1,25 @@
 import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
-import { resolveStoryImage } from "@/lib/story-image";
+import { getPublishedStoryImageUrl } from "@/lib/story-image";
 import { projects } from "@/content/projects";
 import { books } from "@/content/books";
 
 export const dynamic = "force-dynamic";
+
+type PublicStoryContent = {
+  id: string;
+  title: string;
+  subtitle: string;
+  author: string;
+  date: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+  excerpt: string;
+  body: string;
+  readingTime: string;
+  image: string | null;
+};
 
 const stories = [
   {
@@ -79,7 +94,7 @@ export async function GET() {
       console.error("Could not load the featured book setting:", error);
     }
   }
-  let publishedStories = supabaseConfigured ? [] : stories;
+  let publishedStories: PublicStoryContent[] = supabaseConfigured ? [] : stories;
   if (supabaseConfigured) {
     try {
       const databaseStories = await supabaseRest<Array<{
@@ -88,28 +103,33 @@ export async function GET() {
         excerpt: string;
         category: string;
         author_name: string;
-        image_url: string | null;
+        image_path: string | null;
         published_at: string | null;
-      }>>("stories?select=slug,title,excerpt,category,author_name,image_url,published_at&status=eq.published&order=published_at.desc");
+        created_at: string;
+      }>>("stories?select=slug,title,excerpt,category,author_name,image_path,published_at,created_at&status=eq.published");
+      databaseStories.sort((first, second) =>
+        (first.published_at ?? first.created_at).localeCompare(second.published_at ?? second.created_at)
+      );
       publishedStories = [
         ...databaseStories.map((story) => ({
           id: story.slug,
           title: story.title,
           subtitle: story.excerpt,
           author: story.author_name,
-          date: story.published_at?.slice(0, 10) || "",
+          date: (story.published_at ?? story.created_at).slice(0, 10),
           category: story.category,
           tags: [],
           featured: false,
           excerpt: story.excerpt,
           body: "",
           readingTime: "",
-          image: resolveStoryImage(story.slug, story.image_url),
+          image: getPublishedStoryImageUrl(story.slug, story.image_path),
         })),
       ];
     } catch (error) {
       console.error("Could not load published stories from Supabase:", error);
     }
   }
+  publishedStories.sort((first, second) => first.date.localeCompare(second.date));
   return NextResponse.json({ stories: publishedStories, books, projects, featuredBookSlug });
 }

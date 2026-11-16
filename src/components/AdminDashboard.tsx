@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { InquiryType } from "@/lib/inquiry-types";
 
@@ -23,6 +24,7 @@ type Story = {
   author_name: string;
   author_email: string;
   attachment_path: string | null;
+  image_path: string | null;
   status: string;
   created_at: string;
   publication_permission: boolean;
@@ -297,6 +299,16 @@ export function AdminDashboard() {
                 </div>
                 <span className="rounded-full bg-be-100 px-3 py-1 text-xs capitalize text-be-800 dark:bg-be-900 dark:text-zinc-200">{story.status}</span>
               </div>
+              {story.image_path && (
+                <Image
+                  src={`/api/admin/stories/${story.id}/image`}
+                  alt={`Photo submitted with ${story.title}`}
+                  width={1200}
+                  height={800}
+                  unoptimized
+                  className="mb-4 max-h-96 w-full max-w-2xl rounded-xl object-contain object-left"
+                />
+              )}
               <p className="mb-4 whitespace-pre-wrap text-be-700 dark:text-zinc-300">{story.content}</p>
               {story.attachment_path && <a className="mb-4 inline-flex text-sm font-medium text-be-700 underline underline-offset-2 hover:text-be-900 dark:text-be-300 dark:hover:text-white" href={`/api/admin/stories/${story.id}/attachment`} target="_blank" rel="noopener noreferrer">Download attached document</a>}
               <div className="flex flex-wrap gap-3 text-xs text-be-500">

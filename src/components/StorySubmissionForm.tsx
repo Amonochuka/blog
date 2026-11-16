@@ -60,6 +60,11 @@ export function StorySubmissionForm() {
         <textarea name="story" required rows={9} className="w-full resize-y rounded-md bg-be-50 px-4 py-3 font-normal text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-800 dark:text-white" />
       </label>
       <label className="block space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
+        Add a photo (optional)
+        <input name="story_image" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" className="block w-full rounded-md bg-be-50 px-4 py-3 text-sm font-normal text-be-900 file:mr-4 file:rounded-md file:border-0 file:bg-be-200 file:px-4 file:py-2 file:font-medium file:text-be-900 dark:bg-be-800 dark:text-white dark:file:bg-be-700 dark:file:text-white" />
+        <span className="block text-xs font-normal text-be-500 dark:text-zinc-400">JPG, PNG, or WebP up to 10 MB. Leave it blank if you don&apos;t have a photo; no default image will be added.</span>
+      </label>
+      <label className="block space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
         Attach a document (optional)
         <input name="attachment" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" className="block w-full rounded-md bg-be-50 px-4 py-3 text-sm font-normal text-be-900 file:mr-4 file:rounded-md file:border-0 file:bg-be-200 file:px-4 file:py-2 file:font-medium file:text-be-900 dark:bg-be-800 dark:text-white dark:file:bg-be-700 dark:file:text-white" />
         <span className="block text-xs font-normal text-be-500 dark:text-zinc-400">PDF, DOC, or DOCX. Maximum file size: 10 MB.</span>

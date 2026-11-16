@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
 import { StoryArticleLayout } from "@/components/StoryArticleLayout";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
-import { resolveStoryImage } from "@/lib/story-image";
+import { getPublishedStoryImageUrl } from "@/lib/story-image";
 import { readingTime } from "@/utils/readingTime";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ type PublishedStory = {
   content: string;
   category: string;
   author_name: string;
-  image_url: string | null;
+  image_path: string | null;
   published_at: string | null;
 };
 
@@ -24,7 +24,7 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
   let story: PublishedStory | undefined;
   try {
     const stories = await supabaseRest<PublishedStory[]>(
-      `stories?select=slug,title,content,category,author_name,image_url,published_at&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
+      `stories?select=slug,title,content,category,author_name,image_path,published_at&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
     );
     story = stories[0];
   } catch {
@@ -46,8 +46,8 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
         author={story.author_name}
         date={story.published_at}
         readingTime={readingTime(story.content)}
-        image={resolveStoryImage(story.slug, story.image_url)}
-        imageAlt=""
+        image={getPublishedStoryImageUrl(story.slug, story.image_path)}
+        imageAlt={story.title}
       >
         {paragraphs.map((paragraph, index) => <p key={`${story.slug}-${index}`}>{paragraph}</p>)}
       </StoryArticleLayout>

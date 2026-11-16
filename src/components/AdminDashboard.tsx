@@ -8,6 +8,7 @@ const inquiryTabs = [
   { id: "volunteers", label: "Volunteers", inquiryType: "volunteer", emptyMessage: "No volunteer inquiries yet." },
   { id: "church-partners", label: "Church partners", inquiryType: "church_partnership", emptyMessage: "No church partnership inquiries yet." },
   { id: "organisation-partners", label: "Organisation partners", inquiryType: "organisation_partnership", emptyMessage: "No organisation partnership inquiries yet." },
+  { id: "project-support", label: "Project support", inquiryType: "support_project", emptyMessage: "No project support inquiries yet." },
 ] as const;
 
 type InquiryTabId = (typeof inquiryTabs)[number]["id"];

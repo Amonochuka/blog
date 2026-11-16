@@ -68,6 +68,14 @@ export function Footer() {
                   <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4Z" /></svg>
                 </a>
               </li>
+              <li>
+                <a aria-label="Message us on WhatsApp" className="inline-flex hover:text-white transition-colors" href="/api/whatsapp" target="_blank" rel="noopener noreferrer">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.2 11.8a8.2 8.2 0 0 1-12.1 7.2L4 20l1.1-4A8.2 8.2 0 1 1 20.2 11.8Z" />
+                    <path d="M8.3 7.7c-.4.4-.7.9-.7 1.5 0 2.6 3.4 6 6 6 .6 0 1.1-.3 1.5-.7l.3-.4-1.9-1.3-1 .7c-1.1-.5-1.8-1.2-2.3-2.3l.7-1-1.3-1.9-.4.4Z" />
+                  </svg>
+                </a>
+              </li>
             </ul>
           </div>
 

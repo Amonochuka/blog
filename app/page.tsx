@@ -207,7 +207,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="latest-stories" className="relative isolate scroll-mt-28 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section className="relative isolate overflow-hidden bg-brand-black py-12 sm:py-14 lg:py-16">
         <FamilyPhotoBackdrop
           firstSrc="/images/mother-son-reading-story.jpg"
           secondSrc="/images/family-reading-library.jpg"
@@ -215,8 +215,8 @@ export default async function Home() {
           firstObjectPosition="center 24%"
           secondObjectPosition="center 50%"
         />
-        <div className="relative z-10 mx-auto max-w-6xl px-6">
-          <div className="text-center mb-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="text-center mb-8">
             <h2 className="mb-4 text-4xl font-bold text-brand-gold">Latest Stories</h2>
             <p className="text-brand-gold-muted">Recently published reflections and narratives</p>
           </div>
@@ -229,7 +229,7 @@ export default async function Home() {
                   href={`/stories/${story.id}`}
                   className="group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
                 >
-                  <article className={`relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold ${story.image ? "min-h-72" : "min-h-64"}`}>
+                  <article className={`relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold ${story.image ? "min-h-64" : "min-h-56"}`}>
                     {story.image && (
                       <>
                         <Image
@@ -243,7 +243,7 @@ export default async function Home() {
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/10 to-transparent" />
                       </>
                     )}
-                    <div className={`p-6 text-brand-gold-light ${story.image ? "absolute inset-x-0 bottom-0" : "flex min-h-64 flex-col justify-end"}`}>
+                    <div className={`p-6 text-brand-gold-light ${story.image ? "absolute inset-x-0 bottom-0" : "flex min-h-56 flex-col justify-end"}`}>
                       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold">
                         {story.category}
                       </p>
@@ -264,6 +264,16 @@ export default async function Home() {
               <Link
                 href="/submit-story"
                 className="mt-4 inline-flex font-semibold text-brand-gold underline underline-offset-4 hover:text-brand-gold-light"
+              >
+                Share your story <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+          )}
+          {latestStories.length > 0 && (
+            <div className="mt-6 text-center">
+              <Link
+                href="/submit-story"
+                className="inline-flex items-center rounded-full border border-brand-gold px-5 py-2.5 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
               >
                 Share your story <span aria-hidden="true" className="ml-2">→</span>
               </Link>
@@ -413,7 +423,7 @@ export default async function Home() {
                 {[
                   ["Volunteer", "/get-involved#volunteer"],
                   ["Partner", "/get-involved#partner"],
-                  ["Share a Story", "/#latest-stories"],
+                  ["Share a Story", "/get-involved#share-story"],
                   ["Support a Project", "/get-involved#support-project"],
                 ].map(([label, href]) => (
                   <Link

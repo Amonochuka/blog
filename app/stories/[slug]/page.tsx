@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
+import { StoryArticleLayout } from "@/components/StoryArticleLayout";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { resolveStoryImage } from "@/lib/story-image";
+import { readingTime } from "@/utils/readingTime";
 
 export const dynamic = "force-dynamic";
 
@@ -32,17 +32,25 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
   }
   if (!story) notFound();
 
+  const paragraphs = story.content
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
   return (
     <BaseLayout>
-      <section className="bg-white py-16 sm:py-20 lg:py-24 dark:bg-be-900">
-        <article className="mx-auto max-w-3xl px-6">
-          <Image src={resolveStoryImage(story.slug, story.image_url)} alt="" width={1200} height={640} className="mb-8 h-64 w-full rounded-2xl object-cover sm:h-80" />
-          <p className="mb-3 text-sm text-be-500">{story.category} · {story.author_name}{story.published_at ? ` · ${story.published_at.slice(0, 10)}` : ""}</p>
-          <h1 className="mb-8 text-4xl font-bold leading-tight text-be-900 sm:text-5xl dark:text-white">{story.title}</h1>
-          <div className="whitespace-pre-wrap text-base leading-8 text-be-700 dark:text-zinc-300">{story.content}</div>
-          <Link href="/stories" className="mt-10 inline-block font-medium text-be-600 hover:text-be-900">← Back to Stories</Link>
-        </article>
-      </section>
+      <StoryArticleLayout
+        slug={story.slug}
+        title={story.title}
+        category={story.category}
+        author={story.author_name}
+        date={story.published_at}
+        readingTime={readingTime(story.content)}
+        image={resolveStoryImage(story.slug, story.image_url)}
+        imageAlt=""
+      >
+        {paragraphs.map((paragraph, index) => <p key={`${story.slug}-${index}`}>{paragraph}</p>)}
+      </StoryArticleLayout>
     </BaseLayout>
   );
 }

@@ -33,6 +33,43 @@
   }
 }
 
+.story-article-body > * + * {
+  margin-top: 1.5rem;
+}
+
+.story-article-body h2 {
+  margin-top: 3rem;
+  color: var(--color-be-900);
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.story-article-body blockquote {
+  margin: 2.75rem 0;
+  border-left: 3px solid var(--color-be-500);
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  color: var(--color-be-700);
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.story-article-body blockquote p {
+  margin: 0;
+}
+
+.dark .story-article-body h2 {
+  color: white;
+}
+
+.dark .story-article-body blockquote {
+  color: var(--color-be-200);
+}
+
 @keyframes family-photo-backdrop-first {
   0%,
   30%,

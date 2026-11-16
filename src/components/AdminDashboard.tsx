@@ -39,7 +39,8 @@ type ContactMessage = {
 };
 
 type Subscriber = { email: string; created_at: string };
-type Tab = "stories" | InquiryTabId | "newsletter";
+type BookOption = { slug: string; title: string };
+type Tab = "stories" | InquiryTabId | "newsletter" | "books";
 
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -53,6 +54,13 @@ export function AdminDashboard() {
   const [stories, setStories] = useState<Story[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [bookOptions, setBookOptions] = useState<BookOption[]>([]);
+  const [featuredBookSlug, setFeaturedBookSlug] = useState("");
+  const [bookSettingLoaded, setBookSettingLoaded] = useState(false);
+  const [bookLoading, setBookLoading] = useState(false);
+  const [bookSaving, setBookSaving] = useState(false);
+  const [bookError, setBookError] = useState("");
+  const [bookSaved, setBookSaved] = useState(false);
   const [workingId, setWorkingId] = useState("");
   const activeInquiryTab = inquiryTabs.find((item) => item.id === tab);
   const activeInquiries = activeInquiryTab
@@ -65,7 +73,25 @@ export function AdminDashboard() {
       label: `${item.label} (${messages.filter((message) => message.inquiry_type === item.inquiryType).length})`,
     })),
     { id: "newsletter", label: `Newsletter (${subscribers.length})` },
+    { id: "books", label: "Featured book" },
   ];
+
+  const loadFeaturedBook = useCallback(async () => {
+    setBookLoading(true);
+    setBookError("");
+    try {
+      const response = await fetch("/api/admin/featured-book", { signal: AbortSignal.timeout(10000) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not load book settings.");
+      setBookOptions(data.books || []);
+      setFeaturedBookSlug(data.featuredBookSlug || "");
+      setBookSettingLoaded(true);
+    } catch (cause) {
+      setBookError(cause instanceof Error ? cause.message : "Could not load book settings.");
+    } finally {
+      setBookLoading(false);
+    }
+  }, []);
 
   const loadInbox = useCallback(async () => {
     setInboxLoading(true);
@@ -114,7 +140,10 @@ export function AdminDashboard() {
       .then((session) => {
         setAuthenticated(session.authenticated);
         setReady(true);
-        if (session.authenticated) void loadInbox();
+        if (session.authenticated) {
+          void loadInbox();
+          void loadFeaturedBook();
+        }
       })
       .catch((cause: unknown) => {
         if (controller.signal.aborted) return;
@@ -122,7 +151,7 @@ export function AdminDashboard() {
         setReady(true);
       });
     return () => controller.abort();
-  }, [loadInbox]);
+  }, [loadFeaturedBook, loadInbox]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -139,9 +168,29 @@ export function AdminDashboard() {
       setAuthenticated(true);
       setInboxLoaded(false);
       window.dispatchEvent(new Event("blog-admin-session-change"));
-      await loadInbox();
+      await Promise.all([loadInbox(), loadFeaturedBook()]);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not sign in.");
+    }
+  }
+
+  async function saveFeaturedBook() {
+    setBookSaving(true);
+    setBookError("");
+    setBookSaved(false);
+    try {
+      const response = await fetch("/api/admin/featured-book", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: featuredBookSlug }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not save the featured book.");
+      setBookSaved(true);
+    } catch (cause) {
+      setBookError(cause instanceof Error ? cause.message : "Could not save the featured book.");
+    } finally {
+      setBookSaving(false);
     }
   }
 
@@ -288,6 +337,30 @@ export function AdminDashboard() {
             <tbody>{subscribers.map((subscriber) => <tr key={subscriber.email} className="border-b border-[#f5f0e9] last:border-0 dark:border-[#7d6231]"><td className="p-4 text-be-900 dark:text-white">{subscriber.email}</td><td className="p-4 text-be-600 dark:text-zinc-400">{new Date(subscriber.created_at).toLocaleString()}</td></tr>)}</tbody>
           </table>
           {subscribers.length === 0 && <p className="p-6 text-be-600 dark:text-zinc-300">No newsletter signups yet.</p>}
+        </div>
+      )}
+
+      {tab === "books" && (
+        <div className="max-w-2xl rounded-2xl bg-white p-6 dark:bg-be-800">
+          <h2 className="text-xl font-bold text-be-900 dark:text-white">Choose the homepage featured book</h2>
+          <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">This book will appear in the homepage feature section.</p>
+          {bookLoading && !bookSettingLoaded ? (
+            <p role="status" className="mt-5 text-sm text-be-600 dark:text-zinc-400">Loading books…</p>
+          ) : bookSettingLoaded ? (
+            <div className="mt-5 space-y-4">
+              <label htmlFor="featured-book" className="block text-sm font-medium text-be-700 dark:text-zinc-300">Featured book</label>
+              <select id="featured-book" value={featuredBookSlug} onChange={(event) => { setFeaturedBookSlug(event.target.value); setBookSaved(false); }} className="w-full rounded-md bg-be-50 px-4 py-3 text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white">
+                {bookOptions.map((book) => <option key={book.slug} value={book.slug}>{book.title}</option>)}
+              </select>
+              <button onClick={() => void saveFeaturedBook()} disabled={bookSaving || !featuredBookSlug} className="rounded-full bg-be-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-be-900 disabled:cursor-wait disabled:opacity-60">
+                {bookSaving ? "Saving…" : "Save featured book"}
+              </button>
+              {bookSaved && <p role="status" className="text-sm text-green-700 dark:text-green-300">Featured book saved.</p>}
+            </div>
+          ) : (
+            <button onClick={() => void loadFeaturedBook()} className="mt-5 rounded-full bg-be-700 px-5 py-2 text-sm font-medium text-white hover:bg-be-900">Try again</button>
+          )}
+          {bookError && <p role="alert" className="mt-4 text-sm text-red-700 dark:text-red-300">{bookError}</p>}
         </div>
       )}
     </section>

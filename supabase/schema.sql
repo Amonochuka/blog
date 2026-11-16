@@ -72,6 +72,16 @@ create table if not exists public.contact_messages (
   read_at timestamptz
 );
 
+create table if not exists public.site_settings (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+insert into public.site_settings (key, value)
+values ('featured_book_slug', '"the-100-day-heartbeat"'::jsonb)
+on conflict (key) do nothing;
+
 alter table public.contact_messages add column if not exists inquiry_type text not null default 'general';
 
 update public.contact_messages
@@ -97,13 +107,16 @@ create index if not exists contact_messages_type_created_at_idx
 alter table public.stories enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.contact_messages enable row level security;
+alter table public.site_settings enable row level security;
 
 revoke all on public.stories from anon, authenticated;
 revoke all on public.newsletter_subscribers from anon, authenticated;
 revoke all on public.contact_messages from anon, authenticated;
+revoke all on public.site_settings from anon, authenticated;
 
 grant select, insert, update, delete on public.stories to service_role;
 grant select, insert, update, delete on public.newsletter_subscribers to service_role;
 grant select, insert, update, delete on public.contact_messages to service_role;
+grant select, insert, update, delete on public.site_settings to service_role;
 
 -- All reads and writes go through the Next.js server, which holds the Supabase secret key.

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { resolveStoryImage } from "@/lib/story-image";
 import { projects } from "@/content/projects";
+import { books } from "@/content/books";
 
 export const dynamic = "force-dynamic";
 
@@ -64,26 +65,20 @@ const stories = [
   },
 ];
 
-const books = [
-  {
-    id: "the-100-day-heartbeat",
-    title: "The 100-Day Heartbeat",
-    slug: "the-100-day-heartbeat",
-    author: "Roy Ochuka",
-    description: "Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.",
-    cover: "/images/family-reading-story.jpg",
-    status: "serializing",
-    tagline: "100 days. 100 reflections. One journey of becoming.",
-    chapters: [
-      { number: 1, title: "Day 1 — The Quiet Beginning", free: true },
-      { number: 2, title: "Day 2 — Listening Again", free: true },
-      { number: 3, title: "Day 3 — Growing Where You Are Planted", free: true },
-    ],
-  },
-];
-
 export async function GET() {
   const supabaseConfigured = Boolean(getSupabaseConfig());
+  let featuredBookSlug = books[0]?.slug ?? null;
+  if (supabaseConfigured) {
+    try {
+      const settings = await supabaseRest<Array<{ value: string }>>(
+        "site_settings?select=value&key=eq.featured_book_slug&limit=1"
+      );
+      const configuredSlug = settings[0]?.value;
+      if (books.some((book) => book.slug === configuredSlug)) featuredBookSlug = configuredSlug;
+    } catch (error) {
+      console.error("Could not load the featured book setting:", error);
+    }
+  }
   let publishedStories = supabaseConfigured ? [] : stories;
   if (supabaseConfigured) {
     try {
@@ -116,5 +111,5 @@ export async function GET() {
       console.error("Could not load published stories from Supabase:", error);
     }
   }
-  return NextResponse.json({ stories: publishedStories, books, projects });
+  return NextResponse.json({ stories: publishedStories, books, projects, featuredBookSlug });
 }

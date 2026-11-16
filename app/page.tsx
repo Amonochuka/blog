@@ -39,6 +39,7 @@ export default async function Home() {
   let stories: HomeStory[] = [];
   let books: HomeBook[] = [];
   let projects: HomeProject[] = [];
+  let featuredBookSlug: string | null = null;
   try {
     const response = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
     if (response.ok) {
@@ -46,20 +47,21 @@ export default async function Home() {
         stories?: HomeStory[];
         books?: HomeBook[];
         projects?: HomeProject[];
+        featuredBookSlug?: string | null;
       };
       stories = content.stories ?? [];
       books = content.books ?? [];
       projects = content.projects ?? [];
+      featuredBookSlug = content.featuredBookSlug ?? null;
     }
   } catch (error) {
     console.error("Could not load homepage content:", error);
   }
   const featuredStory = stories[0] ?? null;
   const latestStories = stories.slice(1, 4);
-  const featuredBook = books[0];
+  const featuredBook = books.find((book) => book.slug === featuredBookSlug) ?? books[0];
   const chapters = featuredBook?.chapters ?? [];
   const firstChapter = chapters[0];
-  const latestChapter = chapters.at(-1);
 
   return (
     <BaseLayout>
@@ -314,7 +316,7 @@ export default async function Home() {
             <div className="w-full md:w-1/2">
               <Image
                 src={featuredBook?.cover ?? "/images/family-reading-story.jpg"}
-                alt="A father reading with his child"
+                alt={featuredBook?.title ?? "A father reading with his child"}
                 className="rounded-2xl w-full h-64 object-cover mb-6 md:mb-0"
                 width={600}
                 height={400}
@@ -322,49 +324,32 @@ export default async function Home() {
               />
             </div>
             <div className="w-full md:w-1/2">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-brand-gold-muted">
+                Featured Book
+              </p>
               <h2 className="mb-4 text-4xl font-bold text-brand-black">
                 {featuredBook?.title ?? "The 100-Day Heartbeat"}
               </h2>
               <p className="mb-6 text-brand-black">
                 {featuredBook?.description ?? "Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming."}
               </p>
-              <Link
-                className="inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
-                href={featuredBook && firstChapter
-                  ? `/books/${featuredBook.slug}/day-${firstChapter.number}`
-                  : "/books"}
-              >
-                Start Reading
-              </Link>
-              {latestChapter && featuredBook && (
-                <p className="mt-5 text-sm text-brand-black/75">
-                  Latest chapter: <Link
-                    href={`/books/${featuredBook.slug}/day-${latestChapter.number}`}
-                    className="font-semibold underline underline-offset-4 hover:text-brand-gold"
-                  >
-                    {latestChapter.title}
-                  </Link>
-                </p>
-              )}
+              <div className="flex flex-wrap items-center gap-5">
+                <Link
+                  className="inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
+                  href={featuredBook && firstChapter
+                    ? `/books/${featuredBook.slug}/day-${firstChapter.number}`
+                    : "/books"}
+                >
+                  Start Reading
+                </Link>
+                <Link
+                  className="text-sm font-semibold text-brand-black underline underline-offset-4 transition-colors hover:text-brand-gold-muted"
+                  href="/books"
+                >
+                  Browse all books
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {chapters.slice(-3).map((chapter) => (
-              <Link
-                key={chapter.number}
-                href={`/books/${featuredBook?.slug ?? "the-100-day-heartbeat"}/day-${chapter.number}`}
-                className="rounded-xl border border-brand-black/25 bg-brand-black p-4 text-center text-brand-gold transition-colors hover:border-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
-              >
-                <span className="block text-2xl font-bold text-brand-gold">{chapter.number}</span>
-                <span className="mt-1 block text-sm text-brand-gold-muted">{chapter.title}</span>
-                {chapter.number === latestChapter?.number && (
-                  <span className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold-light">
-                    Latest
-                  </span>
-                )}
-              </Link>
-            ))}
           </div>
         </div>
       </section>

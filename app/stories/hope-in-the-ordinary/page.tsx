@@ -9,7 +9,7 @@ export default function StoryPage() {
         <div className="max-w-7xl mx-auto px-6">
           <article className="prose lg:prose-2xl max-w-2xl mx-auto">
             <Image
-              src="/images/story-1.jpg"
+              src="/images/family-community-home.jpg"
               alt="Hope in the Ordinary - featured image"
               className="w-full h-64 object-cover mb-6 rounded-md"
               loading="lazy"

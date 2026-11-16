@@ -271,7 +271,7 @@ export default function Home() {
             <Link href="/projects#hospital-reading-corners" className="group hover:text-be-900 transition-colors">
               <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/racist.jpeg"
+                  src="/images/hospital-reading-corners.jpeg"
                   alt="Black mother and child reading together"
                   className="h-72 w-full object-cover"
                   width={800}

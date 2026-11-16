@@ -9,7 +9,7 @@ export default function StoryPage() {
         <div className="max-w-7xl mx-auto px-6">
           <article className="prose lg:prose-xl max-w-2xl mx-auto">
             <Image
-              src="/images/story-3.jpg"
+              src="/images/family-nairobi-father.jpg"
               alt="Father's Day Reflection - featured image"
               className="w-full h-64 object-cover mb-6 rounded-md"
               loading="lazy"

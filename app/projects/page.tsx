@@ -4,7 +4,7 @@ import { getAppBaseUrl } from "@/lib/site-url";
 
 export default async function ProjectsPage() {
   const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { projects } = await res.json() as { projects: Array<{ id: string; name: string; location: string; year: string }> };
+  const { projects } = await res.json() as { projects: Array<{ id: string; name: string; location: string; year: string; image: string }> };
 
   return (
     <BaseLayout>
@@ -26,7 +26,7 @@ export default async function ProjectsPage() {
               >
                 <div className="relative group-hover:translate-y-2 transition-transform">
                   <Image
-                    src="/images/project-1.jpg"
+                    src={project.image}
                     alt={project.name}
                     className="w-full h-64 object-cover"
                     loading="lazy"
@@ -73,7 +73,7 @@ export default async function ProjectsPage() {
 
             <div className="relative">
               <Image
-                src="/images/project-hospital.jpg"
+                src="/images/hospital-reading-corners.jpeg"
                 alt="Hospital reading corner in use"
                 className="rounded-2xl w-full h-[400px] object-cover"
                 width={800}

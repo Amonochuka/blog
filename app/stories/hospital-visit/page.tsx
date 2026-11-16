@@ -7,7 +7,7 @@ export default function HospitalVisitStoryPage() {
     <BaseLayout>
       <section className="bg-white py-16 sm:py-20 lg:py-24 dark:bg-be-900">
         <article className="prose mx-auto max-w-2xl px-6">
-          <Image src="/images/featured-story.jpg" alt="A reading corner in a hospital" width={800} height={400} className="mb-6 h-64 w-full rounded-xl object-cover" />
+          <Image src="/images/hospital-reading-corners.jpeg" alt="A mother and child reading together" width={800} height={400} className="mb-6 h-64 w-full rounded-xl object-cover" />
           <p className="mb-2 text-sm text-be-500">Beard &amp; Diapers Projects · 2025</p>
           <h1 className="text-4xl font-bold text-be-900">A Hospital Visit Remembered</h1>
           <p>When words meet presence, healing begins.</p>

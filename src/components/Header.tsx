@@ -93,7 +93,7 @@ export function Header() {
           <Link
             aria-label="Search stories, books, and projects"
             title="Search"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-be-600 transition-colors hover:bg-be-50 hover:text-be-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+            className="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-be-600 transition-colors hover:bg-be-50 hover:text-be-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 sm:mr-4"
             href="/search"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">

@@ -31,7 +31,7 @@ export default async function ContactPage({
                 </div>
                 <div>
                   <strong>Email</strong>
-                  <p>contact@beardandiapers.org</p>
+                  <p><a className="underline underline-offset-2 hover:text-be-900 dark:hover:text-white" href="mailto:contact@beardandiapers.org">contact@beardandiapers.org</a></p>
                 </div>
                 <div>
                   <strong>Follow</strong>

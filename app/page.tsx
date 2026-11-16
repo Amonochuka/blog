@@ -484,7 +484,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="newsletter" className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-newborn-hospital.jpg"
           secondSrc="/images/family-kenyan-mother-child.jpg"

@@ -54,6 +54,11 @@ export function Footer() {
                   Projects
                 </Link>
               </li>
+              <li>
+                <Link className="transition-colors hover:text-brand-gold-muted" href="/get-involved">
+                  Get Involved
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -82,6 +87,11 @@ export function Footer() {
                     <path d="M8.3 7.7c-.4.4-.7.9-.7 1.5 0 2.6 3.4 6 6 6 .6 0 1.1-.3 1.5-.7l.3-.4-1.9-1.3-1 .7c-1.1-.5-1.8-1.2-2.3-2.3l.7-1-1.3-1.9-.4.4Z" />
                   </svg>
                 </a>
+              </li>
+              <li>
+                <Link className="text-sm transition-colors hover:text-brand-gold-muted" href="/#newsletter">
+                  Newsletter
+                </Link>
               </li>
             </ul>
           </div>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { removeStoryAttachment, uploadStoryAttachment } from "@/lib/supabase-storage";
+import { resolveStoryImage } from "@/lib/story-image";
 
 type StoryRow = {
   id: string;
@@ -13,7 +14,7 @@ type StoryRow = {
   author_name: string;
   author_email: string;
   status: "pending" | "published" | "rejected";
-  image_url: string;
+  image_url: string | null;
   created_at: string;
   published_at: string | null;
 };
@@ -27,7 +28,12 @@ export async function GET() {
     const stories = await supabaseRest<StoryRow[]>(
       "stories?select=id,slug,title,excerpt,content,category,author_name,image_url,published_at&status=eq.published&order=published_at.desc"
     );
-    return NextResponse.json({ stories });
+    return NextResponse.json({
+      stories: stories.map((story) => ({
+        ...story,
+        image_url: resolveStoryImage(story.slug, story.image_url),
+      })),
+    });
   } catch {
     return NextResponse.json({ error: "Could not load published stories." }, { status: 502 });
   }

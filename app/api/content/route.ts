@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+import { resolveStoryImage } from "@/lib/story-image";
+import { projects } from "@/content/projects";
 
 export const dynamic = "force-dynamic";
 
@@ -69,7 +71,7 @@ const books = [
     slug: "the-100-day-heartbeat",
     author: "Roy Ochuka",
     description: "Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.",
-    cover: "/images/heartbeat-cover.jpg",
+    cover: "/images/family-reading-story.jpg",
     status: "serializing",
     tagline: "100 days. 100 reflections. One journey of becoming.",
     chapters: [
@@ -77,22 +79,6 @@ const books = [
       { number: 2, title: "Day 2 — Listening Again", free: true },
       { number: 3, title: "Day 3 — Growing Where You Are Planted", free: true },
     ],
-  },
-];
-
-const projects = [
-  {
-    id: "hospital-reading-corner",
-    name: "Hospital Reading Corners",
-    location: "Nairobi, Kenya",
-    year: "2024",
-    description: "Small reading corners in hospital wards where volunteers read with patients and families.",
-    image: "/images/hospital-reading-corners.jpeg",
-    why: "Healing is not only medical. Stories and presence restore dignity.",
-    photos: [],
-    people: ["Volunteers", "Nurses", "Patients"],
-    outcomes: "Three reading corners established. Over 120 reading sessions held.",
-    featured: true,
   },
 ];
 
@@ -122,12 +108,7 @@ export async function GET() {
           excerpt: story.excerpt,
           body: "",
           readingTime: "",
-          image:
-            story.image_url &&
-            !/\/(?:story-[123]|featured-story)\.jpg$/.test(story.image_url)
-              ? story.image_url
-              : stories.find((fallback) => fallback.id === story.slug)?.image ??
-                "/images/community-family-kenya.jpg",
+          image: resolveStoryImage(story.slug, story.image_url),
         })),
         ...stories,
       ];

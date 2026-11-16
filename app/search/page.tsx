@@ -12,7 +12,7 @@ export default async function SearchPage({
     ? await fetch(`${getAppBaseUrl()}/api/search?q=${encodeURIComponent(q)}`, { cache: "no-store" })
     : null;
   const data = res
-    ? await res.json() as { results?: Array<{ id: string; title?: string; name?: string; category?: string }>; query?: string }
+    ? await res.json() as { results?: Array<{ id: string; type: "story" | "book" | "project"; title?: string; name?: string; category?: string }>; query?: string }
     : null;
   const results = data?.results || [];
   const query = data?.query || "";
@@ -56,24 +56,12 @@ export default async function SearchPage({
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map((result) => {
-                let href = "/stories";
-                let title = result.title || result.name || "View result";
-                const storyIds = [
-                  "hope-in-the-ordinary",
-                  "walking-together",
-                  "fathers-day-reflection",
-                  "hospital-visit",
-                ];
-                if (storyIds.includes(result.id)) {
-                  href = "/stories/" + result.id;
-                  title = result.title || title;
-                } else if (result.id?.startsWith("the-100-day-heartbeat")) {
-                  href = "/books/" + result.id;
-                  title = result.title || title;
-                } else if (result.id?.startsWith("hospital-reading-corner")) {
-                  href = "/projects#hospital-reading-corners";
-                  title = result.name || title;
-                }
+                const href = result.type === "story"
+                  ? `/stories/${result.id}`
+                  : result.type === "book"
+                    ? `/books/${result.id}`
+                    : `/projects#${result.id}`;
+                const title = result.title || result.name || "View result";
                 return result.id ? (
                   <Link
                     key={result.id}
@@ -82,7 +70,9 @@ export default async function SearchPage({
                   >
                     <div className="p-3">
                       <h3 className="text-be-900 mb-2">{title}</h3>
-                      <p className="text-be-600 text-sm">{result.category || ""}</p>
+                      <p className="text-be-600 text-sm">
+                        {result.category || (result.type === "project" ? "Project" : result.type === "book" ? "Book" : "")}
+                      </p>
                     </div>
                   </Link>
                 ) : null;

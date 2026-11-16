@@ -139,8 +139,8 @@ export default function Home() {
 
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
         <FamilyPhotoBackdrop
-          firstSrc="/images/family-reading-story.jpg"
-          secondSrc="/images/book-reading.jpg"
+          firstSrc="/images/mother-son-reading-story.jpg"
+          secondSrc="/images/family-reading-library.jpg"
           firstObjectPosition="center 24%"
           secondObjectPosition="center 50%"
         />
@@ -219,8 +219,8 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
               <Image
-                src="/images/book-cover.jpg"
-                alt="The 100-Day Heartbeat cover"
+                src="/images/family-reading-story.jpg"
+                alt="A father reading with his child"
                 className="rounded-2xl w-full h-64 object-cover mb-6 md:mb-0"
                 width={600}
                 height={400}
@@ -342,8 +342,8 @@ export default function Home() {
             </div>
             <div className="relative flex justify-center">
               <Image
-                src="/images/family-outdoor-cooking.jpg"
-                alt="A parent showing a child how to do a task together"
+                src="/images/family-village-africa.jpg"
+                alt="A family standing together in their community"
                 className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-center"
                 width={1600}
                 height={1000}
@@ -356,7 +356,7 @@ export default function Home() {
 
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
         <FamilyPhotoBackdrop
-          firstSrc="/images/african-family-meal.jpg"
+          firstSrc="/images/family-newborn-hospital.jpg"
           secondSrc="/images/family-kenyan-mother-child.jpg"
           tone="dark"
           firstObjectPosition="center 24%"

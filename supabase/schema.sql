@@ -10,13 +10,24 @@ create table if not exists public.stories (
   author_name text not null,
   author_email text not null,
   status text not null default 'pending' check (status in ('pending', 'published', 'rejected')),
-  image_url text not null default '/images/story-1.jpg',
+  image_url text not null default '/images/community-family-kenya.jpg',
   attachment_path text,
   created_at timestamptz not null default now(),
   published_at timestamptz
 );
 
 alter table public.stories add column if not exists attachment_path text;
+alter table public.stories alter column image_url set default '/images/community-family-kenya.jpg';
+
+update public.stories
+set image_url = case slug
+  when 'hope-in-the-ordinary' then '/images/family-community-home.jpg'
+  when 'walking-together' then '/images/african-family-meal.jpg'
+  when 'fathers-day-reflection' then '/images/family-nairobi-father.jpg'
+  when 'hospital-visit' then '/images/hospital-reading-corners.jpeg'
+  else '/images/community-family-kenya.jpg'
+end
+where image_url ~ '/(story-[123]|featured-story)[.]jpg([?#].*)?$';
 
 create index if not exists stories_status_created_at_idx on public.stories (status, created_at desc);
 

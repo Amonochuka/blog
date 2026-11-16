@@ -1,12 +1,38 @@
 import Image from "next/image";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
+
+const chapterFiles = {
+  "day-1": "day-1.md",
+  "day-2": "day-2.md",
+  "day-3": "day-3.md",
+} as const;
 
 export default async function BookChapterPage({
   params,
 }: { params: Promise<{ slug: string; chapter: string }> }) {
-  const { chapter } = await params;
-  const chapterNum = Number(chapter.replace(/^day-/, ""));
+  const { slug, chapter } = await params;
+  if (slug !== "the-100-day-heartbeat" || !Object.hasOwn(chapterFiles, chapter)) notFound();
+
+  const chapterSource = await readFile(
+    path.join(process.cwd(), "src/content/chapters", chapterFiles[chapter as keyof typeof chapterFiles]),
+    "utf8"
+  );
+  const frontmatter = chapterSource.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+  if (!frontmatter) notFound();
+
+  const titleLine = frontmatter[1].match(/^title:\s*(?:"([^"]+)"|'([^']+)'|(.+))\s*$/m);
+  const title = titleLine?.[1] ?? titleLine?.[2] ?? titleLine?.[3];
+  const paragraphs = frontmatter[2]
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter((paragraph) => paragraph && !paragraph.startsWith("#"));
+  if (!title || paragraphs.length === 0) notFound();
+
+  const chapterNum = Number(chapter.slice("day-".length));
   const progress = chapterNum;
 
   return (
@@ -15,8 +41,8 @@ export default async function BookChapterPage({
         <div className="max-w-2xl mx-auto px-6">
           <article className="prose lg:prose-xl max-w-2xl mx-auto">
             <Image
-              src="/images/heartbeat-cover.jpg"
-              alt="The 100-Day Heartbeat"
+              src="/images/family-reading-story.jpg"
+              alt="A father reading with his child"
               className="w-full h-48 object-cover mb-6 rounded-md"
               loading="lazy"
             width={800}
@@ -46,14 +72,9 @@ export default async function BookChapterPage({
               </div>
             </header>
 
-            <h2 className="text-2xl font-bold text-be-900 mb-6">Day {chapterNum} — The Quiet Beginning</h2>
+            <h2 className="text-2xl font-bold text-be-900 mb-6">{title}</h2>
 
-            <p>
-              This is a sample reflection for day {chapterNum} of the journey. Replace with the real
-              manuscript text.
-            </p>
-
-            <p>Take a breath. Notice the ordinary. God is already here.</p>
+            {paragraphs.map((paragraph, index) => <p key={`${chapter}-${index}`}>{paragraph}</p>)}
 
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-2">
               {chapterNum < 3 ? (

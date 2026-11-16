@@ -18,8 +18,8 @@ export default async function BookPage({
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <Image
-                src="/images/heartbeat-cover.jpg"
-                alt="The 100-Day Heartbeat cover"
+                src="/images/family-reading-story.jpg"
+                alt="A father reading with his child"
                 className="rounded-2xl w-full h-64 object-cover mb-6"
                 loading="lazy"
               width={800}

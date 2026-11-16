@@ -64,8 +64,8 @@ export default async function BooksPage() {
             </div>
             <div className="relative">
               <Image
-                src="/images/book-reading.jpg"
-                alt="Person reading a book"
+                src="/images/family-reading-library.jpg"
+                alt="A family sharing a book in a library"
                 className="rounded-2xl w-full h-[300px] object-cover"
                 width={800}
                 height={400}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+import { resolveStoryImage } from "@/lib/story-image";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ type PublishedStory = {
   content: string;
   category: string;
   author_name: string;
-  image_url: string;
+  image_url: string | null;
   published_at: string | null;
 };
 
@@ -35,7 +36,7 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
     <BaseLayout>
       <section className="bg-white py-16 sm:py-20 lg:py-24 dark:bg-be-900">
         <article className="mx-auto max-w-3xl px-6">
-          <Image src={story.image_url} alt="" width={1200} height={640} className="mb-8 h-64 w-full rounded-2xl object-cover sm:h-80" />
+          <Image src={resolveStoryImage(story.slug, story.image_url)} alt="" width={1200} height={640} className="mb-8 h-64 w-full rounded-2xl object-cover sm:h-80" />
           <p className="mb-3 text-sm text-be-500">{story.category} · {story.author_name}{story.published_at ? ` · ${story.published_at.slice(0, 10)}` : ""}</p>
           <h1 className="mb-8 text-4xl font-bold leading-tight text-be-900 sm:text-5xl dark:text-white">{story.title}</h1>
           <div className="whitespace-pre-wrap text-base leading-8 text-be-700 dark:text-zinc-300">{story.content}</div>

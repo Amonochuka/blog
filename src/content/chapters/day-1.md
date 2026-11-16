@@ -8,6 +8,4 @@ free: true
 
 ## Day 1
 
-This is a sample reflection for day 1 of the journey. Replace with the real manuscript text.
-
 Take a breath. Notice the ordinary. God is already here.

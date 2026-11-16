@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+import { projects } from "@/content/projects";
 
 export const dynamic = "force-dynamic";
 
@@ -55,15 +56,6 @@ const books = [
   },
 ];
 
-const projects = [
-  {
-    id: "hospital-reading-corner",
-    name: "Hospital Reading Corners",
-    location: "Nairobi, Kenya",
-    why: "Healing is not only medical. Stories and presence restore dignity.",
-  },
-];
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q") || "";
@@ -109,8 +101,9 @@ export async function GET(request: Request) {
         s.title.toLowerCase().includes(lowercaseQuery) ||
         s.subtitle.toLowerCase().includes(lowercaseQuery) ||
         s.category.toLowerCase().includes(lowercaseQuery) ||
+        s.body.toLowerCase().includes(lowercaseQuery) ||
         s.tags.some((t) => t.toLowerCase().includes(lowercaseQuery))
-    ),
+    ).map((story) => ({ ...story, type: "story" as const })),
     ...books.filter(
       (b) =>
         b.title.toLowerCase().includes(lowercaseQuery) ||
@@ -118,12 +111,14 @@ export async function GET(request: Request) {
         b.chapters.some(
           (c) => c.title.toLowerCase().includes(lowercaseQuery)
         )
-    ),
+    ).map((book) => ({ ...book, type: "book" as const })),
     ...projects.filter(
       (p) =>
         p.name.toLowerCase().includes(lowercaseQuery) ||
+        p.location.toLowerCase().includes(lowercaseQuery) ||
+        p.description.toLowerCase().includes(lowercaseQuery) ||
         p.why.toLowerCase().includes(lowercaseQuery)
-    ),
+    ).map((project) => ({ ...project, type: "project" as const })),
   ];
 
   return NextResponse.json({ results, query });

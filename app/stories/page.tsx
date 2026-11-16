@@ -63,7 +63,7 @@ export default async function StoriesPage() {
             </p>
             <a
               className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"
-              href="/get-involved"
+              href="/submit-story"
             >
               Submit a Story
             </a>

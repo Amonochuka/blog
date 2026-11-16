@@ -37,8 +37,8 @@ export default async function AboutPage() {
 
             <div className="relative">
               <Image
-                src="/images/about-image.jpg"
-                alt="Beard & Diapers team and community"
+                src="/images/kenya-community-gathering.jpg"
+                alt="Neighbors gathered together in a Kenyan community"
                 className="rounded-2xl w-full h-[400px] object-cover"
                 width={800}
                 height={500}
@@ -159,8 +159,8 @@ export default async function AboutPage() {
 
             <div className="relative">
               <Image
-                src="/images/approach-image.jpg"
-                alt="Community project in progress"
+                src="/images/mother-son-reading-story.jpg"
+                alt="A mother sharing a story with her child"
                 className="rounded-2xl w-full h-[400px] object-cover"
                 width={800}
                 height={500}
@@ -217,7 +217,7 @@ export default async function AboutPage() {
               </div>
             </div>
 
-            <div className="rounded-xl bg-be-900 p-8">
+            <div className="space-y-4 rounded-xl bg-be-900 p-8">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 rounded-full bg-be-600 w-8 h-8 flex items-center justify-center shrink-0">
                   <span className="text-white text-sm font-bold">K</span>
@@ -268,14 +268,12 @@ export default async function AboutPage() {
                 Founder
               </h2>
               <div className="flex items-center gap-4 mb-4">
-                <Image
-                  src="/images/roy-ochuka.jpg"
-                  alt="Roy Ochuka"
-                  className="rounded-w-full w-24 h-24 object-cover"
-                  width={300}
-                  height={300}
-                  loading="lazy"
-                />
+                <div
+                  aria-hidden="true"
+                  className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-be-700 text-2xl font-semibold text-white"
+                >
+                  RO
+                </div>
                 <div>
                   <h3 className="text-2xl font-bold text-be-900">Roy Ochuka</h3>
                   <p className="text-be-600">Founder, Beard & Diapers</p>
@@ -294,7 +292,7 @@ export default async function AboutPage() {
                   X
                 </a>
                 <a
-                  className="text-zinc-400 hover:text-white transition-colirms"
+                  className="text-zinc-400 transition-colors hover:text-white"
                   href="https://linkedin.com/in/roy-ochuka" target="_blank" rel="noopener"
                 >
                   LinkedIn
@@ -302,7 +300,7 @@ export default async function AboutPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
               <div className="p-4 rounded-xl bg-white dark:bg-be-900">
                 <h4 className="font-semibold text-be-900 mb-3">Team Members</h4>
                 <ul className="space-y-2 text-be-600 dark:text-zinc-400 text-sm">
@@ -348,7 +346,7 @@ export default async function AboutPage() {
                   width={800}
                   height={400}
                 />
-                  <h4 className="text-bold text-be-900 mb-2">
+                  <h4 className="mb-2 font-bold text-be-900">
                     {story.title}
                   </h4>
                   <p className="text-be-600 text-sm">

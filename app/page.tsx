@@ -399,10 +399,10 @@ export default async function Home() {
                       height={600}
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/55 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                       <h3 className="text-2xl font-bold leading-tight">{project.name}</h3>
-                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-brand-gold-muted">
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white">
                         {project.description}
                       </p>
                     </div>

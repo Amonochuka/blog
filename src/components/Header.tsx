@@ -30,7 +30,7 @@ function SocialIcon({ network }: { network: "x" | "instagram" | "facebook" }) {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-gold/30 bg-brand-black">
+    <header className="sticky top-0 z-50 border-b border-brand-gold/30 bg-gradient-to-b from-brand-black-soft to-brand-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <Link
           className="flex shrink-0 items-center gap-2"

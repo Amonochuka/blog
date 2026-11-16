@@ -166,7 +166,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
                   <h3 className="text-2xl font-bold leading-tight">Hope in the Ordinary</h3>
                 </div>
               </article>
@@ -187,7 +186,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
                   <h3 className="text-2xl font-bold leading-tight">Walking Together</h3>
                 </div>
               </article>
@@ -208,7 +206,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Stories</span>
                   <h3 className="text-2xl font-bold leading-tight">Father&apos;s Day Reflection</h3>
                 </div>
               </article>

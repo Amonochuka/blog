@@ -51,7 +51,7 @@ export function AdminNavSignOut() {
       type="button"
       onClick={signOut}
       disabled={signingOut}
-      className="ml-5 inline-flex h-auto w-auto min-h-0 min-w-0 shrink-0 items-center justify-center whitespace-nowrap border-0 bg-transparent p-0 text-sm font-medium leading-normal text-brand-gold-muted transition-colors hover:text-brand-gold-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold disabled:opacity-60"
+      className="ml-5 inline-flex h-auto w-auto min-h-0 min-w-0 shrink-0 items-center justify-center whitespace-nowrap border-0 bg-transparent p-0 text-sm font-medium leading-normal text-brand-black transition-colors hover:text-brand-gold-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold-muted disabled:opacity-60"
     >
       {signingOut ? "Signing out…" : "Sign out"}
     </button>

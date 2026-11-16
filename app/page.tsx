@@ -59,7 +59,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
+      <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -223,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
+      <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
@@ -332,7 +332,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
+      <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>

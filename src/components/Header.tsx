@@ -111,14 +111,14 @@ export function Header() {
           <a
             aria-label="Follow us on Instagram"
             className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://instagram.com/beardandiapers" target="_blank" rel="noopener"
+            href="https://www.instagram.com/beardanddiapers/" target="_blank" rel="noopener"
           >
             <SocialIcon network="instagram" />
           </a>
           <a
             aria-label="Follow us on Facebook"
             className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://facebook.com/beardandiapers" target="_blank" rel="noopener"
+            href="https://www.facebook.com/BeardsandDiapers" target="_blank" rel="noopener"
           >
             <SocialIcon network="facebook" />
           </a>

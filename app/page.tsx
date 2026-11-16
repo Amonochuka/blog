@@ -3,8 +3,30 @@ import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { getAppBaseUrl } from "@/lib/site-url";
 
-export default function Home() {
+type HomeStory = {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  excerpt: string;
+};
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let latestStories: HomeStory[] = [];
+  try {
+    const response = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
+    if (response.ok) {
+      const content = await response.json() as { stories?: HomeStory[] };
+      latestStories = content.stories?.slice(0, 3) ?? [];
+    }
+  } catch (error) {
+    console.error("Could not load the latest homepage stories:", error);
+  }
+
   return (
     <BaseLayout>
       <section className="relative isolate flex items-center justify-center overflow-hidden bg-brand-black py-10 sm:py-16">
@@ -156,67 +178,48 @@ export default function Home() {
             <p className="text-brand-gold-muted">Recently published reflections and narratives</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link
-              href="/stories/hope-in-the-ordinary"
-              className="group transition-colors"
-            >
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/family-community-home.jpg"
-                  alt="Hope in the Ordinary"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Hope in the Ordinary</h3>
-                </div>
-              </article>
-            </Link>
-
-            <Link
-              href="/stories/walking-together"
-              className="group transition-colors"
-            >
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/african-family-meal.jpg"
-                  alt="Walking Together"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Walking Together</h3>
-                </div>
-              </article>
-            </Link>
-
-            <Link
-              href="/stories/fathers-day-reflection"
-              className="group transition-colors"
-            >
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/family-nairobi-father.jpg"
-                  alt="Father's Day Reflection"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Father&apos;s Day Reflection</h3>
-                </div>
-              </article>
-            </Link>
-          </div>
+          {latestStories.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {latestStories.map((story) => (
+                <Link
+                  key={story.id}
+                  href={`/stories/${story.id}`}
+                  className="group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
+                >
+                  <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
+                    <Image
+                      src={story.image}
+                      alt={story.title}
+                      className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      width={800}
+                      height={600}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold">
+                        {story.category}
+                      </p>
+                      <h3 className="text-2xl font-bold leading-tight">{story.title}</h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-brand-gold-muted">
+                        {story.excerpt}
+                      </p>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-brand-gold/30 bg-brand-black/85 px-6 py-10 text-center">
+              <p className="text-brand-gold-light">New stories are on the way.</p>
+              <Link
+                href="/submit-story"
+                className="mt-4 inline-flex font-semibold text-brand-gold underline underline-offset-4 hover:text-brand-gold-light"
+              >
+                Share your story <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

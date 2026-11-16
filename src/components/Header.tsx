@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AdminNavSignOut } from "@/components/AdminNavSignOut";
+import { PrimaryNavigation } from "@/components/PrimaryNavigation";
 
 function SocialIcon({ network }: { network: "x" | "instagram" | "facebook" }) {
   if (network === "instagram") {
@@ -31,7 +31,7 @@ function SocialIcon({ network }: { network: "x" | "instagram" | "facebook" }) {
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-brand-gold/30 bg-brand-black/85 shadow-sm backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-4 sm:gap-3 sm:px-6">
         <Link
           className="flex shrink-0 items-center gap-2"
           href="/"
@@ -55,73 +55,42 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          <Link
-            className="font-medium text-brand-gold-light transition-colors hover:text-brand-gold"
-            href="/about"
-          >
-            About
-          </Link>
-          <Link
-            className="font-medium text-brand-gold-light transition-colors hover:text-brand-gold"
-            href="/stories"
-          >
-            Stories
-          </Link>
-          <Link
-            className="font-medium text-brand-gold-light transition-colors hover:text-brand-gold"
-            href="/books"
-          >
-            Books
-          </Link>
-          <Link
-            className="font-medium text-brand-gold-light transition-colors hover:text-brand-gold"
-            href="/projects"
-          >
-            Projects
-          </Link>
-          <Link
-            className="font-medium text-brand-gold-light transition-colors hover:text-brand-gold"
-            href="/get-involved"
-          >
-            Get Involved
-          </Link>
-          <AdminNavSignOut />
-        </nav>
-
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <Link
-            aria-label="Search stories, books, and projects"
-            title="Search"
-            className="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold sm:mr-4"
-            href="/search"
-          >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="10.8" cy="10.8" r="6.8" />
-              <path d="m16 16 4.2 4.2" strokeLinecap="round" />
-            </svg>
-          </Link>
-          <a
-            aria-label="Follow us on X"
-            className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://twitter.com/royochuka" target="_blank" rel="noopener"
-          >
-            <SocialIcon network="x" />
-          </a>
-          <a
-            aria-label="Follow us on Instagram"
-            className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://www.instagram.com/beardanddiapers/" target="_blank" rel="noopener"
-          >
-            <SocialIcon network="instagram" />
-          </a>
-          <a
-            aria-label="Follow us on Facebook"
-            className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://www.facebook.com/Beards%20%26%20Diapers" target="_blank" rel="noopener"
-          >
-            <SocialIcon network="facebook" />
-          </a>
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-3">
+          <PrimaryNavigation />
+          <div className="flex items-center gap-1 sm:gap-3">
+            <Link
+              aria-label="Search stories, books, and projects"
+              title="Search"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+              href="/search"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="10.8" cy="10.8" r="6.8" />
+                <path d="m16 16 4.2 4.2" strokeLinecap="round" />
+              </svg>
+            </Link>
+            <a
+              aria-label="Follow us on X"
+              className="hidden text-brand-gold transition-colors hover:text-brand-gold-light sm:inline-flex"
+              href="https://twitter.com/royochuka" target="_blank" rel="noopener"
+            >
+              <SocialIcon network="x" />
+            </a>
+            <a
+              aria-label="Follow us on Instagram"
+              className="hidden text-brand-gold transition-colors hover:text-brand-gold-light sm:inline-flex"
+              href="https://www.instagram.com/beardanddiapers/" target="_blank" rel="noopener"
+            >
+              <SocialIcon network="instagram" />
+            </a>
+            <a
+              aria-label="Follow us on Facebook"
+              className="hidden text-brand-gold transition-colors hover:text-brand-gold-light sm:inline-flex"
+              href="https://www.facebook.com/Beards%20%26%20Diapers" target="_blank" rel="noopener"
+            >
+              <SocialIcon network="facebook" />
+            </a>
+          </div>
         </div>
       </div>
     </header>

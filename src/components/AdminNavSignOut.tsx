@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function AdminNavSignOut() {
+export function AdminNavSignOut({ onSignOutStart }: { onSignOutStart?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
@@ -35,6 +35,7 @@ export function AdminNavSignOut() {
   if (pathname !== "/admin" || !authenticated) return null;
 
   async function signOut() {
+    onSignOutStart?.();
     setSigningOut(true);
     try {
       await fetch("/api/admin/session", { method: "DELETE" });

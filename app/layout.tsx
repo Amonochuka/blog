@@ -17,9 +17,6 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "Beard & Diapers",
   description: "A Christian Social Advocacy movement advancing hope where people live, learn, heal, and belong.",
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({

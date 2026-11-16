@@ -79,9 +79,9 @@ export default function Home() {
             </div>
             <div className="relative flex justify-center">
               <Image
-                src="/images/family-community-home.jpg"
-                alt="A family sharing a moment together at home"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_30%]"
+                src="/images/who-we-are-family.jpeg"
+                alt="A father carrying his smiling daughter on his back"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_20%]"
                 width={1600}
                 height={1067}
                 loading="lazy"

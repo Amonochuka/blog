@@ -83,8 +83,9 @@ const books = [
 ];
 
 export async function GET() {
-  let publishedStories = stories;
-  if (getSupabaseConfig()) {
+  const supabaseConfigured = Boolean(getSupabaseConfig());
+  let publishedStories = supabaseConfigured ? [] : stories;
+  if (supabaseConfigured) {
     try {
       const databaseStories = await supabaseRest<Array<{
         slug: string;
@@ -110,7 +111,6 @@ export async function GET() {
           readingTime: "",
           image: resolveStoryImage(story.slug, story.image_url),
         })),
-        ...stories,
       ];
     } catch (error) {
       console.error("Could not load published stories from Supabase:", error);

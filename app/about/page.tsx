@@ -338,11 +338,12 @@ export default async function AboutPage() {
             <h2 className="text-4xl font-bold text-brand-black mb-4">Recent Stories</h2>
             <p className="text-brand-black/75 dark:text-zinc-400">Latest from our community</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {stories
-              .filter((story) => story.featured)
-              .slice(0, 3)
-              .map((story) => (
+          {stories.some((story) => story.featured) ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {stories
+                .filter((story) => story.featured)
+                .slice(0, 3)
+                .map((story) => (
                 <Link
                   href={`/stories/${story.id}`}
                   key={story.id}
@@ -363,8 +364,19 @@ export default async function AboutPage() {
                     {story.excerpt}
                   </p>
                 </Link>
-              ))}
-          </div>
+                ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-brand-black/10 bg-white p-6 text-center">
+              <p className="text-brand-black/75">No community stories have been featured here yet.</p>
+              <Link
+                href="/stories"
+                className="mt-3 inline-flex font-semibold text-brand-black underline underline-offset-4 hover:text-brand-gold"
+              >
+                Explore all stories <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
     </BaseLayout>

@@ -3,6 +3,68 @@ import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getAppBaseUrl } from "@/lib/site-url";
 
+const teamProfiles = [
+  {
+    name: "Mercy Wanjiku",
+    role: "Community Coordinator",
+    bio: "Supports coordination between the movement and the communities it serves.",
+  },
+  {
+    name: "Peter Omondi",
+    role: "Project Lead",
+    bio: "Helps guide projects from community needs toward practical action.",
+  },
+  {
+    name: "Aisha Hassan",
+    role: "Storytelling Facilitator",
+    bio: "Creates space for people to share stories and learn from one another.",
+  },
+];
+
+const advisorProfiles = [
+  {
+    name: "Father John Kariuki",
+    role: "Spiritual Advisor",
+    bio: "Offers guidance grounded in faith, hope, and human dignity.",
+  },
+  {
+    name: "Dr. Amina Abubakar",
+    role: "Community Development Advisor",
+    bio: "Advises on approaches that support local leadership and community wellbeing.",
+  },
+];
+
+function ProfileCard({
+  name,
+  role,
+  bio,
+}: {
+  name: string;
+  role: string;
+  bio: string;
+}) {
+  return (
+    <article className="rounded-2xl border border-brand-black/10 bg-white p-5 shadow-sm dark:border-brand-gold/20 dark:bg-brand-black">
+      <div className="flex items-center gap-4">
+        <Image
+          src="/images/profile-placeholder.svg"
+          alt=""
+          aria-hidden="true"
+          width={72}
+          height={72}
+          unoptimized
+          className="h-[72px] w-[72px] shrink-0 rounded-full border border-brand-gold/40"
+        />
+        <div>
+          <h4 className="font-bold text-brand-black dark:text-white">{name}</h4>
+          <p className="mt-1 text-sm font-medium text-brand-gold-muted">{role}</p>
+        </div>
+      </div>
+      <p className="mt-4 text-sm leading-relaxed text-brand-black/75 dark:text-zinc-300">{bio}</p>
+    </article>
+  );
+}
+
 export default async function AboutPage() {
   const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
   const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string; category: string; featured: boolean; excerpt: string }> };
@@ -277,12 +339,15 @@ export default async function AboutPage() {
                 Founder
               </h2>
               <div className="flex items-center gap-4 mb-4">
-                <div
+                <Image
+                  src="/images/profile-placeholder.svg"
+                  alt=""
                   aria-hidden="true"
-                  className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-brand-black text-2xl font-semibold text-white"
-                >
-                  RO
-                </div>
+                  width={96}
+                  height={96}
+                  unoptimized
+                  className="h-24 w-24 shrink-0 rounded-full border border-brand-gold/40"
+                />
                 <div>
                   <h3 className="text-2xl font-bold text-brand-black">Roy Ochuka</h3>
                   <p className="text-brand-black/75">Founder, Beard & Diapers</p>
@@ -309,23 +374,10 @@ export default async function AboutPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
-              <div className="p-4 rounded-xl bg-white dark:bg-brand-black">
-                <h4 className="font-semibold text-brand-black mb-3">Team Members</h4>
-                <ul className="space-y-2 text-brand-black/75 dark:text-zinc-400 text-sm">
-                  <li>Mercy Wanjiku — Community Coordinator</li>
-                  <li>Peter Omondi — Project Lead</li>
-                  <li>Aisha Hassan — Storytelling Facilitator</li>
-                </ul>
-              </div>
-
-              <div className="p-4 rounded-xl bg-white dark:bg-brand-black">
-                <h4 className="font-semibold text-brand-black mb-3">Advisors</h4>
-                <ul className="space-y-2 text-brand-black/75 dark:text-zinc-400 text-sm">
-                  <li>Father John Kariuki — Spiritual Advisor</li>
-                  <li>Dr. Amina Abubakar — Community Development</li>
-                </ul>
-              </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-2">
+              {[...teamProfiles, ...advisorProfiles].map((profile) => (
+                <ProfileCard key={profile.name} {...profile} />
+              ))}
             </div>
           </div>
         </div>

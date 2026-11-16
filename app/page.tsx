@@ -7,34 +7,35 @@ import { NewsletterForm } from "@/components/NewsletterForm";
 export default function Home() {
   return (
     <BaseLayout>
-      <section className="relative isolate flex items-center justify-center overflow-hidden bg-gradient-to-b from-be-100 to-be-200 py-10 sm:py-16">
+      <section className="relative isolate flex items-center justify-center overflow-hidden bg-brand-black py-10 sm:py-16">
         <FamilyPhotoBackdrop
           firstSrc="/images/community-family-kenya.jpg"
           secondSrc="/images/community-family-urban-kenya.jpg"
           preloadFirst
+          tone="dark"
           firstObjectPosition="center 65%"
         />
 
-        <div className="absolute -top-4 -right-4 z-10 h-96 w-96 rounded-full bg-be-400 opacity-20 blur-xl"></div>
-        <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-be-500 opacity-10 blur-xl"></div>
+        <div className="absolute -top-4 -right-4 z-10 h-96 w-96 rounded-full bg-brand-gold opacity-20 blur-xl"></div>
+        <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-brand-gold opacity-10 blur-xl"></div>
 
         <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-be-900 sm:text-5xl md:text-6xl mb-4">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-brand-gold sm:text-5xl md:text-6xl">
             Beard & Diapers
           </h1>
-          <p className="text-2xl text-be-600 md:text-3xl max-w-2xl leading-relaxed mb-8">
+          <p className="mb-8 max-w-2xl text-2xl leading-relaxed text-brand-gold-light md:text-3xl">
             Advancing hope where people live, learn, heal, and belong.
           </p>
 
           <div className="flex flex-col items-center gap-4 pb-8 sm:flex-row">
             <Link
-              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-be-600 px-8 text-lg font-medium text-white transition-colors hover:bg-be-700"
+              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-brand-gold px-8 text-lg font-semibold text-brand-black transition-colors hover:bg-brand-gold-light"
               href="/stories"
             >
               Explore Our Stories
             </Link>
             <Link
-              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-[#7d6231] px-8 text-lg font-medium text-be-900 transition-colors hover:bg-be-50"
+              className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-brand-gold px-8 text-lg font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
               href="/books"
             >
               Read the Book
@@ -42,11 +43,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col items-center gap-3 text-sm sm:flex-row">
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-be-900">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold-light">
               Get Involved
             </span>
             <Link
-              className="inline-flex items-center gap-2 rounded-full border border-[#7d6231] bg-white/70 px-5 py-2 font-semibold text-be-900 shadow-sm transition-colors hover:bg-[#7d6231] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7d6231]"
+              className="inline-flex items-center gap-2 rounded-full border border-brand-gold bg-brand-black/75 px-5 py-2 font-semibold text-brand-gold shadow-sm transition-colors hover:bg-brand-gold hover:text-brand-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
               href="/get-involved"
             >
               Join the movement <span aria-hidden="true">→</span>
@@ -58,20 +59,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="mb-6 text-4xl font-bold leading-tight text-brand-black">
                 Who We Are
               </h2>
-              <p className="text-be-700 dark:text-zinc-300 leading-relaxed mb-6">
+              <p className="mb-6 leading-relaxed text-brand-black">
                 We believe every community carries God-given potential. Our mission is to awaken that potential
                 through storytelling, creative community projects, and acts of service that strengthen
                 society&apos;s capacity to care for its own.
               </p>
               <Link
-                className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm mt-4"
+                className="mt-4 inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
                 href="/about"
               >
                 Learn More
@@ -81,7 +82,7 @@ export default function Home() {
               <Image
                 src="/images/who-we-are-family.jpeg"
                 alt="A father carrying his smiling daughter on his back"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-[center_20%]"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl border-2 border-brand-black object-cover object-[center_20%]"
                 width={1600}
                 height={1067}
                 loading="lazy"
@@ -91,45 +92,52 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
           secondSrc="/images/family-hope.jpeg"
+          tone="dark"
           firstObjectPosition="center 38%"
           secondObjectPosition="center 50%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-be-900 mb-4 md:mb-6 leading-tight">
+            <h2 className="mb-4 text-4xl font-bold leading-tight text-brand-gold md:mb-6">
               What We Do
             </h2>
-            <p className="text-be-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="mx-auto max-w-2xl leading-relaxed text-brand-gold-muted">
               Through storytelling, creative community projects, and acts of service, we strengthen
               society&apos;s capacity to care for its own.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="p-6 rounded-xl bg-white dark:bg-be-900 hover:shadow-md transition-shadow">
-              <div className="text-3xl text-be-600 mb-4">📖</div>
-              <h3 className="text-xl font-bold text-be-900 mb-2">Storytelling</h3>
-              <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
+            <div className="rounded-xl border border-brand-gold/35 bg-brand-black/80 p-6 transition-colors hover:border-brand-gold">
+              <div className="mb-4 text-brand-gold">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 7v14" /><path d="M3 18V5a2 2 0 0 1 2-2h2a5 5 0 0 1 5 5v13a4 4 0 0 0-4-3H5a2 2 0 0 0-2 2Z" /><path d="M21 18V5a2 2 0 0 0-2-2h-2a5 5 0 0 0-5 5v13a4 4 0 0 1 4-3h3a2 2 0 0 1 2 2Z" /></svg>
+              </div>
+              <h3 className="mb-2 text-xl font-bold text-brand-gold-light">Storytelling</h3>
+              <p className="text-sm leading-relaxed text-brand-gold-muted">
                 Sharing stories that awaken potential and build community.
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-white dark:bg-be-900 hover:shadow-md transition-shadow">
-              <div className="text-3xl text-be-600 mb-4">👥</div>
-              <h3 className="text-xl font-bold text-be-900 mb-2">Creative Projects</h3>
-              <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
+            <div className="rounded-xl border border-brand-gold/35 bg-brand-black/80 p-6 transition-colors hover:border-brand-gold">
+              <div className="mb-4 text-brand-gold">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="8" r="3" /><path d="M3 20v-1a6 6 0 0 1 12 0v1" /><path d="M16 5a3 3 0 0 1 0 6" /><path d="M18 14a5 5 0 0 1 3 5v1" /></svg>
+              </div>
+              <h3 className="mb-2 text-xl font-bold text-brand-gold-light">Creative Projects</h3>
+              <p className="text-sm leading-relaxed text-brand-gold-muted">
                 Community initiatives that bring hope to everyday places.
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-white dark:bg-be-900 hover:shadow-md transition-shadow">
-              <div className="text-3xl text-be-600 mb-4">🤝</div>
-              <h3 className="text-xl font-bold text-be-900 mb-2">Acts of Service</h3>
-              <p className="text-be-600 dark:text-zinc-400 text-sm leading-relaxed">
+            <div className="rounded-xl border border-brand-gold/35 bg-brand-black/80 p-6 transition-colors hover:border-brand-gold">
+              <div className="mb-4 text-brand-gold">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z" /><path d="M8 12h2l1.2-2 2 4 1.2-2H16" /></svg>
+              </div>
+              <h3 className="mb-2 text-xl font-bold text-brand-gold-light">Acts of Service</h3>
+              <p className="text-sm leading-relaxed text-brand-gold-muted">
                 Serving communities where hope is needed most.
               </p>
             </div>
@@ -137,25 +145,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/mother-son-reading-story.jpg"
           secondSrc="/images/family-reading-library.jpg"
+          tone="dark"
           firstObjectPosition="center 24%"
           secondObjectPosition="center 50%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-be-900 mb-4">Latest Stories</h2>
-            <p className="text-be-600 dark:text-zinc-400">Recently published reflections and narratives</p>
+            <h2 className="mb-4 text-4xl font-bold text-brand-gold">Latest Stories</h2>
+            <p className="text-brand-gold-muted">Recently published reflections and narratives</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Link
               href="/stories/hope-in-the-ordinary"
-              className="group hover:text-be-900 transition-colors"
+              className="group transition-colors"
             >
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/family-community-home.jpg"
                   alt="Hope in the Ordinary"
@@ -164,8 +173,8 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Hope in the Ordinary</h3>
                 </div>
               </article>
@@ -173,9 +182,9 @@ export default function Home() {
 
             <Link
               href="/stories/walking-together"
-              className="group hover:text-be-900 transition-colors"
+              className="group transition-colors"
             >
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/african-family-meal.jpg"
                   alt="Walking Together"
@@ -184,8 +193,8 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Walking Together</h3>
                 </div>
               </article>
@@ -193,9 +202,9 @@ export default function Home() {
 
             <Link
               href="/stories/fathers-day-reflection"
-              className="group hover:text-be-900 transition-colors"
+              className="group transition-colors"
             >
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/family-nairobi-father.jpg"
                   alt="Father's Day Reflection"
@@ -204,8 +213,8 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Father&apos;s Day Reflection</h3>
                 </div>
               </article>
@@ -214,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
+      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
@@ -228,12 +237,12 @@ export default function Home() {
               />
             </div>
             <div className="w-full md:w-1/2">
-              <h2 className="text-4xl font-bold text-be-900 mb-4">The 100-Day Heartbeat</h2>
-              <p className="text-be-600 dark:text-zinc-400 mb-6">
+              <h2 className="mb-4 text-4xl font-bold text-brand-black">The 100-Day Heartbeat</h2>
+              <p className="mb-6 text-brand-black">
                 Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.
               </p>
               <Link
-                className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"
+                className="inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
                 href="/books/the-100-day-heartbeat"
               >
                 Start Reading
@@ -245,31 +254,32 @@ export default function Home() {
             {[1, 2, 3].map((day) => (
               <div
                 key={day}
-                className="bg-white dark:bg-be-900 rounded-xl p-4 text-center hover:shadow-md transition-shadow"
+                className="rounded-xl border border-brand-black/25 bg-brand-black p-4 text-center text-brand-gold transition-colors hover:border-brand-black"
               >
-                <div className="text-2xl font-bold text-be-900">{day}</div>
-                <div className="text-be-600 text-sm mt-1">Day {day}</div>
+                <div className="text-2xl font-bold text-brand-gold">{day}</div>
+                <div className="mt-1 text-sm text-brand-gold-muted">Day {day}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-outdoor-cooking.jpg"
           secondSrc="/images/african-father-child-outdoors.jpg"
+          tone="dark"
           firstObjectPosition="center 50%"
           secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-be-900 mb-4">Projects</h2>
+            <h2 className="mb-4 text-4xl font-bold text-brand-gold">Projects</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="/projects#hospital-reading-corners" className="group hover:text-be-900 transition-colors">
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+            <Link href="/projects#hospital-reading-corners" className="group transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/hospital-reading-corners.jpeg"
                   alt="Black mother and child reading together"
@@ -278,15 +288,15 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Hospital Reading Corners</h3>
                 </div>
               </article>
             </Link>
 
-            <Link href="/projects#childrens-home" className="group hover:text-be-900 transition-colors">
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+            <Link href="/projects#childrens-home" className="group transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/childrens-home-community.jpeg"
                   alt="A teacher engaging a group of children outdoors at their school"
@@ -295,15 +305,15 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Children&apos;s Home</h3>
                 </div>
               </article>
             </Link>
 
-            <Link href="/projects#community-care" className="group hover:text-be-900 transition-colors">
-              <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
+            <Link href="/projects#community-care" className="group transition-colors">
+              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
                 <Image
                   src="/images/kenya-community-gathering-2.jpg"
                   alt="A community gathered together outdoors in Kenya"
@@ -312,8 +322,8 @@ export default function Home() {
                   height={600}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
                   <h3 className="text-2xl font-bold leading-tight">Community Care</h3>
                 </div>
               </article>
@@ -322,19 +332,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
+      <section className="bg-brand-gold py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-be-900 mb-6 leading-tight">
+              <h2 className="mb-6 text-4xl font-bold leading-tight text-brand-black">
                 Get Involved
               </h2>
-              <p className="text-be-700 dark:text-zinc-300 leading-relaxed mb-6">
+              <p className="mb-6 leading-relaxed text-brand-black">
                 We believe hope grows when communities show up for one another in practical, everyday ways.
                 There are many ways to take part—through service, encouragement, storytelling, and partnership.
               </p>
               <Link
-                className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm mt-4"
+                className="mt-4 inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
                 href="/get-involved"
               >
                 Learn More
@@ -344,7 +354,7 @@ export default function Home() {
               <Image
                 src="/images/family-village-africa.jpg"
                 alt="A family standing together in their community"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl object-cover object-center"
+                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl border-2 border-brand-black object-cover object-center"
                 width={1600}
                 height={1000}
                 loading="lazy"
@@ -354,7 +364,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-900">
+      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-newborn-hospital.jpg"
           secondSrc="/images/family-kenyan-mother-child.jpg"
@@ -363,10 +373,10 @@ export default function Home() {
           secondObjectPosition="center 24%"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
+          <h2 className="mb-6 text-3xl font-bold text-brand-gold">
             Stories, ideas and opportunities for hope — delivered occasionally.
           </h2>
-          <p className="text-zinc-400 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-brand-gold-muted">
             Join our newsletter community and receive encouragement, story updates, and opportunities
             to participate in what God is doing.
           </p>

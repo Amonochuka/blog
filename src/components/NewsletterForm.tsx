@@ -34,17 +34,17 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`mx-auto w-full rounded-xl bg-be-800 ${compact ? "max-w-md p-4 sm:p-6" : "max-w-md p-6 sm:p-8"}`}>
+    <form onSubmit={handleSubmit} className={`mx-auto w-full rounded-xl border border-brand-gold/35 bg-brand-black/90 ${compact ? "max-w-md p-4 sm:p-6" : "max-w-md p-6 sm:p-8"}`}>
       <div className="hidden" aria-hidden="true"><label>Leave this field blank<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
       <div className="flex flex-col gap-3 sm:flex-row">
-        <input name="email" type="email" autoComplete="email" placeholder="Enter your email" aria-label="Email address" required className="min-w-0 flex-1 rounded-md border-none bg-be-900 px-4 py-3 text-white outline-none ring-be-600 placeholder:text-zinc-400 focus:ring-2" />
-        <button disabled={submitting} type="submit" className="rounded-md bg-be-600 px-6 py-3 font-medium text-be-900 transition-colors hover:bg-be-700 disabled:cursor-wait disabled:opacity-60">{submitting ? "Saving…" : "Subscribe"}</button>
+        <input name="email" type="email" autoComplete="email" placeholder="Enter your email" aria-label="Email address" required className="min-w-0 flex-1 rounded-md border border-brand-gold/40 bg-brand-black px-4 py-3 text-brand-gold-light outline-none placeholder:text-brand-gold-muted focus:ring-2 focus:ring-brand-gold" />
+        <button disabled={submitting} type="submit" className="rounded-md bg-brand-gold px-6 py-3 font-semibold text-brand-black transition-colors hover:bg-brand-gold-light disabled:cursor-wait disabled:opacity-60">{submitting ? "Saving…" : "Subscribe"}</button>
       </div>
-      <label className="mt-4 flex items-start gap-2 text-left text-xs text-zinc-300">
-        <input name="consent" type="checkbox" required className="mt-0.5 accent-be-500" />
+      <label className="mt-4 flex items-start gap-2 text-left text-xs text-brand-gold-muted">
+        <input name="consent" type="checkbox" required className="mt-0.5 accent-brand-gold" />
         I agree to receive occasional email updates from Beard &amp; Diapers.
       </label>
-      {message && <p role="status" className="mt-4 text-left text-sm text-zinc-200">{message}</p>}
+      {message && <p role="status" className="mt-4 text-left text-sm text-brand-gold-light">{message}</p>}
     </form>
   );
 }

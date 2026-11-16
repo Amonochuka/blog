@@ -19,7 +19,7 @@ export default function Home() {
         <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-be-500 opacity-10 blur-xl"></div>
 
         <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="hero-title-flip text-4xl sm:text-5xl md:text-6xl font-bold text-be-900 tracking-tight mb-4">
+          <h1 className="text-4xl font-bold tracking-tight text-be-900 sm:text-5xl md:text-6xl mb-4">
             Beard & Diapers
           </h1>
           <p className="text-2xl text-be-600 md:text-3xl max-w-2xl leading-relaxed mb-8">

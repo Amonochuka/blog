@@ -33,18 +33,6 @@
   }
 }
 
-@keyframes hero-title-flip {
-  0% {
-    transform: perspective(900px) rotateY(0deg);
-  }
-  50% {
-    transform: perspective(900px) rotateY(180deg);
-  }
-  100% {
-    transform: perspective(900px) rotateY(360deg);
-  }
-}
-
 @keyframes family-photo-backdrop-first {
   0%,
   30%,
@@ -127,12 +115,6 @@
 
   .family-photo-backdrop__image--second {
     opacity: 0;
-  }
-}
-
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .hero-title-flip:hover {
-    animation: hero-title-flip 1.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

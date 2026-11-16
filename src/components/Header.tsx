@@ -118,7 +118,7 @@ export function Header() {
           <a
             aria-label="Follow us on Facebook"
             className="text-brand-gold transition-colors hover:text-brand-gold-light"
-            href="https://www.facebook.com/BeardsandDiapers" target="_blank" rel="noopener"
+            href="https://www.facebook.com/Beards%20%26%20Diapers" target="_blank" rel="noopener"
           >
             <SocialIcon network="facebook" />
           </a>

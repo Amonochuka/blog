@@ -38,18 +38,22 @@ function ProfileCard({
   name,
   role,
   bio,
+  image,
+  socialLinks = [],
 }: {
   name: string;
   role: string;
   bio: string;
+  image?: string;
+  socialLinks?: Array<{ label: string; href: string }>;
 }) {
   return (
     <article className="rounded-2xl border border-brand-black/10 bg-white p-5 shadow-sm dark:border-brand-gold/20 dark:bg-brand-black">
       <div className="flex items-center gap-4">
         <Image
-          src="/images/profile-placeholder.svg"
-          alt=""
-          aria-hidden="true"
+          src={image ?? "/images/profile-placeholder.svg"}
+          alt={image ? name : ""}
+          aria-hidden={!image}
           width={72}
           height={72}
           unoptimized
@@ -61,13 +65,23 @@ function ProfileCard({
         </div>
       </div>
       <p className="mt-4 text-sm leading-relaxed text-brand-black/75 dark:text-zinc-300">{bio}</p>
+      {socialLinks.length > 0 && (
+        <div className="mt-4 flex gap-4">
+          {socialLinks.map((link) => (
+            <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-brand-black/70 underline underline-offset-2 hover:text-brand-gold dark:text-zinc-300">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
     </article>
   );
 }
 
 export default async function AboutPage() {
   const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string; category: string; featured: boolean; excerpt: string }> };
+  const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string | null; category: string; excerpt: string }> };
+  const recentStories = stories.slice(-3);
 
   return (
     <BaseLayout>
@@ -340,9 +354,8 @@ export default async function AboutPage() {
               </h2>
               <div className="flex items-center gap-4 mb-4">
                 <Image
-                  src="/images/profile-placeholder.svg"
-                  alt=""
-                  aria-hidden="true"
+                  src="/images/roy-ochuka.jpg"
+                  alt="Roy Ochuka"
                   width={96}
                   height={96}
                   unoptimized
@@ -390,25 +403,24 @@ export default async function AboutPage() {
             <h2 className="text-4xl font-bold text-brand-black mb-4">Recent Stories</h2>
             <p className="text-brand-black/75 dark:text-zinc-400">Latest from our community</p>
           </div>
-          {stories.some((story) => story.featured) ? (
+          {recentStories.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {stories
-                .filter((story) => story.featured)
-                .slice(0, 3)
-                .map((story) => (
+              {recentStories.map((story) => (
                 <Link
                   href={`/stories/${story.id}`}
                   key={story.id}
                   className="group rounded-xl bg-white p-4 transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold dark:bg-brand-black"
                 >
-                  <Image
-                    src={story.image}
-                    alt={story.title}
-                    className="mb-3 h-40 w-full rounded-lg object-cover"
-                    loading="lazy"
-                  width={800}
-                  height={400}
-                />
+                  {story.image && (
+                    <Image
+                      src={story.image}
+                      alt={story.title}
+                      className="mb-3 h-40 w-full rounded-lg object-cover"
+                      loading="lazy"
+                      width={800}
+                      height={400}
+                    />
+                  )}
                   <h3 className="mb-2 font-bold text-brand-black transition-colors group-hover:text-brand-gold">
                     {story.title}
                   </h3>
@@ -420,7 +432,7 @@ export default async function AboutPage() {
             </div>
           ) : (
             <div className="rounded-2xl border border-brand-black/10 bg-white p-6 text-center">
-              <p className="text-brand-black/75">No community stories have been featured here yet.</p>
+              <p className="text-brand-black/75">No published community stories yet.</p>
               <Link
                 href="/stories"
                 className="mt-3 inline-flex font-semibold text-brand-black underline underline-offset-4 hover:text-brand-gold"

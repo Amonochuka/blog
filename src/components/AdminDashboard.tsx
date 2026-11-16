@@ -44,6 +44,8 @@ type Tab = "stories" | InquiryTabId | "newsletter";
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
   const [ready, setReady] = useState(false);
+  const [inboxLoaded, setInboxLoaded] = useState(false);
+  const [inboxLoading, setInboxLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -66,34 +68,60 @@ export function AdminDashboard() {
   ];
 
   const loadInbox = useCallback(async () => {
-    const [storyResponse, messageResponse, subscriberResponse] = await Promise.all([
-      fetch("/api/admin/stories", { signal: AbortSignal.timeout(15000) }),
-      fetch("/api/admin/messages", { signal: AbortSignal.timeout(15000) }),
-      fetch("/api/admin/newsletter", { signal: AbortSignal.timeout(15000) }),
-    ]);
-    if (storyResponse.status === 401) {
-      setAuthenticated(false);
+    setInboxLoading(true);
+    setError("");
+    try {
+      const [storyResponse, messageResponse, subscriberResponse] = await Promise.all([
+        fetch("/api/admin/stories", { signal: AbortSignal.timeout(15000) }),
+        fetch("/api/admin/messages", { signal: AbortSignal.timeout(15000) }),
+        fetch("/api/admin/newsletter", { signal: AbortSignal.timeout(15000) }),
+      ]);
+      if ([storyResponse, messageResponse, subscriberResponse].some((response) => response.status === 401)) {
+        setAuthenticated(false);
+        setInboxLoaded(false);
+        setReady(true);
+        return;
+      }
+      const [storyData, messageData, subscriberData] = await Promise.all([
+        storyResponse.json(),
+        messageResponse.json(),
+        subscriberResponse.json(),
+      ]);
+      if (!storyResponse.ok) throw new Error(storyData.error || "Could not load stories.");
+      if (!messageResponse.ok) throw new Error(messageData.error || "Could not load messages.");
+      if (!subscriberResponse.ok) throw new Error(subscriberData.error || "Could not load newsletter subscribers.");
+      setStories(storyData.stories || []);
+      setMessages(messageData.messages || []);
+      setSubscribers(subscriberData.subscribers || []);
+      setInboxLoaded(true);
+      setAuthenticated(true);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not load the admin inbox.");
+    } finally {
+      setInboxLoading(false);
       setReady(true);
-      return;
     }
-    const [storyData, messageData, subscriberData] = await Promise.all([
-      storyResponse.json(),
-      messageResponse.json(),
-      subscriberResponse.json(),
-    ]);
-    if (!storyResponse.ok) throw new Error(storyData.error || "Could not load the admin inbox.");
-    setStories(storyData.stories || []);
-    setMessages(messageData.messages || []);
-    setSubscribers(subscriberData.subscribers || []);
-    setAuthenticated(true);
-    setReady(true);
   }, []);
 
   useEffect(() => {
-    void Promise.resolve().then(loadInbox).catch((cause: unknown) => {
-      setError(cause instanceof Error ? cause.message : "Could not load the admin inbox.");
-      setReady(true);
-    });
+    const controller = new AbortController();
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]);
+    void fetch("/api/admin/session", { signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Could not check the admin session.");
+        return response.json() as Promise<{ authenticated: boolean }>;
+      })
+      .then((session) => {
+        setAuthenticated(session.authenticated);
+        setReady(true);
+        if (session.authenticated) void loadInbox();
+      })
+      .catch((cause: unknown) => {
+        if (controller.signal.aborted) return;
+        setError(cause instanceof Error ? cause.message : "Could not check the admin session.");
+        setReady(true);
+      });
+    return () => controller.abort();
   }, [loadInbox]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
@@ -108,6 +136,8 @@ export function AdminDashboard() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not sign in.");
       setPassword("");
+      setAuthenticated(true);
+      setInboxLoaded(false);
       window.dispatchEvent(new Event("blog-admin-session-change"));
       await loadInbox();
     } catch (cause) {
@@ -166,6 +196,22 @@ export function AdminDashboard() {
           <button className="w-full rounded-full bg-be-600 px-5 py-3 font-medium text-white hover:bg-be-700">Sign in</button>
           {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
         </form>
+      </section>
+    );
+  }
+
+  if (!inboxLoaded) {
+    return (
+      <section className="mx-auto w-full max-w-5xl px-6 py-16">
+        <h1 className="mb-3 text-3xl font-bold text-be-900 dark:text-white">Blog admin</h1>
+        {inboxLoading ? (
+          <p role="status" className="text-be-600 dark:text-zinc-400">Loading your inbox…</p>
+        ) : (
+          <div className="rounded-xl bg-white p-6 dark:bg-be-800">
+            <p role="alert" className="text-sm text-red-700 dark:text-red-300">{error || "Your inbox could not be loaded."}</p>
+            <button onClick={() => void loadInbox()} className="mt-4 rounded-full bg-be-700 px-5 py-2 text-sm font-medium text-white hover:bg-be-900">Try again</button>
+          </div>
+        )}
       </section>
     );
   }

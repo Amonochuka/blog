@@ -1,4 +1,5 @@
 import { BaseLayout } from "@/components/BaseLayout";
+import Link from "next/link";
 
 export default function GetInvolvedPage() {
   return (
@@ -51,14 +52,26 @@ export default function GetInvolvedPage() {
               where people live, learn, heal, and belong.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-be-800 text-white text-sm">
-                <strong>Churches</strong><br />
-                Join our network of partnering churches.
-              </div>
-              <div className="p-4 rounded-xl bg-be-800 text-white text-sm">
-                <strong>Organisations</strong><br />
-                Collaborate on community projects.
-              </div>
+              <Link
+                href="/contact?subject=Church%20Partnership#contact-form"
+                className="group block rounded-xl bg-be-800 p-4 text-sm text-white transition-colors hover:bg-be-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+              >
+                <strong className="block">Churches</strong>
+                <span className="mt-1 block">Join our network of partnering churches.</span>
+                <span className="mt-4 inline-flex items-center gap-2 font-semibold underline underline-offset-4">
+                  Discuss a church partnership <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </Link>
+              <Link
+                href="/contact?subject=Organisation%20Partnership#contact-form"
+                className="group block rounded-xl bg-be-800 p-4 text-sm text-white transition-colors hover:bg-be-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+              >
+                <strong className="block">Organisations</strong>
+                <span className="mt-1 block">Collaborate on community projects.</span>
+                <span className="mt-4 inline-flex items-center gap-2 font-semibold underline underline-offset-4">
+                  Discuss an organisation partnership <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </Link>
             </div>
           </div>
         </div>

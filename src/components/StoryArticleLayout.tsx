@@ -69,7 +69,7 @@ export function StoryArticleLayout({
   const encodedShareText = encodeURIComponent(`${title} — ${storyUrl}`);
 
   return (
-    <section className="bg-be-50 py-10 sm:py-14 lg:py-20 dark:bg-be-900">
+    <section className="bg-be-50 pt-10 pb-8 sm:pt-14 sm:pb-8 lg:pt-20 lg:pb-8 dark:bg-be-900">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Link
           href="/stories"

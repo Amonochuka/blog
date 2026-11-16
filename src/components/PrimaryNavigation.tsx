@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AdminNavSignOut } from "@/components/AdminNavSignOut";
 
 const links = [
@@ -17,11 +17,9 @@ const links = [
 
 export function PrimaryNavigation() {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  const [mobileMenu, setMobileMenu] = useState({ pathname, open: false });
+  const mobileOpen = mobileMenu.pathname === pathname && mobileMenu.open;
+  const setMobileOpen = useCallback((open: boolean) => setMobileMenu({ pathname, open }), [pathname]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -32,7 +30,7 @@ export function PrimaryNavigation() {
 
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [mobileOpen]);
+  }, [mobileOpen, setMobileOpen]);
 
   return (
     <>
@@ -66,7 +64,7 @@ export function PrimaryNavigation() {
         aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={mobileOpen}
         aria-controls="primary-navigation"
-        onClick={() => setMobileOpen((open) => !open)}
+        onClick={() => setMobileOpen(!mobileOpen)}
       >
         {mobileOpen ? (
           <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">

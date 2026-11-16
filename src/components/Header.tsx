@@ -30,7 +30,7 @@ function SocialIcon({ network }: { network: "x" | "instagram" | "facebook" }) {
 
 export function Header() {
   return (
-    <header className="border-b border-[#e8ddc9] bg-white dark:bg-be-900 sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-brand-gold/30 bg-brand-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <Link
           className="flex shrink-0 items-center gap-2"
@@ -46,10 +46,10 @@ export function Header() {
             className="h-10 w-auto sm:h-12"
           />
           <span className="flex flex-col gap-0.5">
-            <span className="font-serif text-lg font-semibold leading-none tracking-tight text-be-900 dark:text-white sm:text-2xl">
+            <span className="font-serif text-lg font-semibold leading-none tracking-tight text-brand-gold sm:text-2xl">
               Beard &amp; Diapers
             </span>
-            <span className="font-sans text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-be-500 sm:text-[10px]">
+            <span className="font-sans text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-brand-gold-light sm:text-[10px]">
               Epic Talks | Endless Stories
             </span>
           </span>
@@ -57,31 +57,31 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-8">
           <Link
-            className="text-be-600 hover:text-be-900 transition-colors font-medium"
+            className="font-medium text-brand-gold-muted transition-colors hover:text-brand-gold-light"
             href="/about"
           >
             About
           </Link>
           <Link
-            className="text-be-600 hover:text-be-900 transition-colors font-medium"
+            className="font-medium text-brand-gold-muted transition-colors hover:text-brand-gold-light"
             href="/stories"
           >
             Stories
           </Link>
           <Link
-            className="text-be-600 hover:text-be-900 transition-colors font-medium"
+            className="font-medium text-brand-gold-muted transition-colors hover:text-brand-gold-light"
             href="/books"
           >
             Books
           </Link>
           <Link
-            className="text-be-600 hover:text-be-900 transition-colors font-medium"
+            className="font-medium text-brand-gold-muted transition-colors hover:text-brand-gold-light"
             href="/projects"
           >
             Projects
           </Link>
           <Link
-            className="text-be-600 hover:text-be-900 transition-colors font-medium"
+            className="font-medium text-brand-gold-muted transition-colors hover:text-brand-gold-light"
             href="/get-involved"
           >
             Get Involved
@@ -93,7 +93,7 @@ export function Header() {
           <Link
             aria-label="Search stories, books, and projects"
             title="Search"
-            className="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-be-600 transition-colors hover:bg-be-50 hover:text-be-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600 sm:mr-4"
+            className="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-brand-gold transition-colors hover:bg-brand-gold/10 hover:text-brand-gold-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold sm:mr-4"
             href="/search"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -103,21 +103,21 @@ export function Header() {
           </Link>
           <a
             aria-label="Follow us on X"
-            className="text-be-500 hover:text-gold transition-colors"
+            className="text-brand-gold transition-colors hover:text-brand-gold-light"
             href="https://twitter.com/royochuka" target="_blank" rel="noopener"
           >
             <SocialIcon network="x" />
           </a>
           <a
             aria-label="Follow us on Instagram"
-            className="text-be-500 hover:text-gold transition-colors"
+            className="text-brand-gold transition-colors hover:text-brand-gold-light"
             href="https://instagram.com/beardandiapers" target="_blank" rel="noopener"
           >
             <SocialIcon network="instagram" />
           </a>
           <a
             aria-label="Follow us on Facebook"
-            className="text-be-500 hover:text-gold transition-colors"
+            className="text-brand-gold transition-colors hover:text-brand-gold-light"
             href="https://facebook.com/beardandiapers" target="_blank" rel="noopener"
           >
             <SocialIcon network="facebook" />

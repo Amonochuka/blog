@@ -3,6 +3,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-brand-black: #0b0a08;
+  --color-brand-gold: #d4a853;
+  --color-brand-gold-light: #f0cf75;
+  --color-brand-gold-muted: #b68a31;
   --color-be-50: #faf7f2;
   --color-be-100: #f5f0e9;
   --color-be-200: #e8ddc9;

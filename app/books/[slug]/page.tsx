@@ -1,7 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
-import Link from "next/link";
+import { books } from "@/content/books";
 
 export default async function BookPage({
   params,
@@ -9,71 +10,66 @@ export default async function BookPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  if (slug !== "the-100-day-heartbeat") notFound();
+  const book = books.find((entry) => entry.slug === slug);
+  if (!book) notFound();
+
+  const firstChapter = book.chapters[0];
 
   return (
     <BaseLayout>
-      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-be-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="bg-white py-16 sm:py-20 lg:py-24 dark:bg-be-900">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <Image
-                src="/images/family-reading-story.jpg"
-                alt="A father reading with his child"
-                className="rounded-2xl w-full h-64 object-cover mb-6"
+                src={book.cover}
+                alt={book.title}
+                className="mb-6 h-64 w-full rounded-2xl object-cover"
+                width={800}
+                height={400}
                 loading="lazy"
-              width={800}
-                  height={400}
-                />
-              <h2 className="text-4xl font-bold text-be-900">The 100-Day Heartbeat</h2>
-              <p className="text-be-600 dark:text-zinc-400 mt-2">
-                Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.
-              </p>
+              />
+              <h1 className="text-4xl font-bold text-be-900 dark:text-white">{book.title}</h1>
+              <p className="mt-2 text-be-600 dark:text-zinc-400">{book.description}</p>
               <div className="mt-6">
-                <span className="inline-block px-3 py-1 bg-be-600 text-white text-sm rounded">Currently Serializing</span>
+                <span className="inline-block rounded bg-be-600 px-3 py-1 text-sm text-white">
+                  {book.status === "serializing" ? "Currently Serializing" : "Book"}
+                </span>
               </div>
-              <Link
-                className="inline-block mt-4 px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"
-                href={`/books/the-100-day-heartbeat/day-1`}
-              >
-                Start Reading
-              </Link>
+              {firstChapter ? (
+                <Link
+                  className="mt-4 inline-block rounded-full bg-be-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-be-700"
+                  href={`/books/${book.slug}/day-${firstChapter.number}`}
+                >
+                  Start Reading
+                </Link>
+              ) : (
+                <p className="mt-4 text-sm text-be-600 dark:text-zinc-400">Chapters will be added soon.</p>
+              )}
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-be-900 mb-4">Table of Contents</h3>
-              <ol className="space-y-2 text-be-700 dark:text-zinc-400">
-                <li>
-                  <Link
-                    href="/books/the-100-day-heartbeat/day-1"
-                    className="hover:text-be-600 transition-colors"
-                  >
-                    Day 1 — The Quiet Beginning
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/books/the-100-day-heartbeat/day-2"
-                    className="hover:text-be-600 transition-colors"
-                  >
-                    Day 2 — Listening Again
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/books/the-100-day-heartbeat/day-3"
-                    className="hover:text-be-600 transition-colors"
-                  >
-                    Day 3 — Growing Where You Are Planted
-                  </Link>
-                </li>
-                {/* More chapters can be added */}
-              </ol>
+              <h2 className="mb-4 text-2xl font-bold text-be-900 dark:text-white">Table of Contents</h2>
+              {book.chapters.length > 0 ? (
+                <ol className="space-y-2 text-be-700 dark:text-zinc-400">
+                  {book.chapters.map((chapter) => (
+                    <li key={chapter.number}>
+                      <Link
+                        href={`/books/${book.slug}/day-${chapter.number}`}
+                        className="transition-colors hover:text-be-600"
+                      >
+                        {chapter.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <p className="text-be-600 dark:text-zinc-400">Chapters will be added soon.</p>
+              )}
             </div>
           </div>
         </div>
       </section>
-
     </BaseLayout>
   );
 }

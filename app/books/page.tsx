@@ -5,7 +5,11 @@ import Link from "next/link";
 
 export default async function BooksPage() {
   const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { books } = await res.json() as { books: Array<{ id: string; slug: string; cover: string; title: string; tagline: string; description: string }> };
+  const { books, featuredBookSlug } = await res.json() as {
+    books: Array<{ id: string; slug: string; cover: string; title: string; tagline: string; description: string }>;
+    featuredBookSlug: string | null;
+  };
+  const featuredBook = books.find((book) => book.slug === featuredBookSlug) ?? books[0];
 
   return (
     <BaseLayout>
@@ -49,23 +53,29 @@ export default async function BooksPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl font-bold text-be-900 mb-4">Currently Serializing</h2>
-              <p className="text-be-600 dark:text-zinc-400 mb-6">
-                {books[0]?.title} — {books[0]?.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <span className="inline-block px-3 py-1 bg-be-600 text-white text-sm rounded">Currently Serializing</span>
-                <Link
-                  className="text-be-500 hover:text-be-600 transition-colors text-sm"
-                  href="/books/the-100-day-heartbeat"
-                >
-                  Start Reading
-                </Link>
-              </div>
+              {featuredBook ? (
+                <>
+                  <p className="text-be-600 dark:text-zinc-400 mb-6">
+                    {featuredBook.title} — {featuredBook.description}
+                  </p>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <span className="inline-block rounded bg-be-600 px-3 py-1 text-sm text-white">Currently Serializing</span>
+                    <Link
+                      className="text-sm text-be-500 transition-colors hover:text-be-600"
+                      href={`/books/${featuredBook.slug}`}
+                    >
+                      Start Reading
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <p className="text-be-600 dark:text-zinc-400 mb-6">Books will be added here soon.</p>
+              )}
             </div>
             <div className="relative">
               <Image
-                src="/images/family-reading-library.jpg"
-                alt="A family sharing a book in a library"
+                src={featuredBook?.cover ?? "/images/family-reading-library.jpg"}
+                alt={featuredBook?.title ?? "A family sharing a book in a library"}
                 className="rounded-2xl w-full h-[300px] object-cover"
                 width={800}
                 height={400}

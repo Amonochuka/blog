@@ -8,8 +8,12 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const res = await fetch(`${getAppBaseUrl()}/api/search?q=${encodeURIComponent(q)}`, { cache: "no-store" });
-  const data = await res.json() as { results?: Array<{ id: string; title?: string; name?: string; category?: string }>; query?: string };
+  const res = q.trim()
+    ? await fetch(`${getAppBaseUrl()}/api/search?q=${encodeURIComponent(q)}`, { cache: "no-store" })
+    : null;
+  const data = res
+    ? await res.json() as { results?: Array<{ id: string; title?: string; name?: string; category?: string }>; query?: string }
+    : null;
   const results = data?.results || [];
   const query = data?.query || "";
 
@@ -22,9 +26,32 @@ export default async function SearchPage({
             {query && <p className="text-be-600 dark:text-zinc-400">Results for: {query}</p>}
           </div>
 
-          {results.length === 0 ? (
+          <form action="/search" method="get" role="search" className="mx-auto mb-12 flex max-w-2xl flex-col gap-3 sm:flex-row">
+            <label className="sr-only" htmlFor="site-search">Search stories, books, and projects</label>
+            <input
+              id="site-search"
+              type="search"
+              name="q"
+              defaultValue={q}
+              placeholder="Search stories, books, and projects"
+              required
+              className="min-w-0 flex-1 rounded-full border border-[#d9c8a3] bg-white px-5 py-3 text-be-900 placeholder:text-be-600/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+            />
+            <button
+              type="submit"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-be-600 px-7 py-3 font-semibold text-white transition-colors hover:bg-be-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+            >
+              Search
+            </button>
+          </form>
+
+          {!query.trim() ? (
             <div className="text-center py-12">
-              <p className="text-be-600 dark:text-zinc-400">No results found.</p>
+              <p className="text-be-600 dark:text-zinc-400">Enter a keyword to find stories, books, and projects.</p>
+            </div>
+          ) : results.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-be-600 dark:text-zinc-400">No results found for &ldquo;{query}&rdquo;. Try another keyword.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

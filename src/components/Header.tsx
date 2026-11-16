@@ -90,6 +90,17 @@ export function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <Link
+            aria-label="Search stories, books, and projects"
+            title="Search"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-be-600 transition-colors hover:bg-be-50 hover:text-be-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+            href="/search"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="10.8" cy="10.8" r="6.8" />
+              <path d="m16 16 4.2 4.2" strokeLinecap="round" />
+            </svg>
+          </Link>
           <a
             aria-label="Follow us on X"
             className="text-be-500 hover:text-gold transition-colors"

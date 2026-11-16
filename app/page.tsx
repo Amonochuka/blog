@@ -94,7 +94,7 @@ export default function Home() {
       <section className="relative isolate overflow-hidden py-16 sm:py-20 lg:py-24 bg-be-50 dark:bg-be-900">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
-          secondSrc="/images/kenya-community-gathering-2.jpg"
+          secondSrc="/images/family-hospital-visit.jpg"
           firstObjectPosition="center 38%"
           secondObjectPosition="center 50%"
         />
@@ -283,7 +283,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
                   <h3 className="text-2xl font-bold leading-tight">Hospital Reading Corners</h3>
                 </div>
               </article>
@@ -292,8 +291,8 @@ export default function Home() {
             <Link href="/projects#childrens-home" className="group hover:text-be-900 transition-colors">
               <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/project-1.jpg"
-                  alt="Children's Home"
+                  src="/images/family-village-africa.jpg"
+                  alt="A family standing together outside a home in an African village"
                   className="h-72 w-full object-cover"
                   width={800}
                   height={600}
@@ -301,7 +300,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
                   <h3 className="text-2xl font-bold leading-tight">Children&apos;s Home</h3>
                 </div>
               </article>
@@ -310,8 +308,8 @@ export default function Home() {
             <Link href="/projects#community-care" className="group hover:text-be-900 transition-colors">
               <article className="relative overflow-hidden rounded-xl bg-[#f1efe9] shadow-sm transition-colors">
                 <Image
-                  src="/images/hero-community.jpg"
-                  alt="Community Care"
+                  src="/images/kenya-community-gathering-2.jpg"
+                  alt="A community gathered together outdoors in Kenya"
                   className="h-72 w-full object-cover"
                   width={800}
                   height={600}
@@ -319,7 +317,6 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2c2a2a]/30 via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span className="mb-2 block text-sm font-medium uppercase tracking-[0.12em] text-white/80">Projects</span>
                   <h3 className="text-2xl font-bold leading-tight">Community Care</h3>
                 </div>
               </article>

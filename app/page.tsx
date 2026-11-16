@@ -79,6 +79,10 @@ export default async function Home() {
           <p className="mb-8 max-w-2xl text-2xl leading-relaxed text-brand-gold-light md:text-3xl">
             Advancing hope where people live, learn, heal, and belong.
           </p>
+          <p className="mb-8 max-w-3xl text-sm leading-relaxed text-brand-gold-muted sm:text-base">
+            We believe every community carries God-given potential. Our mission is to awaken that potential through storytelling,
+            creative community projects, and acts of service that strengthen society&apos;s capacity to care for its own.
+          </p>
 
           <div className="flex flex-col items-center gap-4 pb-8 sm:flex-row">
             <Link

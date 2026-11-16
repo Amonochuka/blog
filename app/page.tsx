@@ -24,17 +24,32 @@ type HomeBook = {
   chapters: Array<{ number: number; title: string; free: boolean }>;
 };
 
+type HomeProject = {
+  id: string;
+  name: string;
+  image: string;
+  location: string;
+  year: string | null;
+  description: string;
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   let stories: HomeStory[] = [];
   let books: HomeBook[] = [];
+  let projects: HomeProject[] = [];
   try {
     const response = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
     if (response.ok) {
-      const content = await response.json() as { stories?: HomeStory[]; books?: HomeBook[] };
+      const content = await response.json() as {
+        stories?: HomeStory[];
+        books?: HomeBook[];
+        projects?: HomeProject[];
+      };
       stories = content.stories ?? [];
       books = content.books ?? [];
+      projects = content.projects ?? [];
     }
   } catch (error) {
     console.error("Could not load homepage content:", error);
@@ -381,58 +396,45 @@ export default async function Home() {
             <h2 className="mb-4 text-4xl font-bold text-brand-gold">Projects</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="/projects#hospital-reading-corners" className="group transition-colors">
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/hospital-reading-corners.jpeg"
-                  alt="Black mother and child reading together"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Hospital Reading Corners</h3>
-                </div>
-              </article>
-            </Link>
-
-            <Link href="/projects#childrens-home" className="group transition-colors">
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/childrens-home-community.jpeg"
-                  alt="A teacher engaging a group of children outdoors at their school"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Children&apos;s Home</h3>
-                </div>
-              </article>
-            </Link>
-
-            <Link href="/projects#community-care" className="group transition-colors">
-              <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                <Image
-                  src="/images/kenya-community-gathering-2.jpg"
-                  alt="A community gathered together outdoors in Kenya"
-                  className="h-72 w-full object-cover"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
-                  <h3 className="text-2xl font-bold leading-tight">Community Care</h3>
-                </div>
-              </article>
-            </Link>
-          </div>
+          {projects.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project) => (
+                <Link
+                  key={project.id}
+                  href={`/projects#${project.id}`}
+                  className="group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
+                >
+                  <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      width={800}
+                      height={600}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
+                      <h3 className="text-2xl font-bold leading-tight">{project.name}</h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-brand-gold-muted">
+                        {project.description}
+                      </p>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-brand-gold/30 bg-brand-black/85 px-6 py-10 text-center">
+              <p className="text-brand-gold-light">Project updates are on the way.</p>
+              <Link
+                href="/get-involved"
+                className="mt-4 inline-flex font-semibold text-brand-gold underline underline-offset-4 hover:text-brand-gold-light"
+              >
+                Ask about our work <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

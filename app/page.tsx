@@ -62,6 +62,7 @@ export default async function Home() {
   const featuredBook = books.find((book) => book.slug === featuredBookSlug) ?? books[0];
   const chapters = featuredBook?.chapters ?? [];
   const firstChapter = chapters[0];
+  const latestChapter = chapters.at(-1);
 
   return (
     <BaseLayout>
@@ -349,7 +350,34 @@ export default async function Home() {
                   Browse all books
                 </Link>
               </div>
+              {latestChapter && featuredBook && (
+                <p className="mt-5 text-sm text-brand-black/75">
+                  Latest chapter: <Link
+                    href={`/books/${featuredBook.slug}/day-${latestChapter.number}`}
+                    className="font-semibold underline underline-offset-4 hover:text-brand-gold"
+                  >
+                    {latestChapter.title}
+                  </Link>
+                </p>
+              )}
             </div>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {chapters.slice(-3).map((chapter) => (
+              <Link
+                key={chapter.number}
+                href={`/books/${featuredBook?.slug ?? "the-100-day-heartbeat"}/day-${chapter.number}`}
+                className="rounded-xl border border-brand-black/25 bg-brand-black p-4 text-center text-brand-gold transition-colors hover:border-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+              >
+                <span className="block text-2xl font-bold text-brand-gold">{chapter.number}</span>
+                <span className="mt-1 block text-sm text-brand-gold-muted">{chapter.title}</span>
+                {chapter.number === latestChapter?.number && (
+                  <span className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold-light">
+                    Latest
+                  </span>
+                )}
+              </Link>
+            ))}
           </div>
         </div>
       </section>

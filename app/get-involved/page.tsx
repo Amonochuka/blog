@@ -15,7 +15,7 @@ export default function GetInvolvedPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Tell Your Story section */}
-<div>
+            <div id="share-story" className="scroll-mt-28">
               <h3 className="text-2xl font-bold text-be-900 mb-6">Tell Your Story</h3>
               <p className="text-be-600 dark:text-zinc-400 mb-6">
                 Share your story of how hope has shown up in your community. Submitted stories enter
@@ -30,7 +30,7 @@ export default function GetInvolvedPage() {
             </div>
 
             {/* Volunteer section */}
-            <div>
+            <div id="volunteer" className="scroll-mt-28">
               <h3 className="text-2xl font-bold text-be-900 mb-6">Volunteer</h3>
               <p className="text-be-600 dark:text-zinc-400 mb-6">
                 Join our team of volunteers serving communities where hope is needed most.
@@ -44,8 +44,21 @@ export default function GetInvolvedPage() {
             </div>
           </div>
 
+          <div id="support-project" className="mt-8 scroll-mt-28 rounded-xl border border-[#e8ddc9] p-6">
+            <h3 className="text-2xl font-bold text-be-900 mb-4">Support a Project</h3>
+            <p className="text-be-600 dark:text-zinc-400 mb-6">
+              Tell us which project you would like to support and how you hope to contribute. We&apos;ll follow up with practical next steps.
+            </p>
+            <Link
+              href="/contact?subject=Support%20a%20project&type=support_project#contact-form"
+              className="inline-block rounded-full bg-be-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-be-700"
+            >
+              Discuss project support
+            </Link>
+          </div>
+
           {/* Partner section */}
-          <div className="mt-8 pt-8 border-t border-[#e8ddc9]">
+          <div id="partner" className="mt-8 scroll-mt-28 border-t border-[#e8ddc9] pt-8">
             <h3 className="text-2xl font-bold text-be-900 mb-6">Partner With Us</h3>
             <p className="text-be-600 dark:text-zinc-400 mb-6">
               For churches, organisations, businesses and individuals who want to advance hope

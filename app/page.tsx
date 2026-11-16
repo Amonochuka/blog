@@ -447,11 +447,27 @@ export default async function Home() {
                 We believe hope grows when communities show up for one another in practical, everyday ways.
                 There are many ways to take part—through service, encouragement, storytelling, and partnership.
               </p>
+              <div className="mb-6 flex flex-wrap gap-3">
+                {[
+                  ["Volunteer", "/get-involved#volunteer"],
+                  ["Partner", "/get-involved#partner"],
+                  ["Share a Story", "/get-involved#share-story"],
+                  ["Support a Project", "/get-involved#support-project"],
+                ].map(([label, href]) => (
+                  <Link
+                    key={href}
+                    className="rounded-full border border-brand-black/20 px-4 py-2 text-sm font-semibold text-brand-black transition-colors hover:border-brand-gold hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                    href={href}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
               <Link
-                className="mt-4 inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
+                className="inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
                 href="/get-involved"
               >
-                Learn More
+                Explore all ways to get involved
               </Link>
             </div>
             <div className="relative flex justify-center">

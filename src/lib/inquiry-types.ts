@@ -3,6 +3,7 @@ export const inquiryTypes = [
   "volunteer",
   "church_partnership",
   "organisation_partnership",
+  "support_project",
 ] as const;
 
 export type InquiryType = (typeof inquiryTypes)[number];

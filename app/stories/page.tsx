@@ -50,7 +50,7 @@ export default async function StoriesPage() {
     <BaseLayout>
       <section className="bg-be-50 py-14 sm:py-20 dark:bg-be-900">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <header className="mb-10 flex flex-col gap-6 border-b border-be-300 pb-8 sm:mb-14 sm:flex-row sm:items-end sm:justify-between dark:border-be-700">
+          <header className="mb-10 flex flex-col gap-6 border-b border-[#d9c8a3] pb-8 sm:mb-14 sm:flex-row sm:items-end sm:justify-between dark:border-[#7d6231]">
             <div className="max-w-2xl">
               <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-be-600 dark:text-be-300">
                 Stories &amp; reflections
@@ -72,7 +72,7 @@ export default async function StoriesPage() {
 
           {featuredStory ? (
             <Link href={`/stories/${featuredStory.id}`} className="group block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-be-600">
-              <article className="grid overflow-hidden rounded-3xl border border-be-200 bg-white shadow-sm transition-shadow group-hover:shadow-lg lg:grid-cols-[1.08fr_0.92fr] dark:border-be-800 dark:bg-be-800">
+              <article className="grid overflow-hidden rounded-3xl border border-[#e8ddc9] bg-white shadow-sm transition-shadow group-hover:shadow-lg lg:grid-cols-[1.08fr_0.92fr] dark:border-[#6b4b3a] dark:bg-be-800">
                 <div className="relative aspect-[16/10] bg-be-200 lg:aspect-auto lg:min-h-[28rem]">
                   <Image
                     src={featuredStory.image}
@@ -106,7 +106,7 @@ export default async function StoriesPage() {
               </article>
             </Link>
           ) : (
-            <div className="rounded-3xl border border-be-200 bg-white p-8 text-be-700 dark:border-be-800 dark:bg-be-800 dark:text-zinc-300">
+            <div className="rounded-3xl border border-[#e8ddc9] bg-white p-8 text-be-700 dark:border-[#6b4b3a] dark:bg-be-800 dark:text-zinc-300">
               New stories are on the way. You can be the first to share one.
             </div>
           )}
@@ -132,7 +132,7 @@ export default async function StoriesPage() {
                   <Link
                     key={story.id}
                     href={`/stories/${story.id}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-be-200 bg-white transition-all hover:-translate-y-1 hover:border-be-400 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-be-600 dark:border-be-800 dark:bg-be-800"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e8ddc9] bg-white transition-all hover:-translate-y-1 hover:border-[#c9a96a] hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-be-600 dark:border-[#6b4b3a] dark:bg-be-800"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-be-200">
                       <Image
@@ -153,7 +153,7 @@ export default async function StoriesPage() {
                       <p className="mt-3 line-clamp-3 flex-1 text-sm leading-6 text-be-700 dark:text-zinc-300">
                         {story.excerpt}
                       </p>
-                      <div className="mt-6 border-t border-be-200 pt-4 dark:border-be-700">
+                      <div className="mt-6 border-t border-[#e8ddc9] pt-4 dark:border-[#7d6231]">
                         <StoryMetadata story={story} />
                       </div>
                     </div>

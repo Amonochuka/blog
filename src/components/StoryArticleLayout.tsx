@@ -121,7 +121,7 @@ export function StoryArticleLayout({
               {children}
             </div>
 
-            <footer className="mt-12 border-t border-be-300 pt-7 dark:border-be-700">
+            <footer className="mt-12 border-t border-[#d9c8a3] pt-7 dark:border-[#7d6231]">
               <div className="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-lg font-bold text-be-900 dark:text-white">Share this story</h2>

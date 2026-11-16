@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -6,7 +7,16 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div>
-            <Link href="/" aria-label="Beard & Diapers home" className="inline-flex flex-col gap-1 rounded-sm text-brand-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold">
+            <Link href="/" aria-label="Beard & Diapers home" className="inline-flex flex-col items-center gap-1 rounded-sm text-brand-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold">
+              <Image
+                src="/images/beard-diapers-mark.svg"
+                alt=""
+                aria-hidden="true"
+                width={278}
+                height={571}
+                unoptimized
+                className="mb-2 h-24 w-auto"
+              />
               <span className="font-serif text-2xl font-bold leading-none tracking-tight">
                 Beard &amp; Diapers
               </span>

@@ -1,6 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import type { InquiryType } from "@/lib/inquiry-types";
+
+const inquiryTabs = [
+  { id: "messages", label: "Messages", inquiryType: "general", emptyMessage: "No contact messages yet." },
+  { id: "volunteers", label: "Volunteers", inquiryType: "volunteer", emptyMessage: "No volunteer inquiries yet." },
+  { id: "church-partners", label: "Church partners", inquiryType: "church_partnership", emptyMessage: "No church partnership inquiries yet." },
+  { id: "organisation-partners", label: "Organisation partners", inquiryType: "organisation_partnership", emptyMessage: "No organisation partnership inquiries yet." },
+] as const;
+
+type InquiryTabId = (typeof inquiryTabs)[number]["id"];
 
 type Story = {
   id: string;
@@ -22,11 +32,12 @@ type ContactMessage = {
   email: string;
   subject: string;
   message: string;
+  inquiry_type: InquiryType;
   created_at: string;
 };
 
 type Subscriber = { email: string; created_at: string };
-type Tab = "stories" | "messages" | "newsletter";
+type Tab = "stories" | InquiryTabId | "newsletter";
 
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -39,6 +50,18 @@ export function AdminDashboard() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [workingId, setWorkingId] = useState("");
+  const activeInquiryTab = inquiryTabs.find((item) => item.id === tab);
+  const activeInquiries = activeInquiryTab
+    ? messages.filter((item) => item.inquiry_type === activeInquiryTab.inquiryType)
+    : [];
+  const navItems: Array<{ id: Tab; label: string }> = [
+    { id: "stories", label: `Stories (${stories.filter((story) => story.status === "pending").length} pending)` },
+    ...inquiryTabs.map((item) => ({
+      id: item.id,
+      label: `${item.label} (${messages.filter((message) => message.inquiry_type === item.inquiryType).length})`,
+    })),
+    { id: "newsletter", label: `Newsletter (${subscribers.length})` },
+  ];
 
   const loadInbox = useCallback(async () => {
     const [storyResponse, messageResponse, subscriberResponse] = await Promise.all([
@@ -117,7 +140,7 @@ export function AdminDashboard() {
     return (
       <section className="mx-auto w-full max-w-md px-6 py-16 sm:py-24">
         <h1 className="mb-3 text-3xl font-bold text-be-900 dark:text-white">Blog admin</h1>
-        <p className="mb-6 text-be-600 dark:text-zinc-400">Sign in to review stories, read messages, and view newsletter signups.</p>
+        <p className="mb-6 text-be-600 dark:text-zinc-400">Sign in to review stories and separate contact, volunteer, and partnership inquiries.</p>
         <form onSubmit={signIn} className="space-y-4 rounded-2xl bg-white p-6 dark:bg-be-800">
           <div className="text-sm font-medium text-be-700 dark:text-zinc-300">
             <label htmlFor="admin-password">Admin password</label>
@@ -155,9 +178,9 @@ export function AdminDashboard() {
       </header>
 
       <nav className="mb-8 flex flex-wrap gap-2" aria-label="Admin sections">
-        {(["stories", "messages", "newsletter"] as const).map((item) => (
-          <button key={item} onClick={() => setTab(item)} className={`rounded-full px-4 py-2 text-sm capitalize ${tab === item ? "bg-be-700 text-white" : "bg-white text-be-700 dark:bg-be-800 dark:text-zinc-300"}`}>
-            {item} {item === "stories" ? `(${stories.filter((story) => story.status === "pending").length} pending)` : item === "messages" ? `(${messages.length})` : `(${subscribers.length})`}
+        {navItems.map((item) => (
+          <button key={item.id} onClick={() => setTab(item.id)} className={`rounded-full px-4 py-2 text-sm ${tab === item.id ? "bg-be-700 text-white" : "bg-white text-be-700 dark:bg-be-800 dark:text-zinc-300"}`}>
+            {item.label}
           </button>
         ))}
       </nav>
@@ -194,10 +217,10 @@ export function AdminDashboard() {
         </div>
       )}
 
-      {tab === "messages" && (
+      {activeInquiryTab && (
         <div className="space-y-4">
-          {messages.length === 0 && <p className="rounded-xl bg-white p-6 text-be-600 dark:bg-be-800 dark:text-zinc-300">No contact messages yet.</p>}
-          {messages.map((item) => <article key={item.id} className="rounded-xl bg-white p-6 dark:bg-be-800">
+          {activeInquiries.length === 0 && <p className="rounded-xl bg-white p-6 text-be-600 dark:bg-be-800 dark:text-zinc-300">{activeInquiryTab.emptyMessage}</p>}
+          {activeInquiries.map((item) => <article key={item.id} className="rounded-xl bg-white p-6 dark:bg-be-800">
             <h2 className="font-bold text-be-900 dark:text-white">{item.subject}</h2>
             <p className="my-2 text-sm text-be-600 dark:text-zinc-400">{item.name} · <a className="underline" href={`mailto:${item.email}`}>{item.email}</a> · {new Date(item.created_at).toLocaleString()}</p>
             <p className="whitespace-pre-wrap text-be-700 dark:text-zinc-300">{item.message}</p>

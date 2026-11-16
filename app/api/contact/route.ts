@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+import { isInquiryType } from "@/lib/inquiry-types";
 
 export async function POST(request: Request) {
   if (!getSupabaseConfig()) return NextResponse.json({ error: "Contact messages are not configured yet." }, { status: 503 });
@@ -11,15 +12,16 @@ export async function POST(request: Request) {
     const email = String(body.email || "").trim().toLowerCase();
     const subject = String(body.subject || "").trim();
     const message = String(body.message || "").trim();
+    const inquiryType = body.inquiry_type || "general";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (name.length < 2 || name.length > 100 || !emailPattern.test(email) || subject.length < 2 || subject.length > 160 || message.length < 5 || message.length > 10000) {
+    if (!isInquiryType(inquiryType) || name.length < 2 || name.length > 100 || !emailPattern.test(email) || subject.length < 2 || subject.length > 160 || message.length < 5 || message.length > 10000) {
       return NextResponse.json({ error: "Please complete each field. Messages must be under 10,000 characters." }, { status: 400 });
     }
 
     await supabaseRest<unknown>("contact_messages", {
       method: "POST",
       headers: { Prefer: "return=minimal" },
-      body: JSON.stringify({ name, email, subject, message }),
+      body: JSON.stringify({ name, email, subject, message, inquiry_type: inquiryType }),
     });
     return NextResponse.json({ success: true, message: "Your message was received." }, { status: 201 });
   } catch (error) {

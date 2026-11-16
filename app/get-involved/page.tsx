@@ -37,7 +37,7 @@ export default function GetInvolvedPage() {
               </p>
               <a
                 className="inline-block px-6 py-3 bg-be-600 text-white font-medium rounded-full hover:bg-be-700 transition-colors text-sm"
-                href="/contact?subject=Volunteer%20interest#contact-form"
+                href="/contact?subject=Volunteer%20interest&type=volunteer#contact-form"
               >
                 Express Interest
               </a>
@@ -53,7 +53,7 @@ export default function GetInvolvedPage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link
-                href="/contact?subject=Church%20Partnership#contact-form"
+                href="/contact?subject=Church%20Partnership&type=church_partnership#contact-form"
                 className="group block rounded-xl bg-be-800 p-4 text-sm text-white transition-colors hover:bg-be-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
               >
                 <strong className="block">Churches</strong>
@@ -63,7 +63,7 @@ export default function GetInvolvedPage() {
                 </span>
               </Link>
               <Link
-                href="/contact?subject=Organisation%20Partnership#contact-form"
+                href="/contact?subject=Organisation%20Partnership&type=organisation_partnership#contact-form"
                 className="group block rounded-xl bg-be-800 p-4 text-sm text-white transition-colors hover:bg-be-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
               >
                 <strong className="block">Organisations</strong>

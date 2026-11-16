@@ -1,12 +1,14 @@
 import { BaseLayout } from "@/components/BaseLayout";
 import { ContactForm } from "@/components/ContactForm";
+import { isInquiryType } from "@/lib/inquiry-types";
 
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ subject?: string }>;
+  searchParams: Promise<{ subject?: string; type?: string }>;
 }) {
-  const { subject = "" } = await searchParams;
+  const { subject = "", type } = await searchParams;
+  const inquiryType = isInquiryType(type) ? type : "general";
 
   return (
     <BaseLayout>
@@ -47,7 +49,7 @@ export default async function ContactPage({
             </div>
 
             <div className="space-y-6">
-              <ContactForm defaultSubject={subject} />
+              <ContactForm defaultSubject={subject} inquiryType={inquiryType} />
             </div>
           </div>
         </div>

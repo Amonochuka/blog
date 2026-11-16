@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import type { InquiryType } from "@/lib/inquiry-types";
 
-export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }) {
+export function ContactForm({
+  defaultSubject = "",
+  inquiryType = "general",
+}: { defaultSubject?: string; inquiryType?: InquiryType }) {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,6 +34,7 @@ export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }
   return (
     <form id="contact-form" onSubmit={handleSubmit} className="space-y-4">
       <div className="hidden" aria-hidden="true"><label>Leave this field blank<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
+      <input type="hidden" name="inquiry_type" value={inquiryType} />
       <label className="block text-sm font-medium text-be-700 dark:text-zinc-300">
         Name
         <input name="name" autoComplete="name" required className="mt-2 w-full rounded-md bg-be-900 px-4 py-3 text-white outline-none ring-be-600 focus:ring-2" />

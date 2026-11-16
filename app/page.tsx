@@ -16,9 +16,6 @@ export default function Home() {
           firstObjectPosition="center 65%"
         />
 
-        <div className="absolute -top-4 -right-4 z-10 h-96 w-96 rounded-full bg-brand-gold opacity-20 blur-xl"></div>
-        <div className="absolute -bottom-4 -left-4 z-10 h-64 w-64 rounded-full bg-brand-gold opacity-10 blur-xl"></div>
-
         <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center">
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-brand-gold sm:text-5xl md:text-6xl">
             Beard & Diapers

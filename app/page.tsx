@@ -87,33 +87,15 @@ export default async function Home() {
           <div className="flex flex-col items-center gap-4 pb-8 sm:flex-row">
             <Link
               className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-brand-gold px-8 text-lg font-semibold text-brand-black transition-colors hover:bg-brand-gold-light"
-              href="/stories"
+              href="#projects"
             >
-              Explore Our Stories
+              Explore Our Work
             </Link>
             <Link
               className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-brand-gold px-8 text-lg font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
-              href="/about"
+              href="/get-involved#support-project"
             >
-              Discover Beard &amp; Diapers
-            </Link>
-          </div>
-
-          <div className="flex flex-col items-center gap-3 text-sm sm:flex-row">
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold-light">
-              Get Involved
-            </span>
-            <Link
-              className="inline-flex items-center gap-2 rounded-full border border-brand-gold bg-brand-black/75 px-5 py-2 font-semibold text-brand-gold shadow-sm transition-colors hover:bg-brand-gold hover:text-brand-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
-              href="/get-involved"
-            >
-              Join the movement <span aria-hidden="true">→</span>
-            </Link>
-            <Link
-              className="font-semibold text-brand-gold-light underline underline-offset-4 transition-colors hover:text-brand-gold"
-              href="/books"
-            >
-              Read the Book
+              Support a Project
             </Link>
           </div>
           <div className="mt-8 w-full max-w-md">
@@ -155,7 +137,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
           secondSrc="/images/family-hope.jpeg"

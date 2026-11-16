@@ -11,21 +11,40 @@ type HomeStory = {
   image: string;
   category: string;
   excerpt: string;
+  author?: string;
+  date?: string;
+};
+
+type HomeBook = {
+  slug: string;
+  cover: string;
+  title: string;
+  tagline: string;
+  description: string;
+  chapters: Array<{ number: number; title: string; free: boolean }>;
 };
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  let latestStories: HomeStory[] = [];
+  let stories: HomeStory[] = [];
+  let books: HomeBook[] = [];
   try {
     const response = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
     if (response.ok) {
-      const content = await response.json() as { stories?: HomeStory[] };
-      latestStories = content.stories?.slice(0, 3) ?? [];
+      const content = await response.json() as { stories?: HomeStory[]; books?: HomeBook[] };
+      stories = content.stories ?? [];
+      books = content.books ?? [];
     }
   } catch (error) {
-    console.error("Could not load the latest homepage stories:", error);
+    console.error("Could not load homepage content:", error);
   }
+  const featuredStory = stories[0] ?? null;
+  const latestStories = stories.slice(1, 4);
+  const featuredBook = books[0];
+  const chapters = featuredBook?.chapters ?? [];
+  const firstChapter = chapters[0];
+  const latestChapter = chapters.at(-1);
 
   return (
     <BaseLayout>
@@ -185,6 +204,48 @@ export default async function Home() {
         </div>
       </section>
 
+      {featuredStory && (
+        <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
+          <div className="mx-auto max-w-7xl px-6">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-gold">
+              Featured Story
+            </p>
+            <Link
+              href={`/stories/${featuredStory.id}`}
+              className="group grid overflow-hidden rounded-3xl border border-brand-black/10 bg-white shadow-sm transition-shadow hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold lg:grid-cols-2"
+            >
+              <Image
+                src={featuredStory.image}
+                alt={featuredStory.title}
+                width={1200}
+                height={800}
+                loading="lazy"
+                className="h-full min-h-64 max-h-[28rem] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand-gold">
+                  {featuredStory.category}
+                </p>
+                <h2 className="mt-3 text-3xl font-bold leading-tight text-brand-black transition-colors group-hover:text-brand-gold sm:text-4xl">
+                  {featuredStory.title}
+                </h2>
+                <p className="mt-4 leading-relaxed text-brand-black/75">
+                  {featuredStory.excerpt}
+                </p>
+                {(featuredStory.author || featuredStory.date) && (
+                  <p className="mt-5 text-sm text-brand-black/60">
+                    {[featuredStory.author, featuredStory.date].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+                <span className="mt-7 inline-flex items-center gap-2 font-semibold text-brand-black">
+                  Read the story <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
       <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/mother-son-reading-story.jpg"
@@ -232,7 +293,9 @@ export default async function Home() {
             </div>
           ) : (
             <div className="rounded-2xl border border-brand-gold/30 bg-brand-black/85 px-6 py-10 text-center">
-              <p className="text-brand-gold-light">New stories are on the way.</p>
+              <p className="text-brand-gold-light">
+                {featuredStory ? "More stories are on the way." : "New stories are on the way."}
+              </p>
               <Link
                 href="/submit-story"
                 className="mt-4 inline-flex font-semibold text-brand-gold underline underline-offset-4 hover:text-brand-gold-light"
@@ -249,7 +312,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row gap-12 items-start">
             <div className="w-full md:w-1/2">
               <Image
-                src="/images/family-reading-story.jpg"
+                src={featuredBook?.cover ?? "/images/family-reading-story.jpg"}
                 alt="A father reading with his child"
                 className="rounded-2xl w-full h-64 object-cover mb-6 md:mb-0"
                 width={600}
@@ -258,28 +321,48 @@ export default async function Home() {
               />
             </div>
             <div className="w-full md:w-1/2">
-              <h2 className="mb-4 text-4xl font-bold text-brand-black">The 100-Day Heartbeat</h2>
+              <h2 className="mb-4 text-4xl font-bold text-brand-black">
+                {featuredBook?.title ?? "The 100-Day Heartbeat"}
+              </h2>
               <p className="mb-6 text-brand-black">
-                Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming.
+                {featuredBook?.description ?? "Preparing my soul for 40. One hundred days. One hundred reflections. One journey of becoming."}
               </p>
               <Link
                 className="inline-block rounded-full bg-brand-black px-6 py-3 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-black/85"
-                href="/books/the-100-day-heartbeat"
+                href={featuredBook && firstChapter
+                  ? `/books/${featuredBook.slug}/day-${firstChapter.number}`
+                  : "/books"}
               >
                 Start Reading
               </Link>
+              {latestChapter && featuredBook && (
+                <p className="mt-5 text-sm text-brand-black/75">
+                  Latest chapter: <Link
+                    href={`/books/${featuredBook.slug}/day-${latestChapter.number}`}
+                    className="font-semibold underline underline-offset-4 hover:text-brand-gold"
+                  >
+                    {latestChapter.title}
+                  </Link>
+                </p>
+              )}
             </div>
           </div>
 
           <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[1, 2, 3].map((day) => (
-              <div
-                key={day}
-                className="rounded-xl border border-brand-black/25 bg-brand-black p-4 text-center text-brand-gold transition-colors hover:border-brand-black"
+            {chapters.slice(-3).map((chapter) => (
+              <Link
+                key={chapter.number}
+                href={`/books/${featuredBook?.slug ?? "the-100-day-heartbeat"}/day-${chapter.number}`}
+                className="rounded-xl border border-brand-black/25 bg-brand-black p-4 text-center text-brand-gold transition-colors hover:border-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
               >
-                <div className="text-2xl font-bold text-brand-gold">{day}</div>
-                <div className="mt-1 text-sm text-brand-gold-muted">Day {day}</div>
-              </div>
+                <span className="block text-2xl font-bold text-brand-gold">{chapter.number}</span>
+                <span className="mt-1 block text-sm text-brand-gold-muted">{chapter.title}</span>
+                {chapter.number === latestChapter?.number && (
+                  <span className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold-light">
+                    Latest
+                  </span>
+                )}
+              </Link>
             ))}
           </div>
         </div>

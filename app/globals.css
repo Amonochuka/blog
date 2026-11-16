@@ -83,12 +83,12 @@
 
 .family-photo-backdrop__image--first {
   opacity: 0.8;
-  animation: family-photo-backdrop-first 34s linear infinite;
+  animation: family-photo-backdrop-first 29s linear infinite;
 }
 
 .family-photo-backdrop__image--second {
   opacity: 0;
-  animation: family-photo-backdrop-second 34s linear infinite;
+  animation: family-photo-backdrop-second 29s linear infinite;
 }
 
 .family-photo-backdrop__tint {

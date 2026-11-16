@@ -86,22 +86,30 @@ export default async function Home() {
             creative community projects, and acts of service that strengthen society&apos;s capacity to care for its own.
           </p>
 
-          <div className="flex flex-col items-center gap-4 pb-8 sm:flex-row">
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Link
               className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-brand-gold px-8 text-lg font-semibold text-brand-black transition-colors hover:bg-brand-gold-light"
-              href="#projects"
+              href="/stories"
             >
-              Explore Our Work
+              Explore Our Stories
             </Link>
             <Link
               className="inline-flex h-14 shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-brand-gold px-8 text-lg font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
-              href="/get-involved#support-project"
+              href="/about"
             >
-              Support a Project
+              Discover Beard &amp; Diapers
             </Link>
           </div>
-          <div className="mt-8 w-full max-w-md">
-            <NewsletterForm compact />
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-semibold text-brand-gold-light">
+            <Link className="underline underline-offset-4 transition-colors hover:text-brand-gold" href="/get-involved">
+              Get Involved
+            </Link>
+            <Link
+              className="underline underline-offset-4 transition-colors hover:text-brand-gold"
+              href={featuredBook ? `/books/${featuredBook.slug}` : "/books"}
+            >
+              Read the Book
+            </Link>
           </div>
         </div>
       </section>
@@ -139,7 +147,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
           secondSrc="/images/family-hope.jpeg"
@@ -353,7 +361,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-outdoor-cooking.jpg"
           secondSrc="/images/african-father-child-outdoors.jpg"

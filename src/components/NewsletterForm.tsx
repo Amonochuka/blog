@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
-export function NewsletterForm({ compact = false }: { compact?: boolean }) {
+export function NewsletterForm() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -34,7 +34,7 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`mx-auto w-full rounded-xl border border-brand-gold/35 bg-brand-black/90 ${compact ? "max-w-md p-4 sm:p-6" : "max-w-md p-6 sm:p-8"}`}>
+    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md rounded-xl border border-brand-gold/35 bg-brand-black/90 p-6 sm:p-8">
       <div className="hidden" aria-hidden="true"><label>Leave this field blank<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
       <div className="flex flex-col gap-3 sm:flex-row">
         <input name="email" type="email" autoComplete="email" placeholder="Enter your email" aria-label="Email address" required className="min-w-0 flex-1 rounded-md border border-brand-gold/40 bg-brand-black px-4 py-3 text-brand-gold-light outline-none placeholder:text-brand-gold-muted focus:ring-2 focus:ring-brand-gold" />

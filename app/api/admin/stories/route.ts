@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { hasAdminSession } from "@/lib/admin-session";
+import { isSameOriginRequest } from "@/lib/same-origin-request";
 import { supabaseRest } from "@/lib/supabase-rest";
 
 type StoryAdminRow = {
@@ -29,8 +30,7 @@ export async function GET() {
 
 export async function PATCH(request: Request) {
   if (!(await hasAdminSession())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
-  const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+  if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
 
   const { id, status } = await request.json().catch(() => ({}));
   if (typeof id !== "string" || !/^[0-9a-f-]{36}$/i.test(id) || !["published", "rejected", "pending"].includes(status)) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { books } from "@/content/books";
 import { hasAdminSession } from "@/lib/admin-session";
+import { isSameOriginRequest } from "@/lib/same-origin-request";
 import { supabaseRest } from "@/lib/supabase-rest";
 
 export async function GET() {
@@ -26,8 +27,7 @@ export async function GET() {
 
 export async function PATCH(request: Request) {
   if (!(await hasAdminSession())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
-  const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+  if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
 
   const { slug } = await request.json().catch(() => ({}));
   if (typeof slug !== "string" || !books.some((book) => book.slug === slug)) {

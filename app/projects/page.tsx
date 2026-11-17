@@ -1,20 +1,11 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
-import { getAppBaseUrl } from "@/lib/site-url";
+import { getPublicContent } from "@/lib/public-content";
+
+export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
-  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { projects } = await res.json() as {
-    projects: Array<{
-      id: string;
-      name: string;
-      location: string;
-      year: string | null;
-      description: string;
-      image: string;
-      why?: string;
-    }>;
-  };
+  const { projects } = await getPublicContent();
 
   return (
     <BaseLayout>

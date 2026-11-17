@@ -1,14 +1,12 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
-import { getAppBaseUrl } from "@/lib/site-url";
+import { getPublicContent } from "@/lib/public-content";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function BooksPage() {
-  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { books, featuredBookSlug } = await res.json() as {
-    books: Array<{ id: string; slug: string; cover: string; title: string; author?: string; tagline: string; description: string; status?: string; chapters?: Array<{ number: number; title: string }> }>;
-    featuredBookSlug: string | null;
-  };
+  const { books, featuredBookSlug } = await getPublicContent();
   const featuredBook = books.find((book) => book.slug === featuredBookSlug) ?? books[0];
 
   return (

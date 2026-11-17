@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
-import { getAppBaseUrl } from "@/lib/site-url";
+import { getPublicContent } from "@/lib/public-content";
 
 type HomeStory = {
   id: string;
@@ -41,19 +41,11 @@ export default async function Home() {
   let projects: HomeProject[] = [];
   let featuredBookSlug: string | null = null;
   try {
-    const response = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-    if (response.ok) {
-      const content = await response.json() as {
-        stories?: HomeStory[];
-        books?: HomeBook[];
-        projects?: HomeProject[];
-        featuredBookSlug?: string | null;
-      };
-      stories = content.stories ?? [];
-      books = content.books ?? [];
-      projects = content.projects ?? [];
-      featuredBookSlug = content.featuredBookSlug ?? null;
-    }
+    const content = await getPublicContent();
+    stories = content.stories;
+    books = content.books;
+    projects = content.projects;
+    featuredBookSlug = content.featuredBookSlug;
   } catch (error) {
     console.error("Could not load homepage content:", error);
   }

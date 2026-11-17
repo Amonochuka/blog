@@ -1,19 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
-import { getAppBaseUrl } from "@/lib/site-url";
+import { getPublicContent, type PublicStoryContent } from "@/lib/public-content";
 
-type StoryCard = {
-  id: string;
-  title: string;
-  image: string | null;
-  category: string;
-  author: string;
-  date: string;
-  excerpt: string;
-  subtitle?: string;
-  readingTime?: string;
-};
+type StoryCard = PublicStoryContent;
+
+export const dynamic = "force-dynamic";
 
 function formatDate(date: string) {
   if (!date) return "";
@@ -39,8 +31,7 @@ function StoryMetadata({ story }: { story: StoryCard }) {
 }
 
 export default async function StoriesPage() {
-  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { stories } = await res.json() as { stories: StoryCard[] };
+  const { stories } = await getPublicContent();
 
   return (
     <BaseLayout>

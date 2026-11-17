@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
-import { getAppBaseUrl } from "@/lib/site-url";
+import { getPublicContent } from "@/lib/public-content";
 
 const teamProfiles = [
   {
@@ -33,6 +33,8 @@ const advisorProfiles = [
     bio: "Advises on approaches that support local leadership and community wellbeing.",
   },
 ];
+
+export const dynamic = "force-dynamic";
 
 function ProfileCard({
   name,
@@ -79,8 +81,7 @@ function ProfileCard({
 }
 
 export default async function AboutPage() {
-  const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
-  const { stories } = await res.json() as { stories: Array<{ id: string; title: string; image: string | null; category: string; excerpt: string }> };
+  const { stories } = await getPublicContent();
   const recentStories = stories.slice(-3);
 
   return (

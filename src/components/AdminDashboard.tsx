@@ -89,7 +89,7 @@ export function AdminDashboard() {
     })),
     { id: "newsletter", label: `Newsletter (${subscribers.length})` },
     { id: "comments", label: "Comments" },
-    { id: "books", label: "Featured book" },
+    { id: "books", label: "Books" },
   ];
 
   const loadFeaturedBook = useCallback(async () => {

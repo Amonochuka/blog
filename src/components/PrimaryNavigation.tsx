@@ -48,7 +48,7 @@ export function PrimaryNavigation() {
             key={href}
             href={href}
             onClick={() => setMobileOpen(false)}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:px-0 lg:py-1 lg:text-[13px] xl:text-sm"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:px-0 lg:py-1 lg:text-[13px] lg:text-brand-black xl:text-sm"
           >
             {label}
           </Link>
@@ -60,7 +60,7 @@ export function PrimaryNavigation() {
 
       <button
         type="button"
-        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:hidden"
+        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-black transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:hidden"
         aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={mobileOpen}
         aria-controls="primary-navigation"

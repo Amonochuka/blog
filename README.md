@@ -21,7 +21,7 @@ Keep Supabase secret keys and admin credentials on the server. Do not prefix the
 
 ## Supabase setup
 
-For a new project, run [`supabase/schema.sql`](supabase/schema.sql), then [`supabase/story-attachments.sql`](supabase/story-attachments.sql) in the Supabase SQL Editor. Existing projects should apply only the migrations needed for their current schema; see [`supabase/README.md`](supabase/README.md).
+For a new project, run [`supabase/schema.sql`](supabase/schema.sql), [`supabase/story-attachments.sql`](supabase/story-attachments.sql), and [`supabase/book-media-storage-migration.sql`](supabase/book-media-storage-migration.sql) in the Supabase SQL Editor. Existing projects should apply only the migrations needed for their current schema; see [`supabase/README.md`](supabase/README.md).
 
 ## Product roadmap
 

@@ -1,6 +1,7 @@
 import { getSupabaseConfig } from "@/lib/supabase-rest";
 
 const BUCKET = "story-submissions";
+const BOOK_MEDIA_BUCKET = "book-media";
 
 function storageHeaders(contentType = "application/json") {
   const config = getSupabaseConfig();
@@ -51,6 +52,18 @@ export async function removeStoryAttachment(path: string) {
 }
 
 export const removeStoryImage = removeStoryAttachment;
+
+export async function uploadBookMedia(path: string, file: File, contentType: string) {
+  const { config, headers } = storageHeaders(contentType);
+  const response = await fetch(`${config.url}/storage/v1/object/${BOOK_MEDIA_BUCKET}/${encodedPath(path)}`, {
+    method: "POST",
+    headers: { ...headers, "Content-Disposition": "inline", "Cache-Control": "max-age=3600" },
+    body: Buffer.from(await file.arrayBuffer()),
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`Book image upload failed (${response.status}).`);
+  return `${config.url}/storage/v1/object/public/${BOOK_MEDIA_BUCKET}/${encodedPath(path)}`;
+}
 
 export async function createStoryAttachmentUrl(path: string) {
   const { config, headers } = storageHeaders();

@@ -21,8 +21,9 @@ In the Supabase SQL Editor, run these files in order:
 
 1. [`schema.sql`](schema.sql)
 2. [`story-attachments.sql`](story-attachments.sql)
+3. [`book-media-storage-migration.sql`](book-media-storage-migration.sql)
 
-The second script creates the private `story-submissions` Storage bucket for optional story documents and photos.
+The second script creates the private `story-submissions` Storage bucket for optional story documents and photos. The third creates the public `book-media` bucket for book covers and optional chapter images uploaded by admins.
 
 `schema.sql` creates the current complete database schema, including the book CMS tables and story editorial fields. It seeds the current demo book and its three existing chapters without overwriting matching records.
 
@@ -37,6 +38,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | [`story-images-migration.sql`](story-images-migration.sql) | Enabling optional submitter photos; adds `image_path`, removes the image default for pending stories, and allows image types in Storage |
 | [`story-editorial-metadata-migration.sql`](story-editorial-metadata-migration.sql) | Enabling admin editing for subtitle, tags, related stories, featured flag, and SEO fields |
 | [`book-cms-migration.sql`](book-cms-migration.sql) | Enabling admin-managed books and chapters, drafts, scheduling, and publication status |
+| [`book-media-storage-migration.sql`](book-media-storage-migration.sql) | Enabling admin uploads for book covers and chapter images |
 | [`story-comments-migration.sql`](story-comments-migration.sql) | Enabling moderated public comments on stories |
 | [`story-attachments.sql`](story-attachments.sql) | The `attachment_path` column or private story upload bucket has not been created |
 
@@ -56,7 +58,7 @@ Apply `story-comments-migration.sql` to enable moderated comments. New comments 
 
 ## Book and chapter publishing
 
-Apply `book-cms-migration.sql` before using book management in `/admin`. It creates the book catalog and chapter tables and seeds the current demonstration book and its three published chapters without overwriting existing entries. Admin can add and edit books and chapters, reorder chapters by number, publish immediately, save drafts, or schedule publication. Scheduled chapters become public when their scheduled time arrives. Premium access is not enforced; the free flag is editorial metadata for future use.
+Apply `book-cms-migration.sql` and `book-media-storage-migration.sql` before using book management in `/admin`. They create the book catalog and chapter tables, seed the current demonstration book and its three published chapters without overwriting matching entries, and create image storage for admin uploads. Admin can add and edit books and chapters, upload covers and optional chapter images, reorder chapters by number, publish immediately, save drafts, or schedule publication. Scheduled chapters become public when their scheduled time arrives. Premium access is not enforced; the free flag is editorial metadata for future use.
 
 ## Where to check setup
 

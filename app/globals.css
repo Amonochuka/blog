@@ -22,7 +22,7 @@
   --color-gold: #d4a853;
   --color-green: #7a9a6e;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -32,7 +32,7 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
     letter-spacing: -0.025em;
   }
 }
@@ -44,7 +44,7 @@
 .story-article-body h2 {
   margin-top: 3rem;
   color: var(--color-be-900);
-  font-family: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -56,7 +56,7 @@
   border-left: 3px solid var(--color-be-500);
   padding: 0.25rem 0 0.25rem 1.5rem;
   color: var(--color-be-700);
-  font-family: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-style: italic;
   line-height: 1.45;

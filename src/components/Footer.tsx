@@ -17,7 +17,7 @@ export function Footer() {
                 unoptimized
                 className="mb-2 h-24 w-auto"
               />
-              <span className="font-serif text-2xl font-bold leading-none tracking-tight">
+              <span className="font-display text-2xl font-bold leading-none tracking-normal">
                 Beard &amp; Diapers
               </span>
               <span className="font-sans text-[10px] font-bold leading-snug">
@@ -27,7 +27,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h5 className="mb-4 font-semibold text-brand-black">Navigation</h5>
+            <h5 className="font-display mb-4 text-2xl font-bold tracking-normal text-brand-black">Navigation</h5>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link className="transition-colors hover:text-brand-gold-muted" href="/">
@@ -63,7 +63,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h5 className="mb-4 font-semibold text-brand-black">Connect</h5>
+            <h5 className="font-display mb-4 text-2xl font-bold tracking-normal text-brand-black">Connect</h5>
             <ul className="flex items-center gap-4">
               <li>
                 <a aria-label="Follow us on X" className="inline-flex transition-colors hover:text-brand-gold-muted" href="https://twitter.com/royochuka" target="_blank" rel="noopener">
@@ -97,7 +97,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h5 className="mb-4 font-semibold text-brand-black">Legal</h5>
+            <h5 className="font-display mb-4 text-2xl font-bold tracking-normal text-brand-black">Legal</h5>
             <ul className="space-y-2 text-sm">
               <li>
                 <a className="transition-colors hover:text-brand-gold-muted" href="/privacy">

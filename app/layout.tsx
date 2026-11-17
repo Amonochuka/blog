@@ -2,7 +2,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import type { Metadata } from "next";
-import { DM_Sans, Nunito } from "next/font/google";
+import { Caveat, DM_Sans, Nunito } from "next/font/google";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -13,6 +13,12 @@ const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +33,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${dmSans.variable} ${nunito.variable} antialiased`}
+      className={`${dmSans.variable} ${nunito.variable} ${caveat.variable} antialiased`}
     >
       <body suppressHydrationWarning className={`${dmSans.className} flex min-h-screen flex-col bg-be-100 dark:bg-be-900`}>
         <Header />

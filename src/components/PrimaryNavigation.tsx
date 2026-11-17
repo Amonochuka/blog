@@ -48,7 +48,7 @@ export function PrimaryNavigation() {
             key={href}
             href={href}
             onClick={() => setMobileOpen(false)}
-            className="rounded-lg px-3 py-2 text-sm font-bold text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:px-0 lg:py-1 lg:text-[13px] lg:text-brand-black xl:text-sm"
+            className="font-display rounded-lg px-3 py-2 text-base font-bold tracking-normal text-brand-gold-light transition-colors hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold lg:px-0 lg:py-1 lg:text-base lg:text-brand-black xl:text-lg"
           >
             {label}
           </Link>

@@ -23,6 +23,7 @@
   --color-green: #7a9a6e;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-caveat), cursive;
 }
 
 @layer base {
@@ -32,8 +33,8 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
-    letter-spacing: -0.025em;
+    font-family: var(--font-caveat), cursive;
+    letter-spacing: normal;
   }
 }
 
@@ -44,10 +45,10 @@
 .story-article-body h2 {
   margin-top: 3rem;
   color: var(--color-be-900);
-  font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-caveat), cursive;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: normal;
   line-height: 1.2;
 }
 

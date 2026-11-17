@@ -16,6 +16,7 @@ export type EditableStory = {
   seo_title: string;
   seo_description: string;
   published_at: string | null;
+  image_url: string | null;
 };
 
 export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onSaved: () => void }) {
@@ -34,6 +35,7 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
     seo_title: story.seo_title || "",
     seo_description: story.seo_description || "",
     published_at: story.published_at ? story.published_at.slice(0, 10) : "",
+    image_url: story.image_url || "",
   });
 
   function update(name: keyof typeof fields, value: string | boolean) {
@@ -74,7 +76,7 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
     <details className="mt-5 rounded-xl border border-be-200 p-4 dark:border-be-700">
       <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {(["title", "subtitle", "author_name", "category", "seo_title", "published_at"] as const).map((name) => (
+        {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
             {name.replaceAll("_", " ")}
             <input type={name === "published_at" ? "date" : "text"} className={inputClass} value={fields[name]} onChange={(event) => update(name, event.target.value)} />

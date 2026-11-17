@@ -15,6 +15,7 @@ type PublishedStory = {
   category: string;
   author_name: string;
   image_path: string | null;
+  image_url: string | null;
   published_at: string | null;
   subtitle: string;
   tags: string[];
@@ -25,10 +26,18 @@ type PublishedStory = {
 
 async function getStory(slug: string) {
   if (!getSupabaseConfig()) return undefined;
-  const stories = await supabaseRest<PublishedStory[]>(
-    `stories?select=slug,title,subtitle,content,category,author_name,image_path,published_at,tags,seo_title,seo_description,related_story_slugs&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
-  );
-  return stories[0];
+  try {
+    const stories = await supabaseRest<PublishedStory[]>(
+      `stories?select=slug,title,subtitle,content,category,author_name,image_path,image_url,published_at,tags,seo_title,seo_description,related_story_slugs&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
+    );
+    return stories[0];
+  } catch {
+    const legacyStories = await supabaseRest<Array<Omit<PublishedStory, "subtitle" | "tags" | "seo_title" | "seo_description" | "related_story_slugs">>>(
+      `stories?select=slug,title,content,category,author_name,image_path,image_url,published_at&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
+    );
+    const story = legacyStories[0];
+    return story ? { ...story, subtitle: "", tags: [], seo_title: "", seo_description: "", related_story_slugs: [] } : undefined;
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -88,7 +97,7 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
         author={story.author_name}
         date={story.published_at}
         readingTime={readingTime(story.content)}
-        image={getPublishedStoryImageUrl(story.slug, story.image_path)}
+        image={getPublishedStoryImageUrl(story.slug, story.image_path, story.image_url)}
         imageAlt={story.title}
         relatedStories={relatedStories}
       >

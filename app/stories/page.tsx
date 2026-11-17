@@ -91,6 +91,7 @@ export default async function StoriesPage() {
                         fill
                         sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+                        unoptimized
                       />
                     </div>
                   )}

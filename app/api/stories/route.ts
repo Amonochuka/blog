@@ -15,6 +15,7 @@ type StoryRow = {
   author_email: string;
   status: "pending" | "published" | "rejected";
   image_path: string | null;
+  image_url: string | null;
   created_at: string;
   published_at: string | null;
 };
@@ -25,16 +26,16 @@ export async function GET() {
   }
 
   try {
-    const stories = await supabaseRest<Array<Pick<StoryRow, "id" | "slug" | "title" | "excerpt" | "content" | "category" | "author_name" | "image_path" | "published_at" | "created_at">>>(
-      "stories?select=id,slug,title,excerpt,content,category,author_name,image_path,published_at,created_at&status=eq.published"
+    const stories = await supabaseRest<Array<Pick<StoryRow, "id" | "slug" | "title" | "excerpt" | "content" | "category" | "author_name" | "image_path" | "image_url" | "published_at" | "created_at">>>(
+      "stories?select=id,slug,title,excerpt,content,category,author_name,image_path,image_url,published_at,created_at&status=eq.published"
     );
     stories.sort((first, second) =>
       (first.published_at ?? first.created_at).localeCompare(second.published_at ?? second.created_at)
     );
     return NextResponse.json({
-      stories: stories.map(({ image_path, ...story }) => ({
+      stories: stories.map(({ image_path, image_url, ...story }) => ({
         ...story,
-        image_url: getPublishedStoryImageUrl(story.slug, image_path),
+        image_url: getPublishedStoryImageUrl(story.slug, image_path, image_url),
       })),
     });
   } catch {

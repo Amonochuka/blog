@@ -118,6 +118,7 @@ export function StoryArticleLayout({
                   src={image}
                   alt={imageAlt}
                   fill
+                  unoptimized
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   className="object-cover"
                   preload

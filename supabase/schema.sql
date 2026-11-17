@@ -54,6 +54,19 @@ end $$;
 create index if not exists stories_status_created_at_idx on public.stories (status, created_at desc);
 create index if not exists stories_featured_published_idx on public.stories (featured, published_at desc) where status = 'published';
 
+create table if not exists public.story_comments (
+  id uuid primary key default gen_random_uuid(),
+  story_slug text not null references public.stories(slug) on update cascade on delete cascade,
+  author_name text not null check (char_length(author_name) between 2 and 100),
+  author_email text not null,
+  content text not null check (char_length(content) between 3 and 2000),
+  status text not null default 'pending' check (status in ('pending', 'published', 'rejected')),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists story_comments_review_idx on public.story_comments (status, created_at desc);
+create index if not exists story_comments_public_idx on public.story_comments (story_slug, status, created_at asc);
+
 create table if not exists public.newsletter_subscribers (
   id uuid primary key default gen_random_uuid(),
   email text not null unique,
@@ -150,6 +163,7 @@ create index if not exists contact_messages_type_created_at_idx
   on public.contact_messages (inquiry_type, created_at desc);
 
 alter table public.stories enable row level security;
+alter table public.story_comments enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.contact_messages enable row level security;
 alter table public.site_settings enable row level security;
@@ -157,6 +171,7 @@ alter table public.books enable row level security;
 alter table public.book_chapters enable row level security;
 
 revoke all on public.stories from anon, authenticated;
+revoke all on public.story_comments from anon, authenticated;
 revoke all on public.newsletter_subscribers from anon, authenticated;
 revoke all on public.contact_messages from anon, authenticated;
 revoke all on public.site_settings from anon, authenticated;
@@ -164,6 +179,7 @@ revoke all on public.books from anon, authenticated;
 revoke all on public.book_chapters from anon, authenticated;
 
 grant select, insert, update, delete on public.stories to service_role;
+grant select, insert, update, delete on public.story_comments to service_role;
 grant select, insert, update, delete on public.newsletter_subscribers to service_role;
 grant select, insert, update, delete on public.contact_messages to service_role;
 grant select, insert, update, delete on public.site_settings to service_role;

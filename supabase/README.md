@@ -37,6 +37,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | [`story-images-migration.sql`](story-images-migration.sql) | Enabling optional submitter photos; adds `image_path`, removes the image default for pending stories, and allows image types in Storage |
 | [`story-editorial-metadata-migration.sql`](story-editorial-metadata-migration.sql) | Enabling admin editing for subtitle, tags, related stories, featured flag, and SEO fields |
 | [`book-cms-migration.sql`](book-cms-migration.sql) | Enabling admin-managed books and chapters, drafts, scheduling, and publication status |
+| [`story-comments-migration.sql`](story-comments-migration.sql) | Enabling moderated public comments on stories |
 | [`story-attachments.sql`](story-attachments.sql) | The `attachment_path` column or private story upload bucket has not been created |
 
 [`inquiry-types-migration.sql`](inquiry-types-migration.sql) and [`story-publication-permission-migration.sql`](story-publication-permission-migration.sql) are older migrations. Run them only if the corresponding inquiry categories or story permission columns are absent. The main schema already includes those features for new projects.
@@ -50,6 +51,8 @@ Accepted photo formats are JPG, PNG, and WebP, up to 10 MB. Optional document at
 ## Story editing
 
 Apply `story-editorial-metadata-migration.sql` to an existing project before using story authoring in `/admin`. Admin can create stories as drafts or publish them immediately, then update story copy, author, category, display date, tags, related-story links, image URL, and SEO fields. The featured flag is editorial metadata only; it does not add a homepage featured-story block.
+
+Apply `story-comments-migration.sql` to enable moderated comments. New comments remain pending until an admin approves them in the Comments tab. Email addresses are visible only in admin; public comments show the author's name and comment text.
 
 ## Book and chapter publishing
 

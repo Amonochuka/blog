@@ -5,6 +5,7 @@ import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { getPublishedStoryImageUrl } from "@/lib/story-image";
 import { readingTime } from "@/utils/readingTime";
 import type { Metadata } from "next";
+import { StoryComments } from "@/components/StoryComments";
 
 export const dynamic = "force-dynamic";
 
@@ -73,6 +74,14 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
   let relatedStories: Array<{ slug: string; title: string; excerpt: string }> = [];
+  let comments: Array<{ id: string; author_name: string; content: string; created_at: string }> = [];
+  try {
+    comments = await supabaseRest<Array<{ id: string; author_name: string; content: string; created_at: string }>>(
+      `story_comments?select=id,author_name,content,created_at&story_slug=eq.${encodeURIComponent(story.slug)}&status=eq.published&order=created_at.asc`
+    );
+  } catch {
+    // Comments remain optional until their migration has been applied.
+  }
   if (story.related_story_slugs?.length) {
     try {
       const slugs = story.related_story_slugs.filter((value) => /^[a-z0-9-]{1,120}$/.test(value));
@@ -102,6 +111,7 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
         relatedStories={relatedStories}
       >
         {paragraphs.map((paragraph, index) => <p key={`${story.slug}-${index}`}>{paragraph}</p>)}
+        <StoryComments slug={story.slug} comments={comments} />
       </StoryArticleLayout>
     </BaseLayout>
   );

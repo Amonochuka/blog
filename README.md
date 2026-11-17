@@ -35,6 +35,7 @@ Ideas from the brief that are deferred to later phases are tracked in [`docs/FUT
 - A story photo is optional. Uploaded photos remain private while a story is pending; published story photos are served only for published stories. Stories without a photo have no app-provided image.
 - The admin chooses the homepage featured book from the available book catalog.
 - Admin can write stories as drafts or publish them immediately, edit story editorial metadata, and manage books and chapters. Chapters can be saved as drafts, published immediately, or scheduled; scheduled chapters are published automatically when their date arrives.
+- Story comments are optional and moderated in the admin before they appear publicly.
 - Reading progress is saved in the reader's browser on that device. It is not synced between browsers or devices.
 
 ## Useful commands

@@ -6,6 +6,7 @@ import type { InquiryType } from "@/lib/inquiry-types";
 import { AdminStoryEditor, type EditableStory } from "@/components/AdminStoryEditor";
 import { AdminBooksManager } from "@/components/AdminBooksManager";
 import { AdminNewStoryForm } from "@/components/AdminNewStoryForm";
+import { AdminCommentsPanel } from "@/components/AdminCommentsPanel";
 
 const inquiryTabs = [
   { id: "messages", label: "Messages", inquiryType: "general", emptyMessage: "No contact messages yet." },
@@ -54,7 +55,7 @@ type ContactMessage = {
 
 type Subscriber = { email: string; created_at: string };
 type BookOption = { slug: string; title: string };
-type Tab = "stories" | InquiryTabId | "newsletter" | "books";
+type Tab = "stories" | InquiryTabId | "newsletter" | "books" | "comments";
 
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -87,6 +88,7 @@ export function AdminDashboard() {
       label: `${item.label} (${messages.filter((message) => message.inquiry_type === item.inquiryType).length})`,
     })),
     { id: "newsletter", label: `Newsletter (${subscribers.length})` },
+    { id: "comments", label: "Comments" },
     { id: "books", label: "Featured book" },
   ];
 
@@ -392,6 +394,8 @@ export function AdminDashboard() {
         <AdminBooksManager />
         </div>
       )}
+
+      {tab === "comments" && <AdminCommentsPanel />}
     </section>
   );
 }

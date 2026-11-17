@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PrimaryNavigation } from "@/components/PrimaryNavigation";
+import { SectionDivider } from "@/components/SectionDivider";
 
 function SocialIcon({ network }: { network: "x" | "instagram" | "facebook" }) {
   if (network === "instagram") {
@@ -93,6 +94,7 @@ export function Header() {
           </div>
         </div>
       </div>
+      <SectionDivider from="light" />
     </header>
   );
 }

@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SectionDivider } from "@/components/SectionDivider";
 import type { Metadata } from "next";
 import { Caveat, DM_Sans, Nunito } from "next/font/google";
 
@@ -38,7 +37,6 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning className={`${dmSans.className} flex min-h-screen flex-col bg-be-100 dark:bg-be-900`}>
         <Header />
-        <SectionDivider from="light" />
 
         <main className="min-w-0 flex-1">
           {children}

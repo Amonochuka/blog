@@ -1,11 +1,9 @@
 type SectionDividerProps = {
-  from: "light" | "dark";
-  to: "light" | "dark";
+  from: "light";
 };
 
 const colors = {
   light: "#ffffff",
-  dark: "#0b0a08",
 };
 
 const beardEdgeMask = {
@@ -19,9 +17,9 @@ const beardEdgeMask = {
   WebkitMaskPosition: "bottom",
 };
 
-export function SectionDivider({ from, to }: SectionDividerProps) {
+export function SectionDivider({ from }: SectionDividerProps) {
   return (
-    <div aria-hidden="true" className="relative h-8 w-full overflow-hidden sm:h-10" style={{ backgroundColor: colors[to] }}>
+    <div aria-hidden="true" className="pointer-events-none relative z-10 -mb-8 h-8 w-full sm:-mb-10 sm:h-10">
       <div className="absolute inset-0" style={{ ...beardEdgeMask, backgroundColor: colors[from] }} />
     </div>
   );

@@ -155,7 +155,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <SectionDivider from="light" to="dark" />
+      <SectionDivider from="light" />
 
       <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
@@ -164,6 +164,7 @@ export default async function Home() {
           tone="dark"
           firstObjectPosition="center 38%"
           secondObjectPosition="center 50%"
+          fadeToDarkBottom
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -225,13 +226,15 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-brand-black py-12 sm:py-14 lg:py-16">
+      <section className="relative isolate overflow-hidden bg-white py-12 sm:py-14 lg:py-16">
         <FamilyPhotoBackdrop
           firstSrc="/images/mother-son-reading-story.jpg"
           secondSrc="/images/family-reading-library.jpg"
           tone="dark"
           firstObjectPosition="center 24%"
           secondObjectPosition="center 50%"
+          fadeFromDarkTop
+          beardEdgeBottom
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-8">
@@ -300,8 +303,6 @@ export default async function Home() {
           )}
         </div>
       </section>
-
-      <SectionDivider from="dark" to="light" />
 
       <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -374,15 +375,16 @@ export default async function Home() {
         </div>
       </section>
 
-      <SectionDivider from="light" to="dark" />
+      <SectionDivider from="light" />
 
-      <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-outdoor-cooking.jpg"
           secondSrc="/images/african-father-child-outdoors.jpg"
           tone="dark"
           firstObjectPosition="center 50%"
           secondObjectPosition="center 24%"
+          beardEdgeBottom
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -430,8 +432,6 @@ export default async function Home() {
           )}
         </div>
       </section>
-
-      <SectionDivider from="dark" to="light" />
 
       <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -481,15 +481,16 @@ export default async function Home() {
         </div>
       </section>
 
-      <SectionDivider from="light" to="dark" />
+      <SectionDivider from="light" />
 
-      <section id="newsletter" className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
+      <section id="newsletter" className="relative isolate overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-newborn-hospital.jpg"
           secondSrc="/images/family-kenyan-mother-child.jpg"
           tone="dark"
           firstObjectPosition="center 24%"
           secondObjectPosition="center 24%"
+          beardEdgeBottom
         />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h2 className="mb-6 text-3xl font-bold text-brand-gold">
@@ -504,7 +505,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <SectionDivider from="dark" to="light" />
     </BaseLayout>
   );
 }

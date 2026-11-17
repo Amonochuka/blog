@@ -132,6 +132,38 @@
   pointer-events: none;
 }
 
+.family-photo-backdrop--beard-edge-bottom {
+  mask-image: url("/images/beard-edge-mask.svg");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-position: bottom;
+  -webkit-mask-image: url("/images/beard-edge-mask.svg");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: bottom;
+}
+
+.family-photo-backdrop--fade-from-dark-top::after,
+.family-photo-backdrop--fade-to-dark-bottom::after {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  left: 0;
+  height: clamp(3rem, 8vw, 6rem);
+  pointer-events: none;
+  content: "";
+}
+
+.family-photo-backdrop--fade-from-dark-top::after {
+  top: 0;
+  background: linear-gradient(to bottom, #0b0a08 0%, rgb(11 10 8 / 0%) 100%);
+}
+
+.family-photo-backdrop--fade-to-dark-bottom::after {
+  bottom: 0;
+  background: linear-gradient(to bottom, rgb(11 10 8 / 0%) 0%, #0b0a08 100%);
+}
+
 .family-photo-backdrop__image {
   object-fit: cover;
 }

@@ -7,6 +7,9 @@ type FamilyPhotoBackdropProps = {
   preloadFirst?: boolean;
   firstObjectPosition?: string;
   secondObjectPosition?: string;
+  beardEdgeBottom?: boolean;
+  fadeFromDarkTop?: boolean;
+  fadeToDarkBottom?: boolean;
 };
 
 export function FamilyPhotoBackdrop({
@@ -16,11 +19,14 @@ export function FamilyPhotoBackdrop({
   preloadFirst = false,
   firstObjectPosition = "center",
   secondObjectPosition = "center",
+  beardEdgeBottom = false,
+  fadeFromDarkTop = false,
+  fadeToDarkBottom = false,
 }: FamilyPhotoBackdropProps) {
   return (
     <div
       aria-hidden="true"
-      className={`family-photo-backdrop family-photo-backdrop--${tone}`}
+      className={`family-photo-backdrop family-photo-backdrop--${tone}${beardEdgeBottom ? " family-photo-backdrop--beard-edge-bottom" : ""}${fadeFromDarkTop ? " family-photo-backdrop--fade-from-dark-top" : ""}${fadeToDarkBottom ? " family-photo-backdrop--fade-to-dark-bottom" : ""}`}
     >
       <Image
         src={firstSrc}

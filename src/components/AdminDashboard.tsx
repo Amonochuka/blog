@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { InquiryType } from "@/lib/inquiry-types";
+import { AdminStoryEditor, type EditableStory } from "@/components/AdminStoryEditor";
 
 const inquiryTabs = [
   { id: "messages", label: "Messages", inquiryType: "general", emptyMessage: "No contact messages yet." },
@@ -29,6 +30,13 @@ type Story = {
   created_at: string;
   publication_permission: boolean;
   publication_permission_at: string | null;
+  subtitle: string;
+  tags: string[];
+  related_story_slugs: string[];
+  featured: boolean;
+  seo_title: string;
+  seo_description: string;
+  published_at: string | null;
 };
 
 type ContactMessage = {
@@ -320,6 +328,7 @@ export function AdminDashboard() {
                 </span>
                 {story.status === "published" && <a className="underline" href={`/stories/${story.slug}`}>View published story</a>}
               </div>
+              <AdminStoryEditor story={story as Story & EditableStory} onSaved={() => void loadInbox()} />
               {story.status !== "published" && (
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button disabled={workingId === story.id} onClick={() => changeStoryStatus(story.id, "published")} className="rounded-full bg-green-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">Approve and publish</button>

@@ -6,12 +6,15 @@ type StoryArticleLayoutProps = {
   slug: string;
   title: string;
   category: string;
+  subtitle?: string;
+  tags?: string[];
   author: string;
   date?: string | null;
   readingTime?: string;
   image: string | null;
   imageAlt: string;
   children: ReactNode;
+  relatedStories?: Array<{ slug: string; title: string; excerpt: string }>;
 };
 
 function ShareIcon({ network }: { network: "whatsapp" | "facebook" | "x" }) {
@@ -56,12 +59,15 @@ export function StoryArticleLayout({
   slug,
   title,
   category,
+  subtitle,
+  tags = [],
   author,
   date,
   readingTime,
   image,
   imageAlt,
   children,
+  relatedStories = [],
 }: StoryArticleLayoutProps) {
   const formattedDate = formatDate(date);
   const storyUrl = `https://beardanddiapers.org/stories/${slug}`;
@@ -87,6 +93,8 @@ export function StoryArticleLayout({
               <h1 className="max-w-2xl text-4xl font-bold leading-[1.08] tracking-tight text-be-900 sm:text-5xl lg:text-6xl dark:text-white">
                 {title}
               </h1>
+              {subtitle && <p className="mt-4 max-w-2xl text-xl leading-relaxed text-be-700 dark:text-zinc-300">{subtitle}</p>}
+              {tags.length > 0 && <ul className="mt-4 flex flex-wrap gap-2" aria-label="Story tags">{tags.map((tag) => <li key={tag} className="rounded-full bg-be-100 px-3 py-1 text-xs text-be-700 dark:bg-be-800 dark:text-zinc-300">{tag}</li>)}</ul>}
               <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-be-600 dark:text-zinc-300">
                 <span className="font-semibold text-be-900 dark:text-white">{author}</span>
                 {formattedDate && (
@@ -122,6 +130,11 @@ export function StoryArticleLayout({
             <div className="story-article-body text-lg leading-8 text-be-800 dark:text-zinc-200">
               {children}
             </div>
+
+            {relatedStories.length > 0 && <section className="mt-12" aria-labelledby="related-stories-heading">
+              <h2 id="related-stories-heading" className="text-2xl font-bold text-be-900 dark:text-white">Related stories</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">{relatedStories.map((story) => <Link key={story.slug} href={`/stories/${story.slug}`} className="rounded-xl border border-[#e8ddc9] bg-white p-5 transition-colors hover:border-[#c9a96a] dark:border-[#6b4b3a] dark:bg-be-800"><h3 className="font-bold text-be-900 dark:text-white">{story.title}</h3><p className="mt-2 line-clamp-3 text-sm text-be-700 dark:text-zinc-300">{story.excerpt}</p></Link>)}</div>
+            </section>}
 
             <footer className="mt-12 border-t border-[#d9c8a3] pt-7 dark:border-[#7d6231]">
               <div className="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between">

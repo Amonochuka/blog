@@ -31,6 +31,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | [`support-project-inquiry-migration.sql`](support-project-inquiry-migration.sql) | The `contact_messages` constraint does not yet allow `support_project` inquiries |
 | [`featured-book-setting-migration.sql`](featured-book-setting-migration.sql) | The `site_settings` table or featured-book setting is missing |
 | [`story-images-migration.sql`](story-images-migration.sql) | Enabling optional submitter photos; adds `image_path`, removes the image default for pending stories, and allows image types in Storage |
+| [`story-editorial-metadata-migration.sql`](story-editorial-metadata-migration.sql) | Enabling admin editing for subtitle, tags, related stories, featured flag, and SEO fields |
 | [`story-attachments.sql`](story-attachments.sql) | The `attachment_path` column or private story upload bucket has not been created |
 
 [`inquiry-types-migration.sql`](inquiry-types-migration.sql) and [`story-publication-permission-migration.sql`](story-publication-permission-migration.sql) are older migrations. Run them only if the corresponding inquiry categories or story permission columns are absent. The main schema already includes those features for new projects.
@@ -40,6 +41,10 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 Story submissions are inserted with `status = 'pending'`. Admins can review the text, preview a private uploaded photo, and publish or reject the story. Only published stories are returned by public story queries. A photo is optional; when none is supplied, no app image is assigned. Uploaded photos stay in private Storage while pending and are served by the site only after publication.
 
 Accepted photo formats are JPG, PNG, and WebP, up to 10 MB. Optional document attachments accept PDF, DOC, and DOCX, up to 10 MB.
+
+## Story editing
+
+Apply `story-editorial-metadata-migration.sql` to an existing project before using the story editor in `/admin`. Admin can update story copy, author, category, display date, tags, related-story links, and SEO fields. The featured flag is editorial metadata only; it does not add a homepage featured-story block.
 
 ## Where to check setup
 

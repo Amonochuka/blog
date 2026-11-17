@@ -13,6 +13,7 @@ type PublicStoryContent = {
   date: string;
   category: string;
   excerpt: string;
+  subtitle: string;
   image: string | null;
 };
 
@@ -42,7 +43,9 @@ export async function GET() {
         image_path: string | null;
         published_at: string | null;
         created_at: string;
-      }>>("stories?select=slug,title,excerpt,category,author_name,image_path,published_at,created_at&status=eq.published");
+        subtitle: string;
+        tags: string[];
+      }>>("stories?select=slug,title,subtitle,excerpt,category,author_name,image_path,published_at,created_at,tags&status=eq.published");
       databaseStories.sort((first, second) =>
         (first.published_at ?? first.created_at).localeCompare(second.published_at ?? second.created_at)
       );
@@ -50,6 +53,7 @@ export async function GET() {
         ...databaseStories.map((story) => ({
           id: story.slug,
           title: story.title,
+          subtitle: story.subtitle,
           author: story.author_name,
           date: (story.published_at ?? story.created_at).slice(0, 10),
           category: story.category,

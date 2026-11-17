@@ -11,6 +11,7 @@ type StoryCard = {
   author: string;
   date: string;
   excerpt: string;
+  subtitle?: string;
   readingTime?: string;
 };
 
@@ -100,6 +101,7 @@ export default async function StoriesPage() {
                     <h3 className="mt-3 text-2xl font-bold leading-snug text-be-900 group-hover:text-be-700 dark:text-white dark:group-hover:text-be-200">
                       {story.title}
                     </h3>
+                    {story.subtitle && <p className="mt-2 font-medium text-be-700 dark:text-zinc-200">{story.subtitle}</p>}
                     <p className="mt-3 line-clamp-3 flex-1 text-sm leading-6 text-be-700 dark:text-zinc-300">
                       {story.excerpt}
                     </p>

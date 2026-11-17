@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { InquiryType } from "@/lib/inquiry-types";
 import { AdminStoryEditor, type EditableStory } from "@/components/AdminStoryEditor";
+import { AdminBooksManager } from "@/components/AdminBooksManager";
+import { AdminNewStoryForm } from "@/components/AdminNewStoryForm";
 
 const inquiryTabs = [
   { id: "messages", label: "Messages", inquiryType: "general", emptyMessage: "No contact messages yet." },
@@ -23,7 +25,7 @@ type Story = {
   content: string;
   category: string;
   author_name: string;
-  author_email: string;
+  author_email: string | null;
   attachment_path: string | null;
   image_path: string | null;
   status: string;
@@ -37,6 +39,7 @@ type Story = {
   seo_title: string;
   seo_description: string;
   published_at: string | null;
+  image_url: string | null;
 };
 
 type ContactMessage = {
@@ -297,19 +300,20 @@ export function AdminDashboard() {
 
       {tab === "stories" && (
         <div className="space-y-5">
+          <AdminNewStoryForm onCreated={() => void loadInbox()} />
           {stories.length === 0 && <p className="rounded-xl bg-white p-6 text-be-600 dark:bg-be-800 dark:text-zinc-300">No story submissions yet.</p>}
           {stories.map((story) => (
             <article key={story.id} className="rounded-2xl bg-white p-6 dark:bg-be-800">
               <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-bold text-be-900 dark:text-white">{story.title}</h2>
-                  <p className="mt-1 text-sm text-be-600 dark:text-zinc-400">{story.category} · {story.author_name} · <a className="underline" href={`mailto:${story.author_email}`}>{story.author_email}</a></p>
+                  <p className="mt-1 text-sm text-be-600 dark:text-zinc-400">{story.category} · {story.author_name}{story.author_email && <> · <a className="underline" href={`mailto:${story.author_email}`}>{story.author_email}</a></>}</p>
                 </div>
                 <span className="rounded-full bg-be-100 px-3 py-1 text-xs capitalize text-be-800 dark:bg-be-900 dark:text-zinc-200">{story.status}</span>
               </div>
-              {story.image_path && (
+              {(story.image_path || story.image_url) && (
                 <Image
-                  src={`/api/admin/stories/${story.id}/image`}
+                  src={story.image_url || `/api/admin/stories/${story.id}/image`}
                   alt={`Photo submitted with ${story.title}`}
                   width={1200}
                   height={800}
@@ -363,6 +367,7 @@ export function AdminDashboard() {
       )}
 
       {tab === "books" && (
+        <div className="space-y-8">
         <div className="max-w-2xl rounded-2xl bg-white p-6 dark:bg-be-800">
           <h2 className="text-xl font-bold text-be-900 dark:text-white">Choose the homepage featured book</h2>
           <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">This book will appear in the homepage feature section.</p>
@@ -383,6 +388,8 @@ export function AdminDashboard() {
             <button onClick={() => void loadFeaturedBook()} className="mt-5 rounded-full bg-be-700 px-5 py-2 text-sm font-medium text-white hover:bg-be-900">Try again</button>
           )}
           {bookError && <p role="alert" className="mt-4 text-sm text-red-700 dark:text-red-300">{bookError}</p>}
+        </div>
+        <AdminBooksManager />
         </div>
       )}
     </section>

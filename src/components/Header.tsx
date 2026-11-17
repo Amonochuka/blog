@@ -46,10 +46,10 @@ export function Header() {
             className="h-10 w-auto sm:h-12"
           />
           <span className="flex flex-col gap-0.5">
-            <span className="font-serif text-lg font-semibold leading-none tracking-tight text-brand-black sm:text-2xl">
+            <span className="font-serif text-lg font-bold leading-none tracking-tight text-brand-black sm:text-2xl">
               Beard &amp; Diapers
             </span>
-            <span className="font-sans text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-brand-black/75 sm:text-[10px]">
+            <span className="font-sans text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-brand-black/75 sm:text-[10px]">
               Epic Talks | Endless Stories
             </span>
           </span>

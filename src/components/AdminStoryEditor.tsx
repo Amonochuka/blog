@@ -16,12 +16,15 @@ export type EditableStory = {
   seo_title: string;
   seo_description: string;
   published_at: string | null;
+  image_path?: string | null;
   image_url: string | null;
 };
 
 export function AdminStoryEditor({ story, availableStories, onSaved }: { story: EditableStory; availableStories: Array<{ slug: string; title: string }>; onSaved: () => void }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [removeImage, setRemoveImage] = useState(false);
   const [fields, setFields] = useState({
     title: story.title,
     subtitle: story.subtitle || "",
@@ -35,7 +38,6 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
     seo_title: story.seo_title || "",
     seo_description: story.seo_description || "",
     published_at: story.published_at ? story.published_at.slice(0, 10) : "",
-    image_url: story.image_url || "",
   });
 
   function update<Key extends keyof typeof fields>(name: Key, value: (typeof fields)[Key]) {
@@ -46,21 +48,24 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
     setSaving(true);
     setMessage("");
     try {
+      const form = new FormData();
+      form.set("id", story.id);
+      form.set("editorial", JSON.stringify({
+        ...fields,
+        tags: fields.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
+        published_at: fields.published_at,
+      }));
+      if (imageFile) form.set("image", imageFile);
+      form.set("remove_image", String(removeImage));
       const response = await fetch("/api/admin/stories", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: story.id,
-          editorial: {
-            ...fields,
-            tags: fields.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
-            published_at: fields.published_at,
-          },
-        }),
+        body: form,
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not save this story.");
       setMessage("Story saved.");
+      setImageFile(null);
+      setRemoveImage(false);
       onSaved();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not save this story.");
@@ -76,12 +81,21 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
       <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
+        {(["title", "subtitle", "author_name", "category", "seo_title", "published_at"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
-            {name === "published_at" ? "Publication date" : name === "image_url" ? "Featured image URL or project path" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
+            {name === "published_at" ? "Publication date" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
             <input type={name === "published_at" ? "date" : "text"} className={inputClass} value={fields[name]} onChange={(event) => update(name, event.target.value)} />
           </label>
         ))}
+        <div className="space-y-2 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
+          <label className="block space-y-1">Featured image (optional)
+            <input type="file" accept="image/jpeg,image/png,image/webp" className={inputClass} onChange={(event) => { setImageFile(event.target.files?.[0] ?? null); setRemoveImage(false); }} />
+          </label>
+          <span className="block font-normal">Choose a JPG, PNG, or WebP image up to 10 MB. Leave empty to keep the current photo.</span>
+          {(story.image_path || story.image_url) && <a className="inline-block underline" href={story.image_url || `/api/admin/stories/${story.id}/image`} target="_blank" rel="noreferrer">View current image</a>}
+          {imageFile && <span className="block font-normal">Selected: {imageFile.name}</span>}
+          {(story.image_path || story.image_url) && <label className="flex items-center gap-2 font-normal"><input type="checkbox" checked={removeImage} onChange={(event) => { setRemoveImage(event.target.checked); if (event.target.checked) setImageFile(null); }} />Remove current photo</label>}
+        </div>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
           Excerpt
           <textarea className={inputClass} rows={2} value={fields.excerpt} onChange={(event) => update("excerpt", event.target.value)} />

@@ -15,25 +15,11 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
     setMessage("");
     const formData = new FormData(form);
     const tags = String(formData.get("tags") || "").split(",").map((tag) => tag.trim()).filter(Boolean);
+    formData.set("tags", tags.join(","));
     try {
       const response = await fetch("/api/admin/stories", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: formData.get("title"),
-          subtitle: formData.get("subtitle"),
-          author_name: formData.get("author_name"),
-          author_email: formData.get("author_email"),
-          category: formData.get("category"),
-          excerpt: formData.get("excerpt"),
-          image_url: formData.get("image_url"),
-          content: formData.get("content"),
-          tags,
-          seo_title: formData.get("seo_title"),
-          seo_description: formData.get("seo_description"),
-          featured: formData.get("featured") === "on",
-          status: formData.get("status"),
-        }),
+        body: formData,
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not create story.");
@@ -58,7 +44,7 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Author<input name="author_name" required minLength={2} maxLength={100} className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Author email (optional)<input type="email" name="author_email" className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Category<input name="category" defaultValue="Personal Reflections" maxLength={80} className={fieldClass} /></label>
-        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Featured image path or HTTPS URL (optional)<input name="image_url" className={fieldClass} placeholder="/images/story.jpg" /></label>
+        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Featured image (optional)<input type="file" name="image" accept="image/jpeg,image/png,image/webp" className={fieldClass} /><span className="block text-xs font-normal text-be-500">Choose a JPG, PNG, or WebP image up to 10 MB. Leave empty to publish without a photo.</span></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Tags (comma separated)<input name="tags" className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2">Excerpt<textarea name="excerpt" rows={2} maxLength={500} className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2">Story body<textarea name="content" required minLength={20} maxLength={30000} rows={12} className={fieldClass} /></label>

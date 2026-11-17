@@ -23,7 +23,7 @@ In the Supabase SQL Editor, run these files in order:
 2. [`story-attachments.sql`](story-attachments.sql)
 3. [`book-media-storage-migration.sql`](book-media-storage-migration.sql)
 
-The second script creates the private `story-submissions` Storage bucket for optional story documents and photos. The third creates the public `book-media` bucket for book covers and optional chapter images uploaded by admins.
+The second script creates the private `story-submissions` Storage bucket for optional story documents and photos. Admins can upload story photos directly when creating or editing stories; the third creates the public `book-media` bucket for book covers and optional chapter images uploaded by admins.
 
 `schema.sql` creates the current complete database schema, including the book CMS tables and story editorial fields. It seeds the current demo book and its three existing chapters without overwriting matching records.
 
@@ -46,7 +46,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 
 ## Story review and photos
 
-Story submissions are inserted with `status = 'pending'`. Admins can review the text, preview a private uploaded photo, and publish or reject the story. Only published stories are returned by public story queries. A photo is optional; when none is supplied, no app image is assigned. Uploaded photos stay in private Storage while pending and are served by the site only after publication.
+Story submissions are inserted with `status = 'pending'`. Admins can review the text, preview a private uploaded photo, and publish or reject the story. Only published stories are returned by public story queries. A photo is optional; when none is supplied, no app image is assigned. Uploaded photos stay in private Storage while pending or in draft and are served publicly by the site only after publication.
 
 Accepted photo formats are JPG, PNG, and WebP, up to 10 MB. Optional document attachments accept PDF, DOC, and DOCX, up to 10 MB.
 

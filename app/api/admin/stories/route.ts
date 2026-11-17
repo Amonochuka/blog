@@ -3,6 +3,28 @@ import { hasAdminSession } from "@/lib/admin-session";
 import { isSameOriginRequest } from "@/lib/same-origin-request";
 import { supabaseRest } from "@/lib/supabase-rest";
 import { randomUUID } from "node:crypto";
+import { removeStoryImage, uploadStoryImage } from "@/lib/supabase-storage";
+
+const imageTypes: Record<string, { mime: string; valid: (bytes: Uint8Array) => boolean }> = {
+  jpg: { mime: "image/jpeg", valid: (bytes) => bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff },
+  jpeg: { mime: "image/jpeg", valid: (bytes) => bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff },
+  png: { mime: "image/png", valid: (bytes) => bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 && bytes[4] === 0x0d && bytes[5] === 0x0a && bytes[6] === 0x1a && bytes[7] === 0x0a },
+  webp: { mime: "image/webp", valid: (bytes) => String.fromCharCode(...bytes.slice(0, 4)) === "RIFF" && String.fromCharCode(...bytes.slice(8, 12)) === "WEBP" },
+};
+
+async function uploadAdminStoryImage(candidate: FormDataEntryValue | null) {
+  if (!(candidate instanceof File) || candidate.size === 0) return null;
+  if (candidate.size > 10 * 1024 * 1024) throw new Error("Images must be 10 MB or smaller.");
+  const extension = candidate.name.split(".").pop()?.toLowerCase() || "";
+  const imageType = imageTypes[extension];
+  const signature = new Uint8Array(await candidate.slice(0, 12).arrayBuffer());
+  if (!imageType || (candidate.type && candidate.type !== imageType.mime) || !imageType.valid(signature)) {
+    throw new Error("Upload a valid JPG, PNG, or WebP image.");
+  }
+  const path = `images/${randomUUID()}.${extension === "jpeg" ? "jpg" : extension}`;
+  await uploadStoryImage(path, candidate, imageType.mime);
+  return path;
+}
 
 type StoryAdminRow = {
   id: string;
@@ -40,7 +62,26 @@ export async function PATCH(request: Request) {
   if (!(await hasAdminSession())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
 
-  const { id, status, editorial } = await request.json().catch(() => ({}));
+  const contentType = request.headers.get("content-type") || "";
+  let id: unknown;
+  let status: unknown;
+  let editorial: Record<string, unknown> | null = null;
+  let imageCandidate: FormDataEntryValue | null = null;
+  let imagePath: string | null = null;
+  let removeImage = false;
+  try {
+    if (contentType.includes("multipart/form-data")) {
+      const form = await request.formData();
+      id = form.get("id");
+      editorial = JSON.parse(String(form.get("editorial") || "{}")) as Record<string, unknown>;
+      imageCandidate = form.get("image");
+      removeImage = form.get("remove_image") === "true";
+    } else {
+      ({ id, status, editorial } = await request.json());
+    }
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Invalid story update." }, { status: 400 });
+  }
   if (typeof id !== "string" || !/^[0-9a-f-]{36}$/i.test(id)) {
     return NextResponse.json({ error: "Invalid story update." }, { status: 400 });
   }
@@ -56,6 +97,17 @@ export async function PATCH(request: Request) {
       if (!title || title.length < 3 || !author_name || author_name.length < 2 || !content || content.length < 20) {
         return NextResponse.json({ error: "Title, author, and a story body of at least 20 characters are required." }, { status: 400 });
       }
+      try {
+        imagePath = await uploadAdminStoryImage(imageCandidate);
+      } catch (error) {
+        return NextResponse.json({ error: error instanceof Error ? error.message : "Could not upload story image." }, { status: 400 });
+      }
+      const previousRows = await supabaseRest<Array<{ image_path: string | null; image_url: string | null }>>(`stories?select=image_path,image_url&id=eq.${id}&limit=1`);
+      if (!previousRows.length) {
+        if (imagePath) await removeStoryImage(imagePath).catch(() => undefined);
+        return NextResponse.json({ error: "Story not found." }, { status: 404 });
+      }
+      const previousImagePath = previousRows[0].image_path;
       await supabaseRest<unknown>(`stories?id=eq.${id}`, {
         method: "PATCH",
         headers: { Prefer: "return=minimal" },
@@ -71,17 +123,19 @@ export async function PATCH(request: Request) {
           featured: editorial.featured === true,
           seo_title: cleanString(editorial.seo_title, 160) ?? "",
           seo_description: cleanString(editorial.seo_description, 320) ?? "",
-          image_url: typeof editorial.image_url === "string" && ((editorial.image_url.startsWith("/") && !editorial.image_url.startsWith("//")) || editorial.image_url.startsWith("https://"))
-            ? editorial.image_url.trim().slice(0, 500)
-            : null,
+          image_path: removeImage ? null : imagePath ?? previousImagePath,
+          image_url: removeImage || imagePath ? null : previousRows[0].image_url,
           published_at: typeof editorial.published_at === "string" && /^\d{4}-\d{2}-\d{2}$/.test(editorial.published_at)
             ? `${editorial.published_at}T12:00:00.000Z`
             : null,
         }),
       });
+      if ((imagePath || removeImage) && previousImagePath && previousImagePath !== imagePath) {
+        await removeStoryImage(previousImagePath).catch((error) => console.error("Could not remove replaced story image:", error));
+      }
       return NextResponse.json({ success: true });
     }
-    if (!["published", "rejected", "pending"].includes(status)) {
+    if (typeof status !== "string" || !["published", "rejected", "pending"].includes(status)) {
       return NextResponse.json({ error: "Invalid story update." }, { status: 400 });
     }
     await supabaseRest<unknown>(`stories?id=eq.${id}`, {
@@ -91,6 +145,7 @@ export async function PATCH(request: Request) {
     });
     return NextResponse.json({ success: true });
   } catch {
+    if (imagePath) await removeStoryImage(imagePath).catch(() => undefined);
     return NextResponse.json({ error: "Could not update this story. For editorial edits, apply the story editorial metadata migration in Supabase." }, { status: 502 });
   }
 }
@@ -98,7 +153,25 @@ export async function PATCH(request: Request) {
 export async function POST(request: Request) {
   if (!(await hasAdminSession())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
-  const body = await request.json().catch(() => null);
+  const contentType = request.headers.get("content-type") || "";
+  let body: Record<string, unknown> | null = null;
+  let imageCandidate: FormDataEntryValue | null = null;
+  let uploadedImagePath: string | null = null;
+  try {
+    if (contentType.includes("multipart/form-data")) {
+      const form = await request.formData();
+      imageCandidate = form.get("image");
+      const tags = String(form.get("tags") || "").split(",").map((tag) => tag.trim()).filter(Boolean);
+      body = Object.fromEntries(form.entries()) as Record<string, unknown>;
+      body.tags = tags;
+      body.featured = form.get("featured") === "on";
+      body.image_path = uploadedImagePath;
+    } else {
+      body = await request.json().catch(() => null);
+    }
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Could not upload story image." }, { status: 400 });
+  }
   if (!body || typeof body !== "object") return NextResponse.json({ error: "Invalid story." }, { status: 400 });
 
   const title = typeof body.title === "string" ? body.title.trim() : "";
@@ -116,6 +189,7 @@ export async function POST(request: Request) {
   const slugBase = title.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 90) || "story";
   const slug = `${slugBase}-${randomUUID().slice(0, 8)}`;
   try {
+    uploadedImagePath = await uploadAdminStoryImage(imageCandidate);
     const [story] = await supabaseRest<Array<{ id: string; slug: string }>>("stories", {
       method: "POST",
       headers: { Prefer: "return=representation" },
@@ -128,7 +202,8 @@ export async function POST(request: Request) {
         category,
         author_name: author,
         author_email: typeof body.author_email === "string" && body.author_email.includes("@") ? body.author_email.trim().slice(0, 254) : null,
-        image_url: (imageUrl.startsWith("/") && !imageUrl.startsWith("//")) || imageUrl.startsWith("https://") ? imageUrl.slice(0, 500) : null,
+        image_path: uploadedImagePath,
+        image_url: imageUrl.startsWith("https://") ? imageUrl.slice(0, 500) : null,
         tags,
         related_story_slugs: [],
         featured: body.featured === true,
@@ -141,6 +216,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ success: true, story }, { status: 201 });
   } catch {
+    if (uploadedImagePath) await removeStoryImage(uploadedImagePath).catch(() => undefined);
     return NextResponse.json({ error: "Could not create this story. Apply the story editorial metadata migration in Supabase, then try again." }, { status: 502 });
   }
 }

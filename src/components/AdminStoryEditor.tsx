@@ -20,7 +20,6 @@ export type EditableStory = {
 };
 
 export function AdminStoryEditor({ story, availableStories, onSaved }: { story: EditableStory; availableStories: Array<{ slug: string; title: string }>; onSaved: () => void }) {
-  const [editorOpen, setEditorOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [fields, setFields] = useState({
@@ -72,23 +71,11 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
 
   const inputClass = "w-full rounded-md bg-be-50 px-3 py-2 text-sm text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white";
 
-  const editorId = `story-editor-${story.id}`;
-
   return (
-    <section className="mt-5 rounded-xl border border-be-200 bg-white p-4 dark:border-be-700 dark:bg-be-800">
-      <button
-        type="button"
-        aria-expanded={editorOpen}
-        aria-controls={editorOpen ? editorId : undefined}
-        onClick={() => setEditorOpen((open) => !open)}
-        className="flex w-full items-center gap-2 text-left font-semibold text-be-800 dark:text-zinc-200"
-      >
-        <span aria-hidden="true">{editorOpen ? "▾" : "▸"}</span>
-        Edit story and publishing details
-      </button>
-      {editorOpen && <div id={editorId}>
+    <details className="mt-5 rounded-xl border border-be-200 p-4 dark:border-be-700">
+      <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
-      <div className="mt-4 grid auto-rows-min content-start items-start gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
             {name === "published_at" ? "Publication date" : name === "image_url" ? "Featured image URL or project path" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
@@ -96,7 +83,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
           </label>
         ))}
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
-          Excerpt (shown on the homepage and story listings)
+          Excerpt
           <textarea className={inputClass} rows={2} value={fields.excerpt} onChange={(event) => update("excerpt", event.target.value)} />
         </label>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
@@ -107,20 +94,14 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
           Tags (comma separated)
           <input className={inputClass} value={fields.tags} onChange={(event) => update("tags", event.target.value)} />
         </label>
-        {availableStories.length > 0 ? (
-          <div role="group" aria-labelledby={`related-stories-${story.id}`} className="h-fit self-start space-y-2 rounded-lg border border-be-200 p-3 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
-            <h3 id={`related-stories-${story.id}`} className="font-semibold">Related stories</h3>
-            <p>Select up to three published stories to link at the bottom of this article. This does not create a category or group.</p>
-            <div className="grid gap-2 sm:grid-cols-2">{availableStories.map((relatedStory) => {
-              const checked = fields.related_story_slugs.includes(relatedStory.slug);
-              return <label key={relatedStory.slug} className="flex items-start gap-2"><input type="checkbox" checked={checked} disabled={!checked && fields.related_story_slugs.length >= 3} onChange={(event) => update("related_story_slugs", event.target.checked ? [...fields.related_story_slugs, relatedStory.slug] : fields.related_story_slugs.filter((slug) => slug !== relatedStory.slug))} /><span>{relatedStory.title}</span></label>;
-            })}</div>
-          </div>
-        ) : (
-          <p className="self-start rounded-lg border border-be-200 px-3 py-2 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
-            Related stories: publish another story to make it available here.
-          </p>
-        )}
+        <fieldset className="space-y-2 rounded-lg border border-be-200 p-3 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
+          <legend className="px-1 font-semibold">Related stories</legend>
+          <p>Select up to three published stories to link at the bottom of this article. This does not create a category or group.</p>
+          {availableStories.length ? <div className="grid gap-2 sm:grid-cols-2">{availableStories.map((relatedStory) => {
+            const checked = fields.related_story_slugs.includes(relatedStory.slug);
+            return <label key={relatedStory.slug} className="flex items-start gap-2"><input type="checkbox" checked={checked} disabled={!checked && fields.related_story_slugs.length >= 3} onChange={(event) => update("related_story_slugs", event.target.checked ? [...fields.related_story_slugs, relatedStory.slug] : fields.related_story_slugs.filter((slug) => slug !== relatedStory.slug))} /><span>{relatedStory.title}</span></label>;
+          })}</div> : <p>No other published stories are available yet.</p>}
+        </fieldset>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
           SEO description <span className="font-normal">(short search-result summary)</span>
           <textarea className={inputClass} rows={2} value={fields.seo_description} onChange={(event) => update("seo_description", event.target.value)} />
@@ -134,7 +115,6 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
         <button type="button" disabled={saving} onClick={() => void save()} className="rounded-full bg-be-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">{saving ? "Saving…" : "Save story"}</button>
         {message && <p role="status" className="text-sm text-be-600 dark:text-zinc-300">{message}</p>}
       </div>
-      </div>}
-    </section>
+    </details>
   );
 }

@@ -325,7 +325,7 @@ export function AdminDashboard() {
               )}
               <p className="mb-4 whitespace-pre-wrap text-be-700 dark:text-zinc-300">{story.content}</p>
               {story.attachment_path && <a className="mb-4 inline-flex text-sm font-medium text-be-700 underline underline-offset-2 hover:text-be-900 dark:text-be-300 dark:hover:text-white" href={`/api/admin/stories/${story.id}/attachment`} target="_blank" rel="noopener noreferrer">Download attached document</a>}
-              <div className="flex flex-wrap gap-3 text-sm font-medium text-be-700 dark:text-zinc-200">
+              <div className="flex flex-wrap gap-3 text-sm font-semibold text-be-900 dark:text-white">
                 <span>Received {new Date(story.created_at).toLocaleString()}</span>
                 <span>
                   {story.publication_permission

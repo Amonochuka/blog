@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { SectionDivider } from "@/components/SectionDivider";
 import { getPublicContent } from "@/lib/public-content";
 
 type HomeStory = {
@@ -154,6 +155,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionDivider from="light" to="dark" />
+
       <section className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/kenya-community-gathering.jpg"
@@ -298,6 +301,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionDivider from="dark" to="light" />
+
       <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-start">
@@ -369,6 +374,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionDivider from="light" to="dark" />
+
       <section id="projects" className="relative isolate scroll-mt-24 overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-outdoor-cooking.jpg"
@@ -424,6 +431,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionDivider from="dark" to="light" />
+
       <section className="bg-white py-16 text-brand-black sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -472,6 +481,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionDivider from="light" to="dark" />
+
       <section id="newsletter" className="relative isolate overflow-hidden bg-brand-black py-16 sm:py-20 lg:py-24">
         <FamilyPhotoBackdrop
           firstSrc="/images/family-newborn-hospital.jpg"
@@ -492,6 +503,8 @@ export default async function Home() {
           <NewsletterForm />
         </div>
       </section>
+
+      <SectionDivider from="dark" to="light" />
     </BaseLayout>
   );
 }

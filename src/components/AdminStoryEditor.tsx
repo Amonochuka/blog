@@ -19,7 +19,7 @@ export type EditableStory = {
   image_url: string | null;
 };
 
-export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onSaved: () => void }) {
+export function AdminStoryEditor({ story, availableStories, onSaved }: { story: EditableStory; availableStories: Array<{ slug: string; title: string }>; onSaved: () => void }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [fields, setFields] = useState({
@@ -30,7 +30,7 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
     category: story.category,
     author_name: story.author_name,
     tags: (story.tags || []).join(", "),
-    related_story_slugs: (story.related_story_slugs || []).join(", "),
+    related_story_slugs: story.related_story_slugs || [],
     featured: Boolean(story.featured),
     seo_title: story.seo_title || "",
     seo_description: story.seo_description || "",
@@ -38,7 +38,7 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
     image_url: story.image_url || "",
   });
 
-  function update(name: keyof typeof fields, value: string | boolean) {
+  function update<Key extends keyof typeof fields>(name: Key, value: (typeof fields)[Key]) {
     setFields((current) => ({ ...current, [name]: value }));
   }
 
@@ -54,7 +54,6 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
           editorial: {
             ...fields,
             tags: fields.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
-            related_story_slugs: fields.related_story_slugs.split(",").map((slug) => slug.trim()).filter(Boolean),
             published_at: fields.published_at,
           },
         }),
@@ -75,10 +74,11 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
   return (
     <details className="mt-5 rounded-xl border border-be-200 p-4 dark:border-be-700">
       <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
+      <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
-            {name.replaceAll("_", " ")}
+            {name === "published_at" ? "Publication date" : name === "image_url" ? "Featured image URL or project path" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
             <input type={name === "published_at" ? "date" : "text"} className={inputClass} value={fields[name]} onChange={(event) => update(name, event.target.value)} />
           </label>
         ))}
@@ -94,12 +94,16 @@ export function AdminStoryEditor({ story, onSaved }: { story: EditableStory; onS
           Tags (comma separated)
           <input className={inputClass} value={fields.tags} onChange={(event) => update("tags", event.target.value)} />
         </label>
-        <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300">
-          Related story slugs (comma separated)
-          <input className={inputClass} value={fields.related_story_slugs} onChange={(event) => update("related_story_slugs", event.target.value)} />
-        </label>
+        <fieldset className="space-y-2 rounded-lg border border-be-200 p-3 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
+          <legend className="px-1 font-semibold">Related stories</legend>
+          <p>Select up to three published stories to link at the bottom of this article. This does not create a category or group.</p>
+          {availableStories.length ? <div className="grid gap-2 sm:grid-cols-2">{availableStories.map((relatedStory) => {
+            const checked = fields.related_story_slugs.includes(relatedStory.slug);
+            return <label key={relatedStory.slug} className="flex items-start gap-2"><input type="checkbox" checked={checked} disabled={!checked && fields.related_story_slugs.length >= 3} onChange={(event) => update("related_story_slugs", event.target.checked ? [...fields.related_story_slugs, relatedStory.slug] : fields.related_story_slugs.filter((slug) => slug !== relatedStory.slug))} /><span>{relatedStory.title}</span></label>;
+          })}</div> : <p>No other published stories are available yet.</p>}
+        </fieldset>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
-          SEO description
+          SEO description <span className="font-normal">(short search-result summary)</span>
           <textarea className={inputClass} rows={2} value={fields.seo_description} onChange={(event) => update("seo_description", event.target.value)} />
         </label>
         <label className="flex items-center gap-2 text-sm text-be-700 dark:text-zinc-200 sm:col-span-2">

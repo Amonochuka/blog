@@ -334,7 +334,11 @@ export function AdminDashboard() {
                 </span>
                 {story.status === "published" && <a className="underline" href={`/stories/${story.slug}`}>View published story</a>}
               </div>
-              <AdminStoryEditor story={story as Story & EditableStory} onSaved={() => void loadInbox()} />
+              <AdminStoryEditor
+                story={story as Story & EditableStory}
+                availableStories={stories.filter((item) => item.status === "published" && item.slug !== story.slug).map(({ slug, title }) => ({ slug, title }))}
+                onSaved={() => void loadInbox()}
+              />
               {story.status !== "published" && (
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button disabled={workingId === story.id} onClick={() => changeStoryStatus(story.id, "published")} className="rounded-full bg-green-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">Approve and publish</button>

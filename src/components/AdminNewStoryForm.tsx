@@ -51,6 +51,7 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
     <details className="rounded-2xl bg-white p-6 dark:bg-be-800">
       <summary className="cursor-pointer text-lg font-bold text-be-900 dark:text-white">Write a story</summary>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">Create original editorial content here. You can save it as a draft or publish it now.</p>
+      <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description help Google and other search engines describe a published story. They do not control the site&apos;s own search box or guarantee ranking.</p>
       <form onSubmit={submit} className="mt-5 grid gap-4 sm:grid-cols-2">
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Title<input name="title" required minLength={3} maxLength={160} className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Subtitle<input name="subtitle" maxLength={240} className={fieldClass} /></label>
@@ -61,8 +62,8 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Tags (comma separated)<input name="tags" className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2">Excerpt<textarea name="excerpt" rows={2} maxLength={500} className={fieldClass} /></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2">Story body<textarea name="content" required minLength={20} maxLength={30000} rows={12} className={fieldClass} /></label>
-        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">SEO title<input name="seo_title" maxLength={160} className={fieldClass} /></label>
-        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">SEO description<textarea name="seo_description" maxLength={320} rows={2} className={fieldClass} /></label>
+        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">SEO title<input name="seo_title" maxLength={160} className={fieldClass} /><span className="block text-xs font-normal text-be-500">The title search engines may show. It can be different from your visible story headline. Example: “A Father’s Journey Toward Hope | Beard &amp; Diapers”.</span></label>
+        <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">SEO description<textarea name="seo_description" maxLength={320} rows={2} className={fieldClass} /><span className="block text-xs font-normal text-be-500">A 1–2 sentence search preview that summarizes the article. Example: “A father reflects on finding hope and purpose in everyday family life.”</span></label>
         <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Publish state<select name="status" className={fieldClass}><option value="draft">Save draft</option><option value="published">Publish now</option></select></label>
         <label className="flex items-center gap-2 text-sm text-be-700 dark:text-zinc-300"><input name="featured" type="checkbox" />Mark as featured (editorial flag only)</label>
         <div className="flex items-center gap-3 sm:col-span-2">

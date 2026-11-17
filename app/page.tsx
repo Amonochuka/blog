@@ -57,14 +57,29 @@ export default async function Home() {
 
   return (
     <BaseLayout>
-      <section className="relative isolate flex items-center justify-center overflow-hidden bg-brand-black py-10 sm:py-16">
-        <FamilyPhotoBackdrop
-          firstSrc="/images/community-family-kenya.jpg"
-          secondSrc="/images/community-family-urban-kenya.jpg"
-          preloadFirst
-          tone="dark"
-          firstObjectPosition="center 65%"
-        />
+      <section className="relative isolate flex items-center justify-center overflow-hidden bg-white py-10 sm:py-16">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-brand-black"
+          style={{
+            maskImage: "url('/images/beard-edge-mask.svg')",
+            maskSize: "100% 100%",
+            maskRepeat: "no-repeat",
+            maskPosition: "bottom",
+            WebkitMaskImage: "url('/images/beard-edge-mask.svg')",
+            WebkitMaskSize: "100% 100%",
+            WebkitMaskRepeat: "no-repeat",
+            WebkitMaskPosition: "bottom",
+          }}
+        >
+          <FamilyPhotoBackdrop
+            firstSrc="/images/community-family-kenya.jpg"
+            secondSrc="/images/community-family-urban-kenya.jpg"
+            preloadFirst
+            tone="dark"
+            firstObjectPosition="center 65%"
+          />
+        </div>
 
         <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center">
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-brand-gold sm:text-5xl md:text-6xl">

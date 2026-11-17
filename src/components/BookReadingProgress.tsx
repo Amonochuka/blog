@@ -37,7 +37,7 @@ export function ContinueReading({ bookSlug, firstChapter, totalChapters }: { boo
   return (
     <Link
       href={`/books/${bookSlug}/day-${chapterNumber}`}
-      className="inline-flex rounded-full border border-be-500 px-5 py-2.5 text-sm font-semibold text-be-800 transition-colors hover:bg-be-100 dark:text-be-100 dark:hover:bg-be-800"
+      className="inline-flex rounded-full border border-[color:var(--color-be-500)] px-5 py-2.5 text-sm font-semibold text-be-800 transition-colors hover:bg-be-100 dark:text-be-100 dark:hover:bg-be-800"
     >
       {lastRead ? `Continue Reading · Day ${lastRead}` : "Read From the Beginning"}
     </Link>

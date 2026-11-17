@@ -103,7 +103,7 @@ export default async function BookChapterPage({
             <RecordChapterProgress bookSlug={book.slug} chapterNumber={chapterNumber} />
             {paragraphs.map((paragraph, index) => <p key={`${chapter}-${index}`}>{paragraph}</p>)}
 
-            <nav aria-label="Chapter navigation" className="mt-8 flex flex-col items-start gap-4 border-t border-be-200 pt-6 sm:flex-row sm:items-center sm:gap-2 dark:border-be-700">
+            <nav aria-label="Chapter navigation" className="mt-8 flex flex-col items-start gap-4 border-t border-[color:var(--color-be-200)] pt-6 sm:flex-row sm:items-center sm:gap-2 dark:border-[color:var(--color-be-700)]">
               {previousChapter && <Link href={`/books/${book.slug}/day-${previousChapter.number}`} className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white">← Previous Chapter</Link>}
               <Link href={`/books/${book.slug}`} className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white">Contents</Link>
               {nextChapter ? (

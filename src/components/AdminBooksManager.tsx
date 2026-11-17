@@ -183,7 +183,11 @@ export function AdminBooksManager() {
       <div className="rounded-2xl bg-white p-6 dark:bg-be-800">
         <h3 className="text-xl font-bold text-be-900 dark:text-white">Chapters</h3>
         <p className="mt-1 text-sm text-be-600 dark:text-zinc-400">Save a draft, publish now, or schedule a chapter. Number controls reading order; scheduled chapters appear automatically when their date arrives. You can also upload an optional chapter image.</p>
-        {books.length > 0 && <>
+        {books.length === 0 ? (
+          <p className="mt-4 rounded-xl border border-be-200 bg-be-50 p-4 text-sm text-be-700 dark:border-be-700 dark:bg-be-900 dark:text-zinc-300">
+            Add a book in the Books section above before adding chapters. Once it is in the catalog, you can create and manage its chapters here.
+          </p>
+        ) : <>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Book<select className={inputClass} value={chapter.book_slug} onChange={(event) => { setChapterId(""); setChapter({ ...blankChapter, book_slug: event.target.value, number: (books.find((item) => item.slug === event.target.value)?.chapters.length ?? 0) + 1 }); }}>
               {books.map((item) => <option key={item.slug} value={item.slug}>{item.title}</option>)}

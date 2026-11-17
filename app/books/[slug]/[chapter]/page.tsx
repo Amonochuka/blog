@@ -3,15 +3,16 @@ import Link from "next/link";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getBookCatalog, getPublishedChapter } from "@/lib/book-catalog";
-import { books as staticBooks } from "@/content/books";
 import { getAppBaseUrl } from "@/lib/site-url";
 import { RecordChapterProgress } from "@/components/BookReadingProgress";
 
 export default async function BookChapterPage({
   params,
 }: { params: Promise<{ slug: string; chapter: string }> }) {
+  await connection();
   const { slug, chapter } = await params;
   const books = await getBookCatalog();
   const book = books.find((entry) => entry.slug === slug);
@@ -148,11 +149,3 @@ export default async function BookChapterPage({
     </BaseLayout>
   );
 }
-
-export const generateStaticParams = () =>
-  staticBooks.flatMap((book) =>
-    book.chapters.map((chapter) => ({
-      slug: book.slug,
-      chapter: `day-${chapter.number}`,
-    }))
-  );

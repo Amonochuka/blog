@@ -20,6 +20,7 @@ export type EditableStory = {
 };
 
 export function AdminStoryEditor({ story, availableStories, onSaved }: { story: EditableStory; availableStories: Array<{ slug: string; title: string }>; onSaved: () => void }) {
+  const [editorOpen, setEditorOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [fields, setFields] = useState({
@@ -71,9 +72,21 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
 
   const inputClass = "w-full rounded-md bg-be-50 px-3 py-2 text-sm text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white";
 
+  const editorId = `story-editor-${story.id}`;
+
   return (
-    <details className="mt-5 h-fit rounded-xl border border-be-200 bg-white p-4 dark:border-be-700 dark:bg-be-800">
-      <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
+    <section className="mt-5 rounded-xl border border-be-200 bg-white p-4 dark:border-be-700 dark:bg-be-800">
+      <button
+        type="button"
+        aria-expanded={editorOpen}
+        aria-controls={editorOpen ? editorId : undefined}
+        onClick={() => setEditorOpen((open) => !open)}
+        className="flex w-full items-center gap-2 text-left font-semibold text-be-800 dark:text-zinc-200"
+      >
+        <span aria-hidden="true">{editorOpen ? "▾" : "▸"}</span>
+        Edit story and publishing details
+      </button>
+      {editorOpen && <div id={editorId}>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
       <div className="mt-4 grid auto-rows-min content-start items-start gap-4 sm:grid-cols-2">
         {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
@@ -121,6 +134,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
         <button type="button" disabled={saving} onClick={() => void save()} className="rounded-full bg-be-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">{saving ? "Saving…" : "Save story"}</button>
         {message && <p role="status" className="text-sm text-be-600 dark:text-zinc-300">{message}</p>}
       </div>
-    </details>
+      </div>}
+    </section>
   );
 }

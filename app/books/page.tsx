@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function BooksPage() {
   const res = await fetch(`${getAppBaseUrl()}/api/content`, { cache: "no-store" });
   const { books, featuredBookSlug } = await res.json() as {
-    books: Array<{ id: string; slug: string; cover: string; title: string; tagline: string; description: string }>;
+    books: Array<{ id: string; slug: string; cover: string; title: string; author?: string; tagline: string; description: string; status?: string; chapters?: Array<{ number: number; title: string }> }>;
     featuredBookSlug: string | null;
   };
   const featuredBook = books.find((book) => book.slug === featuredBookSlug) ?? books[0];
@@ -35,11 +35,18 @@ export default async function BooksPage() {
                     loading="lazy"
                   width={800}
                   height={400}
+                    unoptimized
                 />
-                  <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
+                  <div className="absolute bottom-0 left-0 right-0 bg-be-900/90 backdrop-blur-sm text-white p-4">
                     <h3 className="font-bold">{book.title}</h3>
+                    <p className="text-sm mt-1">{book.author ? `By ${book.author} · ` : ""}{book.chapters?.length ?? 0} available chapters</p>
                     <p className="text-sm mt-1">{book.tagline}</p>
                   </div>
+                </div>
+                <div className="p-4 text-sm text-be-700 dark:text-zinc-300">
+                  <p className="line-clamp-3">{book.description}</p>
+                  <span className="mt-3 inline-flex rounded-full bg-be-100 px-3 py-1 text-xs font-semibold text-be-800 dark:bg-be-800 dark:text-zinc-200">{book.status === "serializing" ? "Currently Serializing" : book.status === "completed" ? "Completed" : "Coming Soon"}</span>
+                  <span className="ml-3 font-semibold text-be-700">Open book →</span>
                 </div>
               </Link>
             ))}
@@ -80,6 +87,7 @@ export default async function BooksPage() {
                 width={800}
                 height={400}
                 loading="lazy"
+                unoptimized
               />
             </div>
           </div>

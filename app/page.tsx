@@ -247,6 +247,7 @@ export default async function Home() {
                           width={800}
                           height={600}
                           loading="lazy"
+                          unoptimized
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/10 to-transparent" />
                       </>

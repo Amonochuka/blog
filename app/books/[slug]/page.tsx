@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
-import { books } from "@/content/books";
+import { getBookCatalog } from "@/lib/book-catalog";
+import { ContinueReading } from "@/components/BookReadingProgress";
 
 export default async function BookPage({
   params,
@@ -10,6 +11,7 @@ export default async function BookPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const books = await getBookCatalog();
   const book = books.find((entry) => entry.slug === slug);
   if (!book) notFound();
 
@@ -28,21 +30,24 @@ export default async function BookPage({
                 width={800}
                 height={400}
                 loading="lazy"
+                unoptimized
               />
               <h1 className="text-4xl font-bold text-be-900 dark:text-white">{book.title}</h1>
               <p className="mt-2 text-be-600 dark:text-zinc-400">{book.description}</p>
+              <p className="mt-3 text-sm text-be-600 dark:text-zinc-400">By {book.author || "Beard & Diapers"} · {book.chapters.length} available {book.chapters.length === 1 ? "chapter" : "chapters"}</p>
               <div className="mt-6">
                 <span className="inline-block rounded bg-be-600 px-3 py-1 text-sm text-white">
-                  {book.status === "serializing" ? "Currently Serializing" : "Book"}
+                  {book.status === "serializing" ? "Currently Serializing" : book.status === "coming_soon" ? "Coming Soon" : "Completed"}
                 </span>
               </div>
               {firstChapter ? (
-                <Link
-                  className="mt-4 inline-block rounded-full bg-be-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-be-700"
-                  href={`/books/${book.slug}/day-${firstChapter.number}`}
-                >
-                  Start Reading
-                </Link>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    className="inline-flex rounded-full bg-be-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-be-700"
+                    href={`/books/${book.slug}/day-${firstChapter.number}`}
+                  >Start Reading</Link>
+                  <ContinueReading bookSlug={book.slug} firstChapter={firstChapter.number} totalChapters={book.totalDays} />
+                </div>
               ) : (
                 <p className="mt-4 text-sm text-be-600 dark:text-zinc-400">Chapters will be added soon.</p>
               )}

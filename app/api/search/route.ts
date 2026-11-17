@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { projects } from "@/content/projects";
-import { books } from "@/content/books";
+import { getBookCatalog } from "@/lib/book-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +15,17 @@ type SearchableStory = {
   body: string;
 };
 
+type DatabaseSearchStory = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  excerpt: string;
+  author_name: string;
+  content: string;
+  tags: string[];
+};
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q") || "";
@@ -24,27 +35,26 @@ export async function GET(request: Request) {
   }
 
   const lowercaseQuery = query.toLowerCase();
+  const books = await getBookCatalog();
 
   let searchableStories: SearchableStory[] = [];
   if (getSupabaseConfig()) {
     try {
-      const databaseStories = await supabaseRest<Array<{
-        slug: string;
-        title: string;
-        subtitle: string;
-        category: string;
-        excerpt: string;
-        author_name: string;
-        content: string;
-      }>>("stories?select=slug,title,excerpt,category,author_name,content&status=eq.published");
+      let databaseStories: DatabaseSearchStory[];
+      try {
+        databaseStories = await supabaseRest("stories?select=slug,title,subtitle,excerpt,category,author_name,content,tags&status=eq.published");
+      } catch {
+        const legacy = await supabaseRest<Array<Omit<DatabaseSearchStory, "subtitle" | "tags"> & { subtitle?: string; tags?: string[] }>>("stories?select=slug,title,excerpt,category,author_name,content&status=eq.published");
+        databaseStories = legacy.map((story) => ({ ...story, subtitle: story.subtitle || "", tags: story.tags || [] }));
+      }
       searchableStories = [
         ...databaseStories.map((story) => ({
           id: story.slug,
           title: story.title,
-          subtitle: story.excerpt,
+          subtitle: story.subtitle || story.excerpt,
           author: story.author_name,
           category: story.category,
-          tags: [] as string[],
+          tags: story.tags || [],
           body: story.content,
         })),
       ];
@@ -69,7 +79,7 @@ export async function GET(request: Request) {
         b.chapters.some(
           (c) => c.title.toLowerCase().includes(lowercaseQuery)
         )
-    ).map((book) => ({ ...book, type: "book" as const })),
+    ).map((book) => ({ id: book.slug, title: book.title, type: "book" as const })),
     ...projects.filter(
       (p) =>
         p.name.toLowerCase().includes(lowercaseQuery) ||

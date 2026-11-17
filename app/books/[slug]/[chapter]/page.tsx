@@ -4,13 +4,16 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { notFound } from "next/navigation";
 import { BaseLayout } from "@/components/BaseLayout";
-import { books } from "@/content/books";
+import { getBookCatalog, getPublishedChapter } from "@/lib/book-catalog";
+import { books as staticBooks } from "@/content/books";
 import { getAppBaseUrl } from "@/lib/site-url";
+import { RecordChapterProgress } from "@/components/BookReadingProgress";
 
 export default async function BookChapterPage({
   params,
 }: { params: Promise<{ slug: string; chapter: string }> }) {
   const { slug, chapter } = await params;
+  const books = await getBookCatalog();
   const book = books.find((entry) => entry.slug === slug);
   const chapterMatch = /^day-(\d+)$/.exec(chapter);
   const chapterNumber = chapterMatch ? Number(chapterMatch[1]) : NaN;
@@ -18,27 +21,37 @@ export default async function BookChapterPage({
   const chapterDetails = chapterIndex >= 0 ? book?.chapters[chapterIndex] : undefined;
   if (!book || !chapterDetails) notFound();
 
-  let chapterSource: string;
-  try {
-    chapterSource = await readFile(
-      path.join(process.cwd(), "src/content/chapters", book.slug, `${chapter}.md`),
-      "utf8"
-    );
-  } catch {
-    notFound();
+  let title = chapterDetails.title;
+  let content = chapterDetails.content;
+  let chapterImage = chapterDetails.image_url || "";
+  if (typeof content !== "string") {
+    const databaseChapter = await getPublishedChapter(book.slug, chapterNumber);
+    if (databaseChapter) {
+      title = databaseChapter.title;
+      content = databaseChapter.content;
+      chapterImage = databaseChapter.image_url || "";
+    } else {
+      let chapterSource: string;
+      try {
+        chapterSource = await readFile(path.join(process.cwd(), "src/content/chapters", book.slug, `${chapter}.md`), "utf8");
+      } catch {
+        notFound();
+      }
+      const frontmatter = chapterSource.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+      if (!frontmatter) notFound();
+      const titleLine = frontmatter[1].match(/^title:\s*(?:"([^"]+)"|'([^']+)'|(.+))\s*$/m);
+      title = titleLine?.[1] ?? titleLine?.[2] ?? titleLine?.[3] ?? title;
+      content = frontmatter[2];
+    }
   }
 
-  const frontmatter = chapterSource.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
-  if (!frontmatter) notFound();
-
-  const titleLine = frontmatter[1].match(/^title:\s*(?:"([^"]+)"|'([^']+)'|(.+))\s*$/m);
-  const title = titleLine?.[1] ?? titleLine?.[2] ?? titleLine?.[3];
-  const paragraphs = frontmatter[2]
+  const paragraphs = content
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter((paragraph) => paragraph && !paragraph.startsWith("#"));
-  if (!title || paragraphs.length === 0) notFound();
+  if (paragraphs.length === 0) notFound();
 
+  const previousChapter = book.chapters[chapterIndex - 1];
   const nextChapter = book.chapters[chapterIndex + 1];
   const chapterCount = book.totalDays ?? book.chapters.length;
   const chapterUrl = `${getAppBaseUrl()}/books/${book.slug}/${chapter}`;
@@ -56,7 +69,9 @@ export default async function BookChapterPage({
               className="mb-6 h-48 w-full rounded-md object-cover"
               width={800}
               height={400}
+              unoptimized
             />
+            {chapterImage && <Image src={chapterImage} alt={`Illustration for ${title}`} className="mb-6 max-h-[28rem] w-full rounded-xl object-cover" width={1000} height={700} unoptimized />}
 
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-be-900 dark:text-white">{book.title}</h1>
@@ -67,7 +82,6 @@ export default async function BookChapterPage({
                   <span>Progress:</span>
                   <span className="rounded bg-be-100 px-2 py-1 font-medium">Day {chapterNumber} of {chapterCount}</span>
                 </div>
-                <p className="text-be-600 dark:text-zinc-400">Continue from where you left off</p>
               </div>
 
               <nav aria-label="Book chapters" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -85,9 +99,12 @@ export default async function BookChapterPage({
             </header>
 
             <h2 className="mb-6 text-2xl font-bold text-be-900 dark:text-white">{title}</h2>
+            <RecordChapterProgress bookSlug={book.slug} chapterNumber={chapterNumber} />
             {paragraphs.map((paragraph, index) => <p key={`${chapter}-${index}`}>{paragraph}</p>)}
 
-            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-2">
+            <nav aria-label="Chapter navigation" className="mt-8 flex flex-col items-start gap-4 border-t border-be-200 pt-6 sm:flex-row sm:items-center sm:gap-2 dark:border-be-700">
+              {previousChapter && <Link href={`/books/${book.slug}/day-${previousChapter.number}`} className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white">← Previous Chapter</Link>}
+              <Link href={`/books/${book.slug}`} className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white">Contents</Link>
               {nextChapter ? (
                 <Link
                   href={`/books/${book.slug}/day-${nextChapter.number}`}
@@ -124,13 +141,7 @@ export default async function BookChapterPage({
                   X
                 </a>
               </div>
-              <Link
-                href={`/books/${book.slug}`}
-                className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white"
-              >
-                ← Back to Book
-              </Link>
-            </div>
+            </nav>
           </article>
         </div>
       </section>
@@ -139,7 +150,7 @@ export default async function BookChapterPage({
 }
 
 export const generateStaticParams = () =>
-  books.flatMap((book) =>
+  staticBooks.flatMap((book) =>
     book.chapters.map((chapter) => ({
       slug: book.slug,
       chapter: `day-${chapter.number}`,

@@ -1,6 +1,6 @@
 # Beard & Diapers
 
-The Beard & Diapers website shares community stories, books, projects, and ways to get involved. It is built with Next.js and uses Supabase for public form submissions, story moderation, and the admin-selected featured book.
+The Beard & Diapers website shares community stories, books, projects, and ways to get involved. It is built with Next.js and uses Supabase for submissions, story publishing, book and chapter management, and the admin-selected featured book.
 
 ## Run locally
 
@@ -34,6 +34,8 @@ Ideas from the brief that are deferred to later phases are tracked in [`docs/FUT
 - Submitted stories remain private as `pending` until an admin publishes them. Published stories appear in chronological order, with the newest at the end of the list.
 - A story photo is optional. Uploaded photos remain private while a story is pending; published story photos are served only for published stories. Stories without a photo have no app-provided image.
 - The admin chooses the homepage featured book from the available book catalog.
+- Admin can write stories as drafts or publish them immediately, edit story editorial metadata, and manage books and chapters. Chapters can be saved as drafts, published immediately, or scheduled; scheduled chapters are published automatically when their date arrives.
+- Reading progress is saved in the reader's browser on that device. It is not synced between browsers or devices.
 
 ## Useful commands
 

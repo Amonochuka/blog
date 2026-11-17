@@ -8,16 +8,20 @@ export async function GET() {
   if (!(await hasAdminSession())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
   try {
-    const settings = await supabaseRest<Array<{ value: string }>>(
+    const [settings, databaseBooks] = await Promise.all([
+      supabaseRest<Array<{ value: string }>>(
       "site_settings?select=value&key=eq.featured_book_slug&limit=1"
-    );
+      ),
+      supabaseRest<Array<{ slug: string; title: string }>>("books?select=slug,title&order=position.asc,title.asc").catch(() => []),
+    ]);
+    const availableBooks = databaseBooks.length ? databaseBooks : books;
     const selectedSlug = settings[0]?.value;
-    const featuredBookSlug = books.some((book) => book.slug === selectedSlug)
+    const featuredBookSlug = availableBooks.some((book) => book.slug === selectedSlug)
       ? selectedSlug
-      : books[0]?.slug ?? "";
+      : availableBooks[0]?.slug ?? "";
 
     return NextResponse.json({
-      books: books.map(({ slug, title }) => ({ slug, title })),
+      books: availableBooks.map(({ slug, title }) => ({ slug, title })),
       featuredBookSlug,
     });
   } catch {
@@ -30,7 +34,12 @@ export async function PATCH(request: Request) {
   if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
 
   const { slug } = await request.json().catch(() => ({}));
-  if (typeof slug !== "string" || !books.some((book) => book.slug === slug)) {
+  let availableSlugs = books.map((book) => book.slug);
+  try {
+    const databaseBooks = await supabaseRest<Array<{ slug: string }>>("books?select=slug");
+    if (databaseBooks.length) availableSlugs = databaseBooks.map((book) => book.slug);
+  } catch {}
+  if (typeof slug !== "string" || !availableSlugs.includes(slug)) {
     return NextResponse.json({ error: "Choose a book from the list." }, { status: 400 });
   }
 

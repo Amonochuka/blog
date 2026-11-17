@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { PhotoStack } from "@/components/PhotoStack";
 import { SectionDivider } from "@/components/SectionDivider";
 import { getPublicContent } from "@/lib/public-content";
 
@@ -141,16 +142,15 @@ export default async function Home() {
                 Learn More
               </Link>
             </div>
-            <div className="relative flex justify-center">
-              <Image
-                src="/images/who-we-are-family.jpeg"
-                alt="A father carrying his smiling daughter on his back"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl border-2 border-brand-black object-cover object-[center_20%]"
-                width={1600}
-                height={1067}
-                loading="lazy"
-              />
-            </div>
+            <PhotoStack
+              photos={[
+                "/images/family-reading-story.jpg",
+                "/images/african-father-child-outdoors.jpg",
+                "/images/family-hope.jpeg",
+                "/images/who-we-are-family.jpeg",
+              ]}
+              alt="A father carrying his smiling daughter on his back"
+            />
           </div>
         </div>
       </section>
@@ -468,16 +468,15 @@ export default async function Home() {
                 Explore all ways to get involved
               </Link>
             </div>
-            <div className="relative flex justify-center">
-              <Image
-                src="/images/family-village-africa.jpg"
-                alt="A family standing together in their community"
-                className="mx-auto aspect-[2/1] w-full max-w-xl rounded-2xl border-2 border-brand-black object-cover object-center"
-                width={1600}
-                height={1000}
-                loading="lazy"
-              />
-            </div>
+            <PhotoStack
+              photos={[
+                "/images/community-family-urban-kenya.jpg",
+                "/images/kenya-community-gathering-2.jpg",
+                "/images/family-outdoor-cooking.jpg",
+                "/images/family-village-africa.jpg",
+              ]}
+              alt="A family standing together in their community"
+            />
           </div>
         </div>
       </section>

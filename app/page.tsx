@@ -165,6 +165,7 @@ export default async function Home() {
           firstObjectPosition="center 38%"
           secondObjectPosition="center 50%"
           fadeToDarkBottom
+          beardEdgeBottom
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">

@@ -85,7 +85,7 @@ export default async function Home() {
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-brand-gold sm:text-5xl md:text-6xl">
             Beard & Diapers
           </h1>
-          <p className="mb-8 max-w-2xl text-2xl leading-relaxed text-brand-gold-light md:text-3xl">
+          <p className="font-display mb-8 max-w-2xl text-2xl font-bold leading-relaxed text-brand-gold-light md:text-3xl">
             Advancing hope where people live, learn, heal, and belong.
           </p>
           <p className="mb-8 max-w-3xl text-sm leading-relaxed text-brand-gold-muted sm:text-base">

@@ -75,7 +75,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
     <details className="mt-5 rounded-xl border border-be-200 p-4 dark:border-be-700">
       <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid items-start gap-4 sm:grid-cols-2">
         {(["title", "subtitle", "author_name", "category", "seo_title", "published_at", "image_url"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
             {name === "published_at" ? "Publication date" : name === "image_url" ? "Featured image URL or project path" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
@@ -83,7 +83,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
           </label>
         ))}
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
-          Excerpt
+          Excerpt (shown on the homepage and story listings)
           <textarea className={inputClass} rows={2} value={fields.excerpt} onChange={(event) => update("excerpt", event.target.value)} />
         </label>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
@@ -94,7 +94,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
           Tags (comma separated)
           <input className={inputClass} value={fields.tags} onChange={(event) => update("tags", event.target.value)} />
         </label>
-        <fieldset className="space-y-2 rounded-lg border border-be-200 p-3 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
+        <fieldset className="self-start space-y-2 rounded-lg border border-be-200 p-3 text-xs text-be-700 dark:border-be-700 dark:text-zinc-300 sm:col-span-2">
           <legend className="px-1 font-semibold">Related stories</legend>
           <p>Select up to three published stories to link at the bottom of this article. This does not create a category or group.</p>
           {availableStories.length ? <div className="grid gap-2 sm:grid-cols-2">{availableStories.map((relatedStory) => {

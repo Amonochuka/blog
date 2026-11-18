@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Project = {
   id: string;
@@ -22,16 +22,7 @@ const fanPositions = [
 export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
   const photoProjects = projects.slice(0, 3);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveringStack, setHoveringStack] = useState(false);
   const activeProject = photoProjects[activeIndex];
-
-  useEffect(() => {
-    if (!hoveringStack || photoProjects.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % photoProjects.length);
-    }, 1300);
-    return () => window.clearInterval(timer);
-  }, [hoveringStack, photoProjects.length]);
 
   if (!activeProject) return null;
 
@@ -42,8 +33,6 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
           className="relative mx-auto h-[19rem] w-full max-w-xl sm:h-[23rem] lg:h-[26rem]"
           role="group"
           aria-label="Project photo stack. Hover to browse photos, or select one to bring it forward."
-          onMouseEnter={() => setHoveringStack(true)}
-          onMouseLeave={() => setHoveringStack(false)}
         >
           {photoProjects.map((project, index) => {
             const active = index === activeIndex;
@@ -57,7 +46,7 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
-                className="absolute rounded-sm bg-white p-2 pb-9 text-left shadow-xl outline-offset-4 transition-[left,top,width,transform,box-shadow] duration-500 ease-out focus-visible:outline-2 focus-visible:outline-brand-gold motion-reduce:transition-none sm:p-3 sm:pb-10"
+                className="absolute rounded-sm bg-white p-2 pb-9 text-left shadow-xl outline-offset-4 transition-[left,top,width,transform,box-shadow] duration-200 ease-out focus-visible:outline-2 focus-visible:outline-brand-gold motion-reduce:transition-none sm:p-3 sm:pb-10"
                 style={{
                   left: active ? "11%" : fan.left,
                   top: active ? "4%" : fan.top,

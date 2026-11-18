@@ -34,8 +34,10 @@ export default async function ProjectsPage() {
                     loading="lazy"
                     width={800}
                     height={400}
+                    unoptimized
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-be-900/80 backdrop-blur-sm text-white p-4">
+                    {project.featured && <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-brand-gold-light">Featured project</span>}
                     <h3 className="font-bold">{project.name}</h3>
                     <p className="text-sm mt-1">{project.location}{project.year ? ` · ${project.year}` : ""}</p>
                   </div>
@@ -105,6 +107,7 @@ export default async function ProjectsPage() {
                       width={800}
                       height={500}
                       loading="lazy"
+                      unoptimized
                     />
                   </div>
                 ))}

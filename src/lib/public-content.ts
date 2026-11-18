@@ -37,6 +37,22 @@ export type PublicContent = {
   featuredBookSlug: string | null;
 };
 
+type DatabaseProject = {
+  id: string;
+  slug: string;
+  name: string;
+  location: string;
+  year: string | null;
+  description: string;
+  why: string;
+  story: string;
+  image: string;
+  photos: string[];
+  people: string[];
+  outcomes: string;
+  featured: boolean;
+};
+
 export async function getPublicContent(): Promise<PublicContent> {
   const supabaseConfigured = Boolean(getSupabaseConfig());
   if (supabaseConfigured) await publishDueStories();
@@ -129,5 +145,27 @@ export async function getPublicContent(): Promise<PublicContent> {
   }
 
   publishedStories.sort((first, second) => first.date.localeCompare(second.date));
-  return { stories: publishedStories, books, projects, featuredBookSlug };
+  let publicProjects: Project[] = projects;
+  if (supabaseConfigured) {
+    try {
+      const databaseProjects = await supabaseRest<DatabaseProject[]>("projects?select=*&order=featured.desc,position.asc,name.asc");
+      publicProjects = databaseProjects.map((project) => ({
+        id: project.slug,
+        name: project.name,
+        location: project.location,
+        year: project.year,
+        description: project.description,
+        why: project.why,
+        story: project.story,
+        image: project.image,
+        photos: project.photos || [],
+        people: project.people || [],
+        outcomes: project.outcomes,
+        featured: project.featured,
+      }));
+    } catch (error) {
+      console.error("Could not load the project catalog from Supabase:", error);
+    }
+  }
+  return { stories: publishedStories, books, projects: publicProjects, featuredBookSlug };
 }

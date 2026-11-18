@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { STORY_CATEGORIES } from "@/lib/content-categories";
+import { RichTextEditor, toRichHtml } from "@/components/RichTextEditor";
+import { ContentHistoryControls } from "@/components/ContentHistoryControls";
 
 export type EditableStory = {
   id: string;
@@ -16,13 +19,17 @@ export type EditableStory = {
   seo_title: string;
   seo_description: string;
   published_at: string | null;
+  scheduled_at?: string | null;
+  status?: string;
   image_path?: string | null;
   image_url: string | null;
 };
 
 export function AdminStoryEditor({ story, availableStories, onSaved }: { story: EditableStory; availableStories: Array<{ slug: string; title: string }>; onSaved: () => void }) {
+  const [editorOpen, setEditorOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [historyVersion, setHistoryVersion] = useState(0);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
   const [fields, setFields] = useState({
@@ -38,10 +45,22 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
     seo_title: story.seo_title || "",
     seo_description: story.seo_description || "",
     published_at: story.published_at ? story.published_at.slice(0, 10) : "",
+    scheduled_at: story.scheduled_at ? toLocalDateTime(story.scheduled_at) : "",
+    status: story.status || "pending",
   });
 
   function update<Key extends keyof typeof fields>(name: Key, value: (typeof fields)[Key]) {
     setFields((current) => ({ ...current, [name]: value }));
+  }
+
+  function restore(snapshot: Record<string, unknown>) {
+    const recovered = { ...snapshot } as Record<string, unknown>;
+    if (Array.isArray(recovered.tags)) recovered.tags = recovered.tags.join(", ");
+    if (recovered.published_at == null) recovered.published_at = "";
+    if (recovered.scheduled_at == null) recovered.scheduled_at = "";
+    if (typeof recovered.published_at === "string") recovered.published_at = recovered.published_at.slice(0, 10);
+    if (typeof recovered.scheduled_at === "string" && recovered.scheduled_at) recovered.scheduled_at = toLocalDateTime(recovered.scheduled_at);
+    setFields((current) => ({ ...current, ...recovered }));
   }
 
   async function save() {
@@ -52,8 +71,10 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
       form.set("id", story.id);
       form.set("editorial", JSON.stringify({
         ...fields,
+        content: toRichHtml(fields.content),
         tags: fields.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
         published_at: fields.published_at,
+        scheduled_at: fields.scheduled_at ? new Date(fields.scheduled_at).toISOString() : "",
       }));
       if (imageFile) form.set("image", imageFile);
       form.set("remove_image", String(removeImage));
@@ -64,6 +85,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not save this story.");
       setMessage("Story saved.");
+      setHistoryVersion((version) => version + 1);
       setImageFile(null);
       setRemoveImage(false);
       onSaved();
@@ -76,17 +98,40 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
 
   const inputClass = "w-full rounded-md bg-be-50 px-3 py-2 text-sm text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white";
 
+function toLocalDateTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date.toISOString().slice(0, 16);
+}
+
   return (
-    <details className="mt-5 rounded-xl border border-[color:var(--color-be-200)] p-4 dark:border-[color:var(--color-be-700)]">
+    <details onToggle={(event) => setEditorOpen(event.currentTarget.open)} className="mt-5 rounded-xl border border-[color:var(--color-be-200)] p-4 dark:border-[color:var(--color-be-700)]">
       <summary className="cursor-pointer font-semibold text-be-800 dark:text-zinc-200">Edit story and publishing details</summary>
+      {editorOpen && <>
       <p className="mt-2 text-sm text-be-600 dark:text-zinc-400">SEO title and description are for Google and other search previews. They do not control the site&apos;s own search box or guarantee ranking.</p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {(["title", "subtitle", "author_name", "category", "seo_title", "published_at"] as const).map((name) => (
+        {(["title", "subtitle", "author_name", "seo_title", "published_at"] as const).map((name) => (
           <label key={name} className="space-y-1 text-xs font-semibold capitalize text-be-600 dark:text-zinc-300">
             {name === "published_at" ? "Publication date" : name === "seo_title" ? "SEO title (search result title)" : name.replaceAll("_", " ")}
             <input type={name === "published_at" ? "date" : "text"} className={inputClass} value={fields[name]} onChange={(event) => update(name, event.target.value)} />
           </label>
         ))}
+        <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300">Category
+          <select className={inputClass} value={fields.category} onChange={(event) => update("category", event.target.value)}>
+            {!STORY_CATEGORIES.includes(fields.category as (typeof STORY_CATEGORIES)[number]) && <option value={fields.category}>{fields.category} (existing category)</option>}
+            {STORY_CATEGORIES.map((category) => <option key={category} value={category}>{category}</option>)}
+          </select>
+        </label>
+        <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300">Publishing status
+          <select className={inputClass} value={fields.status} onChange={(event) => update("status", event.target.value)}>
+            {!["pending", "draft", "scheduled", "published", "rejected"].includes(fields.status) && <option value={fields.status}>{fields.status}</option>}
+            <option value="pending">Pending review</option><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="published">Published</option><option value="rejected">Rejected</option>
+          </select>
+        </label>
+        {fields.status === "scheduled" && <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300">Publish at (your local time)
+          <input type="datetime-local" className={inputClass} value={fields.scheduled_at} onChange={(event) => update("scheduled_at", event.target.value)} />
+        </label>}
         <div className="space-y-2 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
           <label className="block space-y-1">Featured image (optional)
             <input type="file" accept="image/jpeg,image/png,image/webp" className={inputClass} onChange={(event) => { setImageFile(event.target.files?.[0] ?? null); setRemoveImage(false); }} />
@@ -100,10 +145,11 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
           Excerpt
           <textarea className={inputClass} rows={2} value={fields.excerpt} onChange={(event) => update("excerpt", event.target.value)} />
         </label>
-        <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
-          Story body
-          <textarea className={inputClass} rows={12} value={fields.content} onChange={(event) => update("content", event.target.value)} />
-        </label>
+        <div className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300 sm:col-span-2">
+          <span className="block">Story body</span>
+          <RichTextEditor value={fields.content} onChange={(content) => update("content", content)} minHeight={320} />
+          <ContentHistoryControls key={historyVersion} type="story" id={story.id} snapshot={fields} onRestore={restore} />
+        </div>
         <label className="space-y-1 text-xs font-semibold text-be-600 dark:text-zinc-300">
           Tags (comma separated)
           <input className={inputClass} value={fields.tags} onChange={(event) => update("tags", event.target.value)} />
@@ -129,6 +175,7 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
         <button type="button" disabled={saving} onClick={() => void save()} className="rounded-full bg-be-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">{saving ? "Saving…" : "Save story"}</button>
         {message && <p role="status" className="text-sm text-be-600 dark:text-zinc-300">{message}</p>}
       </div>
+      </>}
     </details>
   );
 }

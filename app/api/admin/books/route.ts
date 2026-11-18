@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { hasAdminSession } from "@/lib/admin-session";
 import { isSameOriginRequest } from "@/lib/same-origin-request";
 import { supabaseRest } from "@/lib/supabase-rest";
+import { clearContentAutosave, saveContentRevision } from "@/lib/content-history";
+import { sanitizeRichContent } from "@/lib/rich-content";
 
 type BookRow = {
   id: string;
@@ -87,7 +89,7 @@ export async function POST(request: Request) {
       const bookSlug = typeof item.book_slug === "string" ? item.book_slug.trim() : "";
       const number = Number(item.number);
       const title = typeof item.title === "string" ? item.title.trim() : "";
-      const content = typeof item.content === "string" ? item.content.trim() : "";
+      const content = typeof item.content === "string" ? sanitizeRichContent(item.content.trim()) : "";
       const imageUrl = typeof item.image_url === "string" ? item.image_url.trim() : "";
       const status = ["draft", "scheduled", "published"].includes(item.status) ? item.status : "draft";
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(bookSlug) || !Number.isInteger(number) || number < 1 || title.length < 2 || content.length < 1 || content.length > 100000) {
@@ -111,7 +113,12 @@ export async function POST(request: Request) {
         updated_at: new Date().toISOString(),
       };
       if (typeof item.id === "string" && /^[0-9a-f-]{36}$/i.test(item.id)) {
+        const previous = await supabaseRest<Array<{ book_slug: string; number: number; title: string; content: string; image_url: string; status: string; scheduled_at: string | null; published_at: string | null; is_free: boolean; position: number }>>(
+          `book_chapters?select=book_slug,number,title,content,image_url,status,scheduled_at,published_at,is_free,position&id=eq.${item.id}&limit=1`
+        );
+        if (previous[0]) await saveContentRevision("chapter", item.id, previous[0]);
         await supabaseRest<unknown>(`book_chapters?id=eq.${item.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify(values) });
+        await clearContentAutosave("chapter", item.id).catch((error) => console.error("Could not remove saved chapter draft:", error));
       } else {
         await supabaseRest<unknown>("book_chapters", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify(values) });
       }

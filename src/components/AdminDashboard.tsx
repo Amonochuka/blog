@@ -40,6 +40,7 @@ type Story = {
   seo_title: string;
   seo_description: string;
   published_at: string | null;
+  scheduled_at: string | null;
   image_url: string | null;
 };
 
@@ -313,6 +314,7 @@ export function AdminDashboard() {
                 </div>
                 <span className="rounded-full bg-be-100 px-3 py-1 text-xs capitalize text-be-800 dark:bg-be-900 dark:text-zinc-200">{story.status}</span>
               </div>
+              {story.status === "scheduled" && story.scheduled_at && <p className="mb-3 text-sm font-semibold text-be-700 dark:text-be-200">Scheduled to publish {new Date(story.scheduled_at).toLocaleString()}</p>}
               {(story.image_path || story.image_url) && (
                 <Image
                   src={story.image_url || `/api/admin/stories/${story.id}/image`}

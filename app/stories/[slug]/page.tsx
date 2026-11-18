@@ -6,6 +6,8 @@ import { getPublishedStoryImageUrl } from "@/lib/story-image";
 import { readingTime } from "@/utils/readingTime";
 import type { Metadata } from "next";
 import { StoryComments } from "@/components/StoryComments";
+import { publishDueStories } from "@/lib/story-scheduler";
+import { sanitizeRichContent } from "@/lib/rich-content";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +29,7 @@ type PublishedStory = {
 
 async function getStory(slug: string) {
   if (!getSupabaseConfig()) return undefined;
+  await publishDueStories();
   try {
     const stories = await supabaseRest<PublishedStory[]>(
       `stories?select=slug,title,subtitle,content,category,author_name,image_path,image_url,published_at,tags,seo_title,seo_description,related_story_slugs&slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`
@@ -46,7 +49,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const { slug } = await params;
     const story = await getStory(slug);
     if (!story) return {};
-    const description = story.seo_description || story.subtitle || story.content.replace(/\s+/g, " ").slice(0, 160);
+    const plainContent = story.content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const description = story.seo_description || story.subtitle || plainContent.slice(0, 160);
     return {
       title: story.seo_title || story.title,
       description,
@@ -69,10 +73,6 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
   }
   if (!story) notFound();
 
-  const paragraphs = story.content
-    .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
   let relatedStories: Array<{ slug: string; title: string; excerpt: string }> = [];
   let comments: Array<{ id: string; author_name: string; content: string; created_at: string }> = [];
   try {
@@ -105,12 +105,12 @@ export default async function SubmittedStoryPage({ params }: { params: Promise<{
         tags={story.tags || []}
         author={story.author_name}
         date={story.published_at}
-        readingTime={readingTime(story.content)}
+        readingTime={readingTime(story.content.replace(/<[^>]*>/g, " "))}
         image={getPublishedStoryImageUrl(story.slug, story.image_path, story.image_url)}
         imageAlt={story.title}
         relatedStories={relatedStories}
       >
-        {paragraphs.map((paragraph, index) => <p key={`${story.slug}-${index}`}>{paragraph}</p>)}
+        <div dangerouslySetInnerHTML={{ __html: sanitizeRichContent(story.content) }} />
         <StoryComments slug={story.slug} comments={comments} />
       </StoryArticleLayout>
     </BaseLayout>

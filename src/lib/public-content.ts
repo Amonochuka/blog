@@ -2,6 +2,7 @@ import { projects, type Project } from "@/content/projects";
 import { getBookCatalog } from "@/lib/book-catalog";
 import { getPublishedStoryImageUrl } from "@/lib/story-image";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
+import { publishDueStories } from "@/lib/story-scheduler";
 
 export type PublicStoryContent = {
   id: string;
@@ -37,6 +38,7 @@ export type PublicContent = {
 
 export async function getPublicContent(): Promise<PublicContent> {
   const supabaseConfigured = Boolean(getSupabaseConfig());
+  if (supabaseConfigured) await publishDueStories();
   const catalog = await getBookCatalog();
   const books: PublicBookContent[] = catalog.map(({ id, slug, cover, title, author, tagline, description, status, totalDays, chapters }) => ({
     id,

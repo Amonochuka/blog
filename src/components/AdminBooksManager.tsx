@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { RichTextEditor, toRichHtml } from "@/components/RichTextEditor";
+import { ContentHistoryControls } from "@/components/ContentHistoryControls";
 
 type ChapterRecord = {
   id: string;
@@ -48,6 +50,7 @@ export function AdminBooksManager() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [historyVersion, setHistoryVersion] = useState(0);
   const [bookId, setBookId] = useState("");
   const [book, setBook] = useState(blankBook);
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -111,6 +114,13 @@ export function AdminBooksManager() {
     } : { ...blankChapter, book_slug: chapter.book_slug });
   }
 
+  function restoreChapter(snapshot: Record<string, unknown>) {
+    const restored = { ...snapshot } as Partial<typeof chapter>;
+    if (restored.scheduled_at == null) restored.scheduled_at = "";
+    if (typeof restored.scheduled_at === "string" && restored.scheduled_at) restored.scheduled_at = toLocalDateTime(restored.scheduled_at);
+    setChapter((current) => ({ ...current, ...restored }));
+  }
+
   async function save(kind: "book" | "chapter") {
     setSaving(true);
     setError("");
@@ -134,7 +144,7 @@ export function AdminBooksManager() {
       }
       const payload = kind === "book"
         ? { kind, book: { ...book, cover, id: bookId || undefined } }
-        : { kind, chapter: { ...chapter, image_url: chapterImage, id: chapterId || undefined, scheduled_at: chapter.scheduled_at ? new Date(chapter.scheduled_at).toISOString() : "" } };
+        : { kind, chapter: { ...chapter, content: toRichHtml(chapter.content), image_url: chapterImage, id: chapterId || undefined, scheduled_at: chapter.scheduled_at ? new Date(chapter.scheduled_at).toISOString() : "" } };
       const response = await fetch("/api/admin/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -143,6 +153,7 @@ export function AdminBooksManager() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not save publishing content.");
       setMessage(kind === "book" ? "Book saved." : "Chapter saved.");
+      if (kind === "chapter" && chapterId) setHistoryVersion((version) => version + 1);
       if (kind === "book") { setBookId(""); setBook(blankBook); setCoverFile(null); }
       else { setChapterId(""); setChapter({ ...blankChapter, book_slug: chapter.book_slug, number: chapter.number + 1, position: chapter.position + 1 }); setChapterImageFile(null); }
       await load();
@@ -199,7 +210,7 @@ export function AdminBooksManager() {
             <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Publication state<select className={inputClass} value={chapter.status} onChange={(event) => setChapter({ ...chapter, status: event.target.value as ChapterRecord["status"] })}><option value="draft">Draft</option><option value="published">Publish immediately</option><option value="scheduled">Schedule publication</option></select></label>
             {chapter.status === "scheduled" && <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300">Publish at (your local time)<input type="datetime-local" className={inputClass} value={chapter.scheduled_at} onChange={(event) => setChapter({ ...chapter, scheduled_at: event.target.value })} /></label>}
             <label className="flex items-center gap-2 text-sm text-be-700 dark:text-zinc-300"><input type="checkbox" checked={chapter.is_free} onChange={(event) => setChapter({ ...chapter, is_free: event.target.checked })} />Free chapter (premium access is not enabled)</label>
-            <label className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2">Chapter content<textarea className={inputClass} rows={12} value={chapter.content} onChange={(event) => setChapter({ ...chapter, content: event.target.value })} /></label>
+            <div className="space-y-1 text-sm text-be-700 dark:text-zinc-300 sm:col-span-2"><span className="block">Chapter content</span><RichTextEditor key={chapterId || "new-chapter"} value={chapter.content} onChange={(content) => setChapter((current) => ({ ...current, content }))} minHeight={320} />{chapterId && <ContentHistoryControls key={historyVersion} type="chapter" id={chapterId} snapshot={chapter} onRestore={restoreChapter} />}</div>
           </div>
           <button disabled={saving} onClick={() => void save("chapter")} className="mt-4 rounded-full bg-be-700 px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60">{saving ? "Saving…" : chapterId ? "Save chapter" : "Add chapter"}</button>
         </>}

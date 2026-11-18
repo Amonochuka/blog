@@ -4,6 +4,9 @@ import { isSameOriginRequest } from "@/lib/same-origin-request";
 import { supabaseRest } from "@/lib/supabase-rest";
 import { randomUUID } from "node:crypto";
 import { removeStoryImage, uploadStoryImage } from "@/lib/supabase-storage";
+import { clearContentAutosave, saveContentRevision } from "@/lib/content-history";
+import { STORY_CATEGORIES } from "@/lib/content-categories";
+import { sanitizeRichContent } from "@/lib/rich-content";
 
 const imageTypes: Record<string, { mime: string; valid: (bytes: Uint8Array) => boolean }> = {
   jpg: { mime: "image/jpeg", valid: (bytes) => bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff },
@@ -46,6 +49,7 @@ type StoryAdminRow = {
   featured: boolean;
   seo_title: string;
   seo_description: string;
+  scheduled_at: string | null;
 };
 
 export async function GET() {
@@ -91,10 +95,17 @@ export async function PATCH(request: Request) {
       const cleanString = (value: unknown, max: number) => typeof value === "string" ? value.trim().slice(0, max) : null;
       const title = cleanString(editorial.title, 160);
       const author_name = cleanString(editorial.author_name, 100);
-      const content = cleanString(editorial.content, 30000);
+      const submittedContent = cleanString(editorial.content, 100000);
+      const content = submittedContent ? sanitizeRichContent(submittedContent) : "";
       const tags = Array.isArray(editorial.tags) ? editorial.tags.filter((tag: unknown) => typeof tag === "string").map((tag: string) => tag.trim()).filter(Boolean).slice(0, 20) : [];
       const related_story_slugs = Array.isArray(editorial.related_story_slugs) ? editorial.related_story_slugs.filter((slug: unknown) => typeof slug === "string").map((slug: string) => slug.trim()).filter((slug: string) => /^[a-z0-9-]{1,120}$/.test(slug)).slice(0, 10) : [];
-      if (!title || title.length < 3 || !author_name || author_name.length < 2 || !content || content.length < 20) {
+      const plainContent = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+      const nextStatus = typeof editorial.status === "string" && ["pending", "draft", "scheduled", "published", "rejected"].includes(editorial.status) ? editorial.status : "pending";
+      const scheduledDate = typeof editorial.scheduled_at === "string" && editorial.scheduled_at ? new Date(editorial.scheduled_at) : null;
+      if (nextStatus === "scheduled" && (!scheduledDate || Number.isNaN(scheduledDate.getTime()) || scheduledDate.getTime() <= Date.now())) {
+        return NextResponse.json({ error: "Choose a future date and time to schedule this story." }, { status: 400 });
+      }
+      if (!title || title.length < 3 || !author_name || author_name.length < 2 || plainContent.length < 20 || content.length > 100000) {
         return NextResponse.json({ error: "Title, author, and a story body of at least 20 characters are required." }, { status: 400 });
       }
       try {
@@ -102,12 +113,37 @@ export async function PATCH(request: Request) {
       } catch (error) {
         return NextResponse.json({ error: error instanceof Error ? error.message : "Could not upload story image." }, { status: 400 });
       }
-      const previousRows = await supabaseRest<Array<{ image_path: string | null; image_url: string | null }>>(`stories?select=image_path,image_url&id=eq.${id}&limit=1`);
+      const previousRows = await supabaseRest<Array<{
+        image_path: string | null; image_url: string | null; title: string; subtitle: string; excerpt: string; content: string;
+        category: string; author_name: string; tags: string[]; related_story_slugs: string[]; featured: boolean;
+        seo_title: string; seo_description: string; published_at: string | null; scheduled_at: string | null; status: string;
+      }>>(`stories?select=image_path,image_url,title,subtitle,excerpt,content,category,author_name,tags,related_story_slugs,featured,seo_title,seo_description,published_at,scheduled_at,status&id=eq.${id}&limit=1`);
       if (!previousRows.length) {
         if (imagePath) await removeStoryImage(imagePath).catch(() => undefined);
         return NextResponse.json({ error: "Story not found." }, { status: 404 });
       }
       const previousImagePath = previousRows[0].image_path;
+      const category = cleanString(editorial.category, 80) ?? "Community";
+      if (!STORY_CATEGORIES.includes(category as (typeof STORY_CATEGORIES)[number]) && category !== previousRows[0].category) {
+        if (imagePath) await removeStoryImage(imagePath).catch(() => undefined);
+        return NextResponse.json({ error: "Choose one of the listed story categories." }, { status: 400 });
+      }
+      await saveContentRevision("story", id, {
+        title: previousRows[0].title,
+        subtitle: previousRows[0].subtitle,
+        excerpt: previousRows[0].excerpt,
+        content: previousRows[0].content,
+        category: previousRows[0].category,
+        author_name: previousRows[0].author_name,
+        tags: previousRows[0].tags,
+        related_story_slugs: previousRows[0].related_story_slugs,
+        featured: previousRows[0].featured,
+        seo_title: previousRows[0].seo_title,
+        seo_description: previousRows[0].seo_description,
+        published_at: previousRows[0].published_at,
+        scheduled_at: previousRows[0].scheduled_at,
+        status: previousRows[0].status,
+      });
       await supabaseRest<unknown>(`stories?id=eq.${id}`, {
         method: "PATCH",
         headers: { Prefer: "return=minimal" },
@@ -116,7 +152,7 @@ export async function PATCH(request: Request) {
           subtitle: cleanString(editorial.subtitle, 240) ?? "",
           excerpt: cleanString(editorial.excerpt, 500) ?? "",
           content,
-          category: cleanString(editorial.category, 80) ?? "Community",
+          category,
           author_name,
           tags,
           related_story_slugs,
@@ -125,11 +161,14 @@ export async function PATCH(request: Request) {
           seo_description: cleanString(editorial.seo_description, 320) ?? "",
           image_path: removeImage ? null : imagePath ?? previousImagePath,
           image_url: removeImage || imagePath ? null : previousRows[0].image_url,
-          published_at: typeof editorial.published_at === "string" && /^\d{4}-\d{2}-\d{2}$/.test(editorial.published_at)
-            ? `${editorial.published_at}T12:00:00.000Z`
+          status: nextStatus,
+          scheduled_at: nextStatus === "scheduled" ? scheduledDate?.toISOString() : null,
+          published_at: nextStatus === "published"
+            ? (typeof editorial.published_at === "string" && /^\d{4}-\d{2}-\d{2}$/.test(editorial.published_at) ? `${editorial.published_at}T12:00:00.000Z` : previousRows[0].published_at ?? new Date().toISOString())
             : null,
         }),
       });
+      await clearContentAutosave("story", id).catch((error) => console.error("Could not remove saved story draft:", error));
       if ((imagePath || removeImage) && previousImagePath && previousImagePath !== imagePath) {
         await removeStoryImage(previousImagePath).catch((error) => console.error("Could not remove replaced story image:", error));
       }
@@ -141,12 +180,12 @@ export async function PATCH(request: Request) {
     await supabaseRest<unknown>(`stories?id=eq.${id}`, {
       method: "PATCH",
       headers: { Prefer: "return=minimal" },
-      body: JSON.stringify({ status, published_at: status === "published" ? new Date().toISOString() : null }),
+      body: JSON.stringify({ status, scheduled_at: null, published_at: status === "published" ? new Date().toISOString() : null }),
     });
     return NextResponse.json({ success: true });
   } catch {
     if (imagePath) await removeStoryImage(imagePath).catch(() => undefined);
-    return NextResponse.json({ error: "Could not update this story. For editorial edits, apply the story editorial metadata migration in Supabase." }, { status: 502 });
+    return NextResponse.json({ error: "Could not update this story. Apply the story editorial metadata and content workflow migrations in Supabase." }, { status: 502 });
   }
 }
 
@@ -176,13 +215,19 @@ export async function POST(request: Request) {
 
   const title = typeof body.title === "string" ? body.title.trim() : "";
   const author = typeof body.author_name === "string" ? body.author_name.trim() : "";
-  const content = typeof body.content === "string" ? body.content.trim() : "";
+  const submittedContent = typeof body.content === "string" ? body.content.trim() : "";
+  const content = sanitizeRichContent(submittedContent);
+  const plainContent = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
   const requestedExcerpt = typeof body.excerpt === "string" ? body.excerpt.trim() : "";
-  const excerpt = requestedExcerpt || content.replace(/\s+/g, " ").slice(0, 220);
+  const excerpt = requestedExcerpt || plainContent.slice(0, 220);
   const category = typeof body.category === "string" ? body.category.trim() : "Community";
   const imageUrl = typeof body.image_url === "string" ? body.image_url.trim() : "";
-  const status = body.status === "published" ? "published" : "draft";
-  if (title.length < 3 || title.length > 160 || author.length < 2 || author.length > 100 || content.length < 20 || content.length > 30000 || excerpt.length > 500 || category.length > 80) {
+  const status = ["published", "scheduled"].includes(String(body.status)) ? String(body.status) : "draft";
+  const scheduledAt = typeof body.scheduled_at === "string" && body.scheduled_at ? new Date(body.scheduled_at) : null;
+  if (status === "scheduled" && (!scheduledAt || Number.isNaN(scheduledAt.getTime()) || scheduledAt.getTime() <= Date.now())) {
+    return NextResponse.json({ error: "Choose a future date and time to schedule this story." }, { status: 400 });
+  }
+  if (title.length < 3 || title.length > 160 || author.length < 2 || author.length > 100 || plainContent.length < 20 || content.length > 100000 || excerpt.length > 500 || category.length > 80 || !STORY_CATEGORIES.includes(category as (typeof STORY_CATEGORIES)[number])) {
     return NextResponse.json({ error: "Enter a title, author, category, excerpt, and story body within the stated limits." }, { status: 400 });
   }
   const tags = Array.isArray(body.tags) ? body.tags.filter((tag: unknown) => typeof tag === "string").map((tag: string) => tag.trim()).filter(Boolean).slice(0, 20) : [];
@@ -210,6 +255,7 @@ export async function POST(request: Request) {
         seo_title: typeof body.seo_title === "string" ? body.seo_title.trim().slice(0, 160) : "",
         seo_description: typeof body.seo_description === "string" ? body.seo_description.trim().slice(0, 320) : "",
         status,
+        scheduled_at: status === "scheduled" ? scheduledAt?.toISOString() : null,
         publication_permission: false,
         published_at: status === "published" ? new Date().toISOString() : null,
       }),
@@ -217,6 +263,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, story }, { status: 201 });
   } catch {
     if (uploadedImagePath) await removeStoryImage(uploadedImagePath).catch(() => undefined);
-    return NextResponse.json({ error: "Could not create this story. Apply the story editorial metadata migration in Supabase, then try again." }, { status: 502 });
+    return NextResponse.json({ error: "Could not create this story. Apply the story editorial metadata and content workflow migrations in Supabase, then try again." }, { status: 502 });
   }
 }

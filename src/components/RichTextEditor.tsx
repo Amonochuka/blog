@@ -13,7 +13,18 @@ export function toRichHtml(content: string) {
   const trimmed = content.trim();
   if (!trimmed) return "<p></p>";
   if (/^<[a-z][^>]*>/i.test(trimmed)) return trimmed;
-  return trimmed.split(/\n\s*\n/).map((paragraph) => `<p>${escapeHtml(paragraph).replaceAll("\n", "<br>")}</p>`).join("");
+  return trimmed.split(/\n\s*\n/).map((paragraph) => {
+    const text = paragraph.trim();
+    const heading = text.match(/^(#{1,3})\s+([\s\S]+)$/);
+    if (heading) {
+      const level = Math.min(3, Math.max(2, heading[1].length));
+      return `<h${level}>${escapeHtml(heading[2])}</h${level}>`;
+    }
+    if (text.split("\n").every((line) => /^[-*]\s/.test(line.trim()))) {
+      return `<ul>${text.split("\n").map((line) => `<li>${escapeHtml(line.trim().replace(/^[-*]\s/, ""))}</li>`).join("")}</ul>`;
+    }
+    return `<p>${escapeHtml(text).replaceAll("\n", "<br>")}</p>`;
+  }).join("");
 }
 
 type RichTextEditorProps = {

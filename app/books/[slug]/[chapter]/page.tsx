@@ -8,6 +8,7 @@ import { BaseLayout } from "@/components/BaseLayout";
 import { getBookCatalog, getPublishedChapter } from "@/lib/book-catalog";
 import { getAppBaseUrl } from "@/lib/site-url";
 import { RecordChapterProgress } from "@/components/BookReadingProgress";
+import { sanitizeRichContent } from "@/lib/rich-content";
 
 export default async function BookChapterPage({
   params,
@@ -46,11 +47,8 @@ export default async function BookChapterPage({
     }
   }
 
-  const paragraphs = content
-    .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.trim())
-    .filter((paragraph) => paragraph && !paragraph.startsWith("#"));
-  if (paragraphs.length === 0) notFound();
+  const richContent = sanitizeRichContent(content);
+  if (!richContent.trim()) notFound();
 
   const previousChapter = book.chapters[chapterIndex - 1];
   const nextChapter = book.chapters[chapterIndex + 1];
@@ -101,7 +99,7 @@ export default async function BookChapterPage({
 
             <h2 className="mb-6 text-2xl font-bold text-be-900 dark:text-white">{title}</h2>
             <RecordChapterProgress bookSlug={book.slug} chapterNumber={chapterNumber} />
-            {paragraphs.map((paragraph, index) => <p key={`${chapter}-${index}`}>{paragraph}</p>)}
+            <div className="story-article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
 
             <nav aria-label="Chapter navigation" className="mt-8 flex flex-col items-start gap-4 border-t border-[color:var(--color-be-200)] pt-6 sm:flex-row sm:items-center sm:gap-2 dark:border-[color:var(--color-be-700)]">
               {previousChapter && <Link href={`/books/${book.slug}/day-${previousChapter.number}`} className="font-medium text-be-600 transition-colors hover:text-be-900 dark:hover:text-white">← Previous Chapter</Link>}

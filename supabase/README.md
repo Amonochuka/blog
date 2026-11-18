@@ -12,6 +12,8 @@ The site uses Supabase for story submissions, inquiries, newsletter signups, the
 | `site_settings` | The admin-selected featured book |
 | `books` | Book catalog managed in the admin |
 | `book_chapters` | Chapter content, order, and publication state |
+| `content_autosaves` | Recoverable in-progress admin edits for existing stories and chapters |
+| `content_revisions` | Previous saved versions of stories and chapters |
 
 Three tables store form submissions. `site_settings` stores site configuration, not form data.
 
@@ -22,6 +24,7 @@ In the Supabase SQL Editor, run these files in order:
 1. [`schema.sql`](schema.sql)
 2. [`story-attachments.sql`](story-attachments.sql)
 3. [`book-media-storage-migration.sql`](book-media-storage-migration.sql)
+4. [`content-workflow-migration.sql`](content-workflow-migration.sql)
 
 The second script creates the private `story-submissions` Storage bucket for optional story documents and photos. Admins can upload story photos directly when creating or editing stories; the third creates the public `book-media` bucket for book covers and optional chapter images uploaded by admins.
 
@@ -37,6 +40,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | [`featured-book-setting-migration.sql`](featured-book-setting-migration.sql) | The `site_settings` table or featured-book setting is missing |
 | [`story-images-migration.sql`](story-images-migration.sql) | Enabling optional submitter photos; adds `image_path`, removes the image default for pending stories, and allows image types in Storage |
 | [`story-editorial-metadata-migration.sql`](story-editorial-metadata-migration.sql) | Enabling admin editing for subtitle, tags, related stories, featured flag, and SEO fields |
+| [`content-workflow-migration.sql`](content-workflow-migration.sql) | Enabling scheduled stories, admin editor autosaves, and saved story/chapter versions |
 | [`book-cms-migration.sql`](book-cms-migration.sql) | Enabling admin-managed books and chapters, drafts, scheduling, and publication status |
 | [`book-media-storage-migration.sql`](book-media-storage-migration.sql) | Enabling admin uploads for book covers and chapter images |
 | [`story-comments-migration.sql`](story-comments-migration.sql) | Enabling moderated public comments on stories |
@@ -52,13 +56,15 @@ Accepted photo formats are JPG, PNG, and WebP, up to 10 MB. Optional document at
 
 ## Story editing
 
-Apply `story-editorial-metadata-migration.sql` to an existing project before using story authoring in `/admin`. Admin can create stories as drafts or publish them immediately, then update story copy, author, category, display date, tags, related-story links, image URL, and SEO fields. The featured flag is editorial metadata only; it does not add a homepage featured-story block.
+Apply `story-editorial-metadata-migration.sql` and `content-workflow-migration.sql` to an existing project before using the complete story editor in `/admin`. The editor supports headings, emphasis, lists, quotes, links, uploaded inline images, and a preview. Inline images are uploaded individually into the public `book-media` bucket; the admin does not get a shared media library. It autosaves existing story and chapter edits separately from the published copy, and records the previous saved version when Save is pressed. New stories can be saved as drafts, published immediately, or scheduled. Scheduled stories are promoted when a public story page or story listing is requested after the scheduled time; without public traffic, their state changes on the next request rather than at the exact second.
+
+Story categories are selected from the fixed list in the admin. Existing older category values remain available when editing those stories so a save does not silently recategorize them. The featured flag is editorial metadata only; it does not add a homepage featured-story block.
 
 Apply `story-comments-migration.sql` to enable moderated comments. New comments remain pending until an admin approves them in the Comments tab. Email addresses are visible only in admin; public comments show the author's name and comment text.
 
 ## Book and chapter publishing
 
-Apply `book-cms-migration.sql` and `book-media-storage-migration.sql` before using book management in `/admin`. They create the book catalog and chapter tables, seed the current demonstration book and its three published chapters without overwriting matching entries, and create image storage for admin uploads. Admin can add and edit books and chapters, upload covers and optional chapter images, reorder chapters by number, publish immediately, save drafts, or schedule publication. Scheduled chapters become public when their scheduled time arrives. Premium access is not enforced; the free flag is editorial metadata for future use.
+Apply `book-cms-migration.sql`, `book-media-storage-migration.sql`, and `content-workflow-migration.sql` before using book management in `/admin`. They create the book catalog and chapter tables, seed the current demonstration book and its three published chapters without overwriting matching entries, and create image storage for admin uploads. Admin can add and edit books and chapters, upload covers and optional chapter images, reorder chapters by number, publish immediately, save drafts, or schedule publication. Scheduled chapters become public when their scheduled time arrives. Chapter editing uses the same rich text tools and saves versions for existing chapters. Premium access is not enforced; the free flag is editorial metadata for future use.
 
 ## Where to check setup
 

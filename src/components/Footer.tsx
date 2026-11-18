@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { NewsletterForm } from "@/components/NewsletterForm";
 
 export function Footer() {
   return (
@@ -89,11 +88,12 @@ export function Footer() {
                   </svg>
                 </a>
               </li>
+              <li>
+                <Link className="text-sm transition-colors hover:text-brand-gold-muted" href="/#newsletter">
+                  Newsletter
+                </Link>
+              </li>
             </ul>
-            <div className="mt-5 max-w-xs">
-              <p className="mb-2 text-sm font-semibold">The Beard &amp; Diapers Letter</p>
-              <NewsletterForm compact />
-            </div>
           </div>
 
           <div>

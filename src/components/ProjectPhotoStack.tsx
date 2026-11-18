@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Project = {
   id: string;
@@ -22,13 +22,29 @@ const fanPositions = [
 export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
   const photoProjects = projects.slice(0, 3);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveringStack, setHoveringStack] = useState(false);
   const activeProject = photoProjects[activeIndex];
+
+  useEffect(() => {
+    if (!hoveringStack || photoProjects.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % photoProjects.length);
+    }, 1300);
+    return () => window.clearInterval(timer);
+  }, [hoveringStack, photoProjects.length]);
+
   if (!activeProject) return null;
 
   return (
     <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
       <div>
-        <div className="relative mx-auto h-[19rem] w-full max-w-xl sm:h-[23rem] lg:h-[26rem]" role="group" aria-label="Project photo stack">
+        <div
+          className="relative mx-auto h-[19rem] w-full max-w-xl sm:h-[23rem] lg:h-[26rem]"
+          role="group"
+          aria-label="Project photo stack. Hover to browse photos, or select one to bring it forward."
+          onMouseEnter={() => setHoveringStack(true)}
+          onMouseLeave={() => setHoveringStack(false)}
+        >
           {photoProjects.map((project, index) => {
             const active = index === activeIndex;
             const fan = fanPositions[index];
@@ -67,7 +83,7 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
           })}
         </div>
         <p className="mt-1 text-center text-sm text-brand-gold-light">
-          Photo {activeIndex + 1} of {photoProjects.length} · {activeProject.name}
+          {activeProject.name} · {activeIndex + 1} / {photoProjects.length}
         </p>
       </div>
 

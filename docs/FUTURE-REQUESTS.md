@@ -16,6 +16,10 @@ This list records ideas from the website brief that are intentionally outside th
 - Add a podcast or recorded conversations section.
 - Add a dedicated journal or resources section if the editorial volume calls for it.
 
+## Services that need an external provider
+
+- Connect newsletter signups to an email platform so subscribers can receive campaigns. The current site records consent and addresses in Supabase, but does not send emails. Choose a provider and supply its account credentials before enabling delivery.
+
 ## Planning note
 
 These are future possibilities in the brief, not promises that the current release supports them. The current work focuses on story publishing, book and chapter management, and the reader experience. Revisit each item independently before scheduling it.

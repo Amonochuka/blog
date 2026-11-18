@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Project = {
   id: string;
@@ -22,7 +22,36 @@ const fanPositions = [
 export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
   const photoProjects = projects.slice(0, 3);
   const [activeIndex, setActiveIndex] = useState(0);
+  const stackRef = useRef<HTMLDivElement>(null);
   const activeProject = photoProjects[activeIndex];
+
+  useEffect(() => {
+    let frame = 0;
+    const updateFromScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const stack = stackRef.current;
+        if (!stack || photoProjects.length < 2) return;
+        const rect = stack.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        if (rect.bottom <= 0 || rect.top >= viewportHeight) return;
+
+        const travel = viewportHeight + rect.height;
+        const progress = Math.max(0, Math.min(0.999, (viewportHeight - rect.top) / travel));
+        const nextIndex = Math.min(photoProjects.length - 1, Math.floor(progress * photoProjects.length));
+        setActiveIndex((current) => current === nextIndex ? current : nextIndex);
+      });
+    };
+
+    updateFromScroll();
+    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", updateFromScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", updateFromScroll);
+    };
+  }, [photoProjects.length]);
 
   if (!activeProject) return null;
 
@@ -30,6 +59,7 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
     <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
       <div>
         <div
+          ref={stackRef}
           className="relative mx-auto h-[19rem] w-full max-w-xl sm:h-[23rem] lg:h-[26rem]"
           role="group"
           aria-label="Project photo stack. Hover to browse photos, or select one to bring it forward."

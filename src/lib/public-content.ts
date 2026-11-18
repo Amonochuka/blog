@@ -13,6 +13,7 @@ export type PublicStoryContent = {
   excerpt: string;
   subtitle: string;
   image: string | null;
+  tags: string[];
   readingTime?: string;
 };
 
@@ -94,6 +95,7 @@ export async function getPublicContent(): Promise<PublicContent> {
         category: story.category,
         excerpt: story.excerpt,
         image: getPublishedStoryImageUrl(story.slug, story.image_path, story.image_url),
+        tags: story.tags || [],
       }));
     } catch (error) {
       console.error("Could not load editorial story fields; trying the original story columns:", error);
@@ -118,6 +120,7 @@ export async function getPublicContent(): Promise<PublicContent> {
           category: story.category,
           excerpt: story.excerpt,
           image: getPublishedStoryImageUrl(story.slug, story.image_path, story.image_url),
+          tags: [],
         }));
       } catch (legacyError) {
         console.error("Could not load published stories from Supabase:", legacyError);

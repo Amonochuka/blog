@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getPublicContent } from "@/lib/public-content";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
-  const { projects } = await getPublicContent();
+  const { projects, stories } = await getPublicContent();
 
   return (
     <BaseLayout>
@@ -45,7 +46,9 @@ export default async function ProjectsPage() {
         </div>
       </section>
 
-      {projects.map((project) => (
+      {projects.map((project) => {
+        const relatedStories = stories.filter((story) => story.tags.includes(`project:${project.id}`));
+        return (
         <section key={project.id} id={project.id} className="scroll-mt-24 bg-be-50 py-16 sm:py-20 lg:py-24 dark:bg-be-900">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -107,9 +110,24 @@ export default async function ProjectsPage() {
                 ))}
               </div>
             </div>
+            {relatedStories.length > 0 && (
+              <div className="mt-12 border-t border-[#d9c8a3] pt-8">
+                <h3 className="mb-5 text-2xl font-bold text-be-900 dark:text-white">Related stories</h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {relatedStories.map((story) => (
+                    <Link key={story.id} href={`/stories/${story.id}`} className="rounded-xl border border-[#e8ddc9] bg-white p-5 transition-colors hover:border-[#c9a96a] dark:border-[#6b4b3a] dark:bg-be-800">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-be-600 dark:text-be-300">{story.category}</span>
+                      <h4 className="mt-2 text-lg font-bold text-be-900 dark:text-white">{story.title}</h4>
+                      <p className="mt-2 line-clamp-3 text-sm text-be-700 dark:text-zinc-300">{story.excerpt}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
-      ))}
+        );
+      })}
     </BaseLayout>
   );
 }

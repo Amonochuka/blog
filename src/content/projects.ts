@@ -13,6 +13,8 @@ export type Project = {
   featured?: boolean;
 };
 
+// Link a published story to a project by adding `project:<project id>` to its tags in the admin editor.
+
 export const projects: Project[] = [
   {
     id: "hospital-reading-corners",

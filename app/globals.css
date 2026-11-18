@@ -42,6 +42,14 @@
   margin-top: 1.5rem;
 }
 
+.story-article-body p + p,
+.story-article-body p + ul,
+.story-article-body p + ol,
+.story-article-body ul + p,
+.story-article-body ol + p {
+  margin-top: 1.5rem;
+}
+
 .story-article-body h2 {
   margin-top: 3rem;
   color: var(--color-be-900);
@@ -73,6 +81,73 @@
 
 .dark .story-article-body blockquote {
   color: var(--color-be-200);
+}
+
+.story-article-body ul,
+.rich-editor-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.story-article-body ol,
+.rich-editor-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.story-article-body a,
+.rich-editor-preview a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.story-article-body img,
+.rich-editor-content img {
+  max-height: 36rem;
+  margin: 1.5rem auto;
+  border-radius: 0.75rem;
+  object-fit: contain;
+}
+
+.rich-editor-content .tiptap {
+  min-height: inherit;
+  padding: 1rem;
+  outline: none;
+  color: var(--color-be-900);
+  line-height: 1.8;
+}
+
+.dark .rich-editor-content .tiptap {
+  color: white;
+}
+
+.rich-editor-content .tiptap > * + * {
+  margin-top: 1rem;
+}
+
+.rich-editor-content .tiptap h2,
+.rich-editor-preview .tiptap h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.rich-editor-content .tiptap h3,
+.rich-editor-preview .tiptap h3 {
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.rich-editor-content .tiptap blockquote,
+.story-article-body blockquote {
+  border-left: 3px solid var(--color-be-500);
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.rich-editor-preview .tiptap {
+  background: var(--color-be-50);
 }
 
 .story-share-icon {

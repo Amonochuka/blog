@@ -7,7 +7,7 @@ The site uses Supabase for story submissions, inquiries, newsletter signups, the
 | Table | Contents |
 | --- | --- |
 | `stories` | Pending submissions, admin drafts, published stories, and rejected submissions, with editorial and SEO metadata |
-| `contact_messages` | Contact, volunteer, church partnership, organisation partnership, and project support inquiries, grouped by `inquiry_type` |
+| `contact_messages` | Contact, volunteer, partnership, project support, community initiative, and prayer support inquiries, grouped by `inquiry_type` |
 | `newsletter_subscribers` | Email addresses and consent |
 | `site_settings` | The admin-selected featured book |
 | `books` | Book catalog managed in the admin |
@@ -37,6 +37,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | Migration | Use when |
 | --- | --- |
 | [`support-project-inquiry-migration.sql`](support-project-inquiry-migration.sql) | The `contact_messages` constraint does not yet allow `support_project` inquiries |
+| [`community-pathway-inquiries-migration.sql`](community-pathway-inquiries-migration.sql) | Enabling admin inbox categories for community initiative and prayer support inquiries |
 | [`featured-book-setting-migration.sql`](featured-book-setting-migration.sql) | The `site_settings` table or featured-book setting is missing |
 | [`story-images-migration.sql`](story-images-migration.sql) | Enabling optional submitter photos; adds `image_path`, removes the image default for pending stories, and allows image types in Storage |
 | [`story-editorial-metadata-migration.sql`](story-editorial-metadata-migration.sql) | Enabling admin editing for subtitle, tags, related stories, featured flag, and SEO fields |

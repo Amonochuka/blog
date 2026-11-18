@@ -80,7 +80,7 @@ create table if not exists public.contact_messages (
   email text not null,
   subject text not null,
   message text not null check (char_length(message) between 5 and 10000),
-  inquiry_type text not null default 'general' check (inquiry_type in ('general', 'volunteer', 'church_partnership', 'organisation_partnership', 'support_project')),
+  inquiry_type text not null default 'general' check (inquiry_type in ('general', 'volunteer', 'church_partnership', 'organisation_partnership', 'support_project', 'community_initiative', 'prayer_support')),
   created_at timestamptz not null default now(),
   read_at timestamptz
 );
@@ -157,7 +157,7 @@ alter table public.contact_messages
 
 alter table public.contact_messages
   add constraint contact_messages_inquiry_type_check
-  check (inquiry_type in ('general', 'volunteer', 'church_partnership', 'organisation_partnership', 'support_project'));
+  check (inquiry_type in ('general', 'volunteer', 'church_partnership', 'organisation_partnership', 'support_project', 'community_initiative', 'prayer_support'));
 
 create index if not exists contact_messages_type_created_at_idx
   on public.contact_messages (inquiry_type, created_at desc);

@@ -69,17 +69,42 @@ export default async function ProjectsPage() {
                       <dd>{project.why}</dd>
                     </div>
                   )}
+                  {project.people?.length ? (
+                    <div>
+                      <dt className="font-medium">People involved</dt>
+                      <dd>{project.people.join(", ")}</dd>
+                    </div>
+                  ) : null}
+                  {project.outcomes && (
+                    <div>
+                      <dt className="font-medium">Outcomes and impact</dt>
+                      <dd>{project.outcomes}</dd>
+                    </div>
+                  )}
                 </dl>
+                {project.story && (
+                  <div className="mt-8 border-l-4 border-brand-gold pl-5 text-be-700 dark:text-zinc-300">
+                    <h3 className="mb-2 font-semibold text-be-900 dark:text-white">The story behind the project</h3>
+                    <p>{project.story}</p>
+                  </div>
+                )}
+                <a href={`/contact?subject=${encodeURIComponent(`Support ${project.name}`)}&type=support_project#contact-form`} className="mt-8 inline-flex rounded-full bg-be-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-be-900">
+                  Ask about supporting this project
+                </a>
               </div>
-              <div className="relative">
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  className="h-[400px] w-full rounded-2xl object-cover"
-                  width={800}
-                  height={500}
-                  loading="lazy"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                {(project.photos?.length ? project.photos : [project.image]).map((photo, index) => (
+                  <div key={photo} className={`relative overflow-hidden rounded-2xl ${index === 0 ? "col-span-2" : ""}`}>
+                    <Image
+                      src={photo}
+                      alt={`${project.name}${index ? `, photo ${index + 1}` : ""}`}
+                      className={`${index === 0 ? "h-[300px] sm:h-[400px]" : "h-40 sm:h-52"} w-full object-cover`}
+                      width={800}
+                      height={500}
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

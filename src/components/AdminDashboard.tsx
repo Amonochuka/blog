@@ -14,6 +14,8 @@ const inquiryTabs = [
   { id: "church-partners", label: "Church partners", inquiryType: "church_partnership", emptyMessage: "No church partnership inquiries yet." },
   { id: "organisation-partners", label: "Organisation partners", inquiryType: "organisation_partnership", emptyMessage: "No organisation partnership inquiries yet." },
   { id: "project-support", label: "Project support", inquiryType: "support_project", emptyMessage: "No project support inquiries yet." },
+  { id: "initiatives", label: "Initiatives", inquiryType: "community_initiative", emptyMessage: "No community initiative proposals yet." },
+  { id: "prayer", label: "Prayer support", inquiryType: "prayer_support", emptyMessage: "No prayer support messages yet." },
 ] as const;
 
 type InquiryTabId = (typeof inquiryTabs)[number]["id"];

@@ -4,6 +4,8 @@ export const inquiryTypes = [
   "church_partnership",
   "organisation_partnership",
   "support_project",
+  "community_initiative",
+  "prayer_support",
 ] as const;
 
 export type InquiryType = (typeof inquiryTypes)[number];

@@ -57,6 +57,19 @@ export default function GetInvolvedPage() {
             </Link>
           </div>
 
+          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div id="start-something" className="scroll-mt-28 rounded-xl border border-[#e8ddc9] p-6">
+              <h3 className="mb-4 text-2xl font-bold text-be-900">Start Something</h3>
+              <p className="mb-6 text-be-600 dark:text-zinc-400">Have an idea for a community initiative? Tell us about the need, the people involved, and what you hope to make possible.</p>
+              <Link href="/contact?subject=Community%20initiative%20proposal&type=community_initiative#contact-form" className="inline-flex rounded-full bg-be-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-be-700">Propose an idea</Link>
+            </div>
+            <div id="pray-with-us" className="scroll-mt-28 rounded-xl border border-[#e8ddc9] p-6">
+              <h3 className="mb-4 text-2xl font-bold text-be-900">Pray With Us</h3>
+              <p className="mb-6 text-be-600 dark:text-zinc-400">If you would like to share a prayer or encouragement with the team, send a private note. Prayer messages are reviewed in the admin inbox.</p>
+              <Link href="/contact?subject=Prayer%20and%20encouragement&type=prayer_support#contact-form" className="inline-flex rounded-full border border-be-600 px-6 py-3 text-sm font-medium text-be-800 transition-colors hover:bg-be-50">Send a prayer note</Link>
+            </div>
+          </div>
+
           {/* Partner section */}
           <div id="partner" className="mt-8 scroll-mt-28 border-t border-[#e8ddc9] pt-8">
             <h3 className="text-2xl font-bold text-be-900 mb-6">Partner With Us</h3>

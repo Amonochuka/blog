@@ -39,6 +39,8 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
                 aria-label={`Bring ${project.name} photo to the front`}
                 aria-pressed={active}
                 onClick={() => setActiveIndex(index)}
+                onMouseEnter={() => setActiveIndex(index)}
+                onFocus={() => setActiveIndex(index)}
                 className="absolute rounded-sm bg-white p-2 pb-9 text-left shadow-xl outline-offset-4 transition-[left,top,width,transform,box-shadow] duration-500 ease-out focus-visible:outline-2 focus-visible:outline-brand-gold motion-reduce:transition-none sm:p-3 sm:pb-10"
                 style={{
                   left: active ? "11%" : fan.left,
@@ -75,16 +77,18 @@ export function ProjectPhotoStack({ projects }: { projects: Project[] }) {
           return (
             <article
               key={project.id}
+              onMouseEnter={() => setActiveIndex(index)}
               className={`rounded-xl border p-5 transition-colors motion-reduce:transition-none ${active ? "border-brand-gold bg-brand-black text-brand-gold-light shadow-lg" : "border-brand-gold/35 bg-brand-black/85 text-brand-gold-light hover:border-brand-gold/70"}`}
             >
               <button
                 type="button"
                 aria-pressed={active}
                 onClick={() => setActiveIndex(index)}
+                onFocus={() => setActiveIndex(index)}
                 className="w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
               >
                 <span className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <span className="text-2xl font-bold leading-tight">{project.name}</span>
+                  <span className="font-display text-2xl font-bold leading-tight">{project.name}</span>
                   <span className="text-sm text-brand-gold-muted">{project.location}{project.year ? ` · ${project.year}` : ""}</span>
                 </span>
                 <span className="mt-2 block text-sm leading-relaxed text-white">{project.description}</span>

@@ -4,6 +4,7 @@ import { BaseLayout } from "@/components/BaseLayout";
 import { FamilyPhotoBackdrop } from "@/components/FamilyPhotoBackdrop";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { PhotoStack } from "@/components/PhotoStack";
+import { ProjectPhotoStack } from "@/components/ProjectPhotoStack";
 import { SectionDivider } from "@/components/SectionDivider";
 import { getPublicContent } from "@/lib/public-content";
 
@@ -393,31 +394,7 @@ export default async function Home() {
           </div>
 
           {projects.length > 0 ? (
-            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-              <div>
-                <PhotoStack
-                  photos={projects.slice(0, 4).map((project) => project.image)}
-                  alt="Scenes from Beard & Diapers community projects"
-                />
-                <p className="mt-2 text-center text-sm text-brand-gold-light">Moments from the work taking root in our communities.</p>
-              </div>
-              <div className="space-y-3">
-                {projects.map((project) => (
-                  <Link
-                    key={project.id}
-                    href={`/projects#${project.id}`}
-                    className="group block rounded-xl border border-brand-gold/35 bg-brand-black/90 p-5 text-brand-gold-light transition-colors hover:border-brand-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
-                  >
-                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                      <h3 className="text-2xl font-bold leading-tight">{project.name}</h3>
-                      <span className="text-sm text-brand-gold-muted">{project.location}{project.year ? ` · ${project.year}` : ""}</span>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-white">{project.description}</p>
-                    <span className="mt-3 inline-block text-sm font-semibold text-brand-gold underline underline-offset-4 group-hover:text-brand-gold-light">Explore project <span aria-hidden="true">→</span></span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <ProjectPhotoStack projects={projects} />
           ) : (
             <div className="rounded-2xl border border-brand-gold/30 bg-brand-black/85 px-6 py-10 text-center">
               <p className="text-brand-gold-light">Project updates are on the way.</p>

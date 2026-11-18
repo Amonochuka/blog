@@ -2,6 +2,7 @@ import Image from "next/image";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getPublicContent } from "@/lib/public-content";
 import Link from "next/link";
+import { NewsletterSignupSection } from "@/components/NewsletterSignupSection";
 
 export const dynamic = "force-dynamic";
 
@@ -91,6 +92,7 @@ export default async function BooksPage() {
           </div>
         </div>
       </section>
+      <NewsletterSignupSection title="The Beard & Diapers Letter" description="Get new stories, book chapters and project updates occasionally." />
     </BaseLayout>
   );
 }

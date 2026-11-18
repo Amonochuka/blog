@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
-export function NewsletterForm() {
+export function NewsletterForm({ compact = false }: { compact?: boolean }) {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -34,9 +34,9 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md rounded-xl border border-brand-gold/35 bg-brand-black/90 p-6 sm:p-8">
+    <form onSubmit={handleSubmit} className={`w-full rounded-xl border border-brand-gold/35 bg-brand-black/90 ${compact ? "p-4" : "mx-auto max-w-md p-6 sm:p-8"}`}>
       <div className="hidden" aria-hidden="true"><label>Leave this field blank<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
         <input name="email" type="email" autoComplete="email" placeholder="Enter your email" aria-label="Email address" required className="min-w-0 flex-1 rounded-md border border-brand-gold/40 bg-brand-black px-4 py-3 text-brand-gold-light outline-none placeholder:text-brand-gold-muted focus:ring-2 focus:ring-brand-gold" />
         <button disabled={submitting} type="submit" className="rounded-md bg-brand-gold px-6 py-3 font-semibold text-brand-black transition-colors hover:bg-brand-gold-light disabled:cursor-wait disabled:opacity-60">{submitting ? "Saving…" : "Subscribe"}</button>
       </div>

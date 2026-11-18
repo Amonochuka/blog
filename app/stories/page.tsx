@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BaseLayout } from "@/components/BaseLayout";
 import { getPublicContent, type PublicStoryContent } from "@/lib/public-content";
+import { NewsletterSignupSection } from "@/components/NewsletterSignupSection";
 
 type StoryCard = PublicStoryContent;
 
@@ -111,6 +112,7 @@ export default async function StoriesPage() {
           )}
         </div>
       </section>
+      <NewsletterSignupSection title="Stories, ideas and hope" />
     </BaseLayout>
   );
 }

@@ -1,5 +1,6 @@
 import { BaseLayout } from "@/components/BaseLayout";
 import Link from "next/link";
+import { NewsletterSignupSection } from "@/components/NewsletterSignupSection";
 
 export default function GetInvolvedPage() {
   return (
@@ -113,6 +114,7 @@ export default function GetInvolvedPage() {
           </a>
         </div>
       </section>
+      <NewsletterSignupSection title="Stay connected" description="Receive occasional stories, project updates and ways to participate." />
     </BaseLayout>
   );
 }

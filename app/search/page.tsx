@@ -12,7 +12,7 @@ export default async function SearchPage({
     ? await fetch(`${getAppBaseUrl()}/api/search?q=${encodeURIComponent(q)}`, { cache: "no-store" })
     : null;
   const data = res
-    ? await res.json() as { results?: Array<{ id: string; type: "story" | "book" | "project"; title?: string; name?: string; category?: string }>; query?: string }
+    ? await res.json() as { results?: Array<{ id: string; type: "story" | "book" | "chapter" | "project"; title?: string; name?: string; category?: string; author?: string; bookTitle?: string; href?: string }>; query?: string }
     : null;
   const results = data?.results || [];
   const query = data?.query || "";
@@ -27,13 +27,13 @@ export default async function SearchPage({
           </div>
 
           <form action="/search" method="get" role="search" className="mx-auto mb-12 flex max-w-2xl flex-col gap-3 sm:flex-row">
-            <label className="sr-only" htmlFor="site-search">Search stories, books, and projects</label>
+            <label className="sr-only" htmlFor="site-search">Search stories, books, chapters, authors, and projects</label>
             <input
               id="site-search"
               type="search"
               name="q"
               defaultValue={q}
-              placeholder="Search stories, books, and projects"
+              placeholder="Search stories, books, chapters, authors, and projects"
               required
               className="min-w-0 flex-1 rounded-full border border-[#d9c8a3] bg-white px-5 py-3 text-be-900 placeholder:text-be-600/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
             />
@@ -47,7 +47,7 @@ export default async function SearchPage({
 
           {!query.trim() ? (
             <div className="text-center py-12">
-              <p className="text-be-600 dark:text-zinc-400">Enter a keyword to find stories, books, and projects.</p>
+              <p className="text-be-600 dark:text-zinc-400">Enter a keyword to find stories, books, chapters, authors, and projects.</p>
             </div>
           ) : results.length === 0 ? (
             <div className="text-center py-12">
@@ -56,11 +56,11 @@ export default async function SearchPage({
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map((result) => {
-                const href = result.type === "story"
+                const href = result.href || (result.type === "story"
                   ? `/stories/${result.id}`
                   : result.type === "book"
                     ? `/books/${result.id}`
-                    : `/projects#${result.id}`;
+                    : result.type === "project" ? `/projects#${result.id}` : "#");
                 const title = result.title || result.name || "View result";
                 return result.id ? (
                   <Link
@@ -71,7 +71,7 @@ export default async function SearchPage({
                     <div className="p-3">
                       <h3 className="text-be-900 mb-2">{title}</h3>
                       <p className="text-be-600 text-sm">
-                        {result.category || (result.type === "project" ? "Project" : result.type === "book" ? "Book" : "")}
+                        {result.category || (result.type === "chapter" ? `Chapter · ${result.bookTitle}` : result.type === "project" ? "Project" : result.type === "book" ? `Book${result.author ? ` · ${result.author}` : ""}` : result.author ? `Story · ${result.author}` : "Story")}
                       </p>
                     </div>
                   </Link>

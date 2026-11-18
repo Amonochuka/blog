@@ -68,6 +68,7 @@ export async function GET(request: Request) {
       (s) =>
         s.title.toLowerCase().includes(lowercaseQuery) ||
         s.subtitle.toLowerCase().includes(lowercaseQuery) ||
+        s.author.toLowerCase().includes(lowercaseQuery) ||
         s.category.toLowerCase().includes(lowercaseQuery) ||
         s.body.toLowerCase().includes(lowercaseQuery) ||
         s.tags.some((t) => t.toLowerCase().includes(lowercaseQuery))
@@ -75,17 +76,28 @@ export async function GET(request: Request) {
     ...books.filter(
       (b) =>
         b.title.toLowerCase().includes(lowercaseQuery) ||
+        b.author.toLowerCase().includes(lowercaseQuery) ||
         b.description.toLowerCase().includes(lowercaseQuery) ||
-        b.chapters.some(
-          (c) => c.title.toLowerCase().includes(lowercaseQuery)
-        )
-    ).map((book) => ({ id: book.slug, title: book.title, type: "book" as const })),
+        b.tagline.toLowerCase().includes(lowercaseQuery)
+    ).map((book) => ({ id: book.slug, title: book.title, author: book.author, type: "book" as const })),
+    ...books.flatMap((book) => book.chapters
+      .filter((chapter) => chapter.title.toLowerCase().includes(lowercaseQuery) || (chapter.content || "").toLowerCase().includes(lowercaseQuery))
+      .map((chapter) => ({
+        id: `${book.slug}-day-${chapter.number}`,
+        title: chapter.title,
+        bookTitle: book.title,
+        type: "chapter" as const,
+        href: `/books/${book.slug}/day-${chapter.number}`,
+      }))),
     ...projects.filter(
       (p) =>
         p.name.toLowerCase().includes(lowercaseQuery) ||
         p.location.toLowerCase().includes(lowercaseQuery) ||
         p.description.toLowerCase().includes(lowercaseQuery) ||
-        p.why.toLowerCase().includes(lowercaseQuery)
+        p.why.toLowerCase().includes(lowercaseQuery) ||
+        (p.story || "").toLowerCase().includes(lowercaseQuery) ||
+        (p.people || []).some((person) => person.toLowerCase().includes(lowercaseQuery)) ||
+        (p.outcomes || "").toLowerCase().includes(lowercaseQuery)
     ).map((project) => ({ ...project, type: "project" as const })),
   ];
 

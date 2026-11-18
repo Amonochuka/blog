@@ -393,32 +393,30 @@ export default async function Home() {
           </div>
 
           {projects.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {projects.map((project) => (
-                <Link
-                  key={project.id}
-                  href={`/projects#${project.id}`}
-                  className="group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
-                >
-                  <article className="relative overflow-hidden rounded-xl border border-brand-gold/30 bg-brand-black shadow-sm transition-colors group-hover:border-brand-gold">
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                      width={800}
-                      height={600}
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/55 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-6 text-brand-gold-light">
+            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+              <div>
+                <PhotoStack
+                  photos={projects.slice(0, 4).map((project) => project.image)}
+                  alt="Scenes from Beard & Diapers community projects"
+                />
+                <p className="mt-2 text-center text-sm text-brand-gold-light">Moments from the work taking root in our communities.</p>
+              </div>
+              <div className="space-y-3">
+                {projects.map((project) => (
+                  <Link
+                    key={project.id}
+                    href={`/projects#${project.id}`}
+                    className="group block rounded-xl border border-brand-gold/35 bg-brand-black/90 p-5 text-brand-gold-light transition-colors hover:border-brand-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"
+                  >
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <h3 className="text-2xl font-bold leading-tight">{project.name}</h3>
-                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white">
-                        {project.description}
-                      </p>
+                      <span className="text-sm text-brand-gold-muted">{project.location}{project.year ? ` · ${project.year}` : ""}</span>
                     </div>
-                  </article>
-                </Link>
-              ))}
+                    <p className="mt-2 text-sm leading-relaxed text-white">{project.description}</p>
+                    <span className="mt-3 inline-block text-sm font-semibold text-brand-gold underline underline-offset-4 group-hover:text-brand-gold-light">Explore project <span aria-hidden="true">→</span></span>
+                  </Link>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="rounded-2xl border border-brand-gold/30 bg-brand-black/85 px-6 py-10 text-center">

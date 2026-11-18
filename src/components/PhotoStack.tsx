@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type PhotoStackProps = {
-  photos: [string, string, string, string];
+  photos: string[];
   alt: string;
 };
 
@@ -13,15 +13,20 @@ const printPositions = [
 ];
 
 export function PhotoStack({ photos, alt }: PhotoStackProps) {
+  const visiblePhotos = photos.slice(0, 4);
+
   return (
     <div className="relative mx-auto h-[19rem] w-full max-w-xl sm:h-[23rem] lg:h-[26rem]">
-      {photos.map((src, index) => {
-        const isFrontPrint = index === photos.length - 1;
+      {visiblePhotos.map((src, index) => {
+        const isFrontPrint = index === visiblePhotos.length - 1;
+        const position = isFrontPrint && visiblePhotos.length < 4
+          ? "left-[10%] top-[8%] z-10 w-[78%] rotate-[1.5deg]"
+          : printPositions[index];
 
         return (
           <div
             key={src}
-            className={`absolute rounded-sm bg-white p-2 pb-8 shadow-xl sm:p-3 sm:pb-10 ${printPositions[index]}`}
+            className={`absolute rounded-sm bg-white p-2 pb-8 shadow-xl sm:p-3 sm:pb-10 ${position}`}
           >
             <Image
               src={src}

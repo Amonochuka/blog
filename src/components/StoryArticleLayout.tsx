@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { CopyStoryLinkButton } from "@/components/CopyStoryLinkButton";
 
 type StoryArticleLayoutProps = {
   slug: string;
@@ -172,6 +173,17 @@ export function StoryArticleLayout({
                     >
                       <ShareIcon network="x" />
                     </a>
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+                      aria-label="Share on LinkedIn"
+                      title="Share on LinkedIn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="story-share-icon focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-be-600"
+                    >
+                      <span aria-hidden="true" className="text-sm font-bold">in</span>
+                    </a>
+                    <CopyStoryLinkButton url={storyUrl} />
                   </div>
                 </div>
 

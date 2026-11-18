@@ -20,10 +20,6 @@ This list records ideas from the website brief that are intentionally outside th
 
 - Connect newsletter signups to an email platform so subscribers can receive campaigns. The current site records consent and addresses in Supabase, but does not send emails. Choose a provider and supply its account credentials before enabling delivery.
 
-## Content management
-
-- Add an admin editor for project entries, photos, people, outcomes, and their related stories. For the current project content workflow, see [`PROJECTS.md`](PROJECTS.md).
-
 ## Planning note
 
 These are future possibilities in the brief, not promises that the current release supports them. The current work focuses on story publishing, book and chapter management, and the reader experience. Revisit each item independently before scheduling it.

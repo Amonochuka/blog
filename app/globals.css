@@ -38,6 +38,17 @@
   }
 }
 
+/* Keep clickable pill controls content-sized inside flex and grid rows. */
+:where(a, button).rounded-full:not(.h-8):not(.h-9):not(.h-10):not(.h-12):not(.h-14):not(.h-16) {
+  display: inline-flex;
+  height: fit-content;
+  flex: 0 0 auto;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
 .story-article-body > * + * {
   margin-top: 1.5rem;
 }

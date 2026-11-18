@@ -46,6 +46,7 @@ Do not rerun `schema.sql` as a substitute for migrations. Run the migration matc
 | [`book-media-storage-migration.sql`](book-media-storage-migration.sql) | Enabling admin uploads for book covers and chapter images |
 | [`story-comments-migration.sql`](story-comments-migration.sql) | Enabling moderated public comments on stories |
 | [`story-attachments.sql`](story-attachments.sql) | The `attachment_path` column or private story upload bucket has not been created |
+| [`story-submission-context-migration.sql`](story-submission-context-migration.sql) | Adding submitter location and private optional social/contact details to story submissions |
 
 [`inquiry-types-migration.sql`](inquiry-types-migration.sql) and [`story-publication-permission-migration.sql`](story-publication-permission-migration.sql) are older migrations. Run them only if the corresponding inquiry categories or story permission columns are absent. The main schema already includes those features for new projects.
 

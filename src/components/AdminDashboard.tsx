@@ -29,6 +29,8 @@ type Story = {
   category: string;
   author_name: string;
   author_email: string | null;
+  location: string | null;
+  social_contact: string | null;
   attachment_path: string | null;
   image_path: string | null;
   status: string;
@@ -313,6 +315,7 @@ export function AdminDashboard() {
                 <div>
                   <h2 className="text-xl font-bold text-be-900 dark:text-white">{story.title}</h2>
                   <p className="mt-1 text-sm text-be-600 dark:text-zinc-400">{story.category} · {story.author_name}{story.author_email && <> · <a className="underline" href={`mailto:${story.author_email}`}>{story.author_email}</a></>}</p>
+                  {(story.location || story.social_contact) && <p className="mt-1 text-sm text-be-700 dark:text-zinc-300">{[story.location, story.social_contact].filter(Boolean).join(" · ")}</p>}
                 </div>
                 <span className="rounded-full bg-be-100 px-3 py-1 text-xs capitalize text-be-800 dark:bg-be-900 dark:text-zinc-200">{story.status}</span>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { STORY_CATEGORIES } from "@/lib/content-categories";
 
 export function StorySubmissionForm() {
   const [message, setMessage] = useState("");
@@ -48,13 +49,20 @@ export function StorySubmissionForm() {
       <label className="block space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
         Category
         <select name="category" defaultValue="Community" className="w-full rounded-md bg-be-50 px-4 py-3 font-normal text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-800 dark:text-white">
-          <option>Community</option>
-          <option>Faith</option>
-          <option>Family</option>
-          <option>Fatherhood</option>
-          <option>Other</option>
+          {STORY_CATEGORIES.map((category) => <option key={category}>{category}</option>)}
         </select>
       </label>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <label className="space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
+          Location <span className="font-normal">(optional)</span>
+          <input name="location" autoComplete="address-level2" placeholder="Town, county, or country" className="w-full rounded-md bg-be-50 px-4 py-3 font-normal text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-800 dark:text-white" />
+        </label>
+        <label className="space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
+          Social media or another way to reach you <span className="font-normal">(optional)</span>
+          <input name="social_contact" autoComplete="off" placeholder="For example, Instagram @name" className="w-full rounded-md bg-be-50 px-4 py-3 font-normal text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-800 dark:text-white" />
+        </label>
+      </div>
+      <p className="-mt-3 text-xs text-be-500 dark:text-zinc-400">Your location and optional contact details are shared with the review team only. They will not appear with the published story.</p>
       <label className="block space-y-2 text-sm font-medium text-be-700 dark:text-zinc-300">
         Your story
         <textarea name="story" required rows={9} className="w-full resize-y rounded-md bg-be-50 px-4 py-3 font-normal text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-800 dark:text-white" />
@@ -71,7 +79,7 @@ export function StorySubmissionForm() {
       </label>
       <label className="flex items-start gap-3 text-sm text-be-600 dark:text-zinc-400">
         <input name="permission" type="checkbox" required className="mt-1 accent-be-600" />
-        I give Beard &amp; Diapers permission to review this story for possible publication.
+        I confirm I have the right to submit this story and give Beard &amp; Diapers permission to review and, if approved, publish it. Please contact me before making substantial edits.
       </label>
       <button disabled={submitting} type="submit" className="w-full rounded-full bg-be-600 px-6 py-3 font-medium text-white transition-colors hover:bg-be-700 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
         {submitting ? "Submitting…" : "Submit Story"}

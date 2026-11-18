@@ -15,6 +15,8 @@ create table if not exists public.stories (
   seo_description text not null default '',
   author_name text not null,
   author_email text,
+  location text check (location is null or char_length(location) <= 160),
+  social_contact text check (social_contact is null or char_length(social_contact) <= 200),
   status text not null default 'pending' check (status in ('pending', 'draft', 'published', 'rejected')),
   publication_permission boolean not null default false,
   publication_permission_at timestamptz,

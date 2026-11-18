@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { getSupabaseConfig, supabaseRest } from "@/lib/supabase-rest";
 import { removeStoryAttachment, removeStoryImage, uploadStoryAttachment, uploadStoryImage } from "@/lib/supabase-storage";
 import { getPublishedStoryImageUrl } from "@/lib/story-image";
+import { STORY_CATEGORIES } from "@/lib/content-categories";
 
 type StoryRow = {
   id: string;
@@ -62,6 +63,8 @@ export async function POST(request: Request) {
     const name = String(body.get("name") || "").trim();
     const email = String(body.get("email") || "").trim().toLowerCase();
     const category = String(body.get("category") || "Community").trim();
+    const location = String(body.get("location") || "").trim();
+    const socialContact = String(body.get("social_contact") || "").trim();
     const content = String(body.get("story") || "").trim();
     const permission = body.get("permission") === "on";
     const candidate = body.get("attachment");
@@ -70,7 +73,7 @@ export async function POST(request: Request) {
     const storyImage = imageCandidate instanceof File && imageCandidate.size > 0 ? imageCandidate : null;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (title.length < 3 || title.length > 160 || name.length < 2 || name.length > 100 || !emailPattern.test(email) || category.length > 80 || content.length < 20 || content.length > 30000 || !permission) {
+    if (title.length < 3 || title.length > 160 || name.length < 2 || name.length > 100 || !emailPattern.test(email) || !STORY_CATEGORIES.includes(category as (typeof STORY_CATEGORIES)[number]) || location.length > 160 || socialContact.length > 200 || content.length < 20 || content.length > 30000 || !permission) {
       return NextResponse.json({ error: "Please complete all fields and check the permission box. Stories must be between 20 and 30,000 characters." }, { status: 400 });
     }
 
@@ -136,6 +139,8 @@ export async function POST(request: Request) {
         category,
         author_name: name,
         author_email: email,
+        location: location || null,
+        social_contact: socialContact || null,
         status: "pending",
         publication_permission: permission,
         publication_permission_at: new Date().toISOString(),

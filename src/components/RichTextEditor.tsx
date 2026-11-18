@@ -31,15 +31,17 @@ type RichTextEditorProps = {
   value: string;
   onChange: (value: string) => void;
   minHeight?: number;
+  displayOnly?: boolean;
 };
 
-export function RichTextEditor({ value, onChange, minHeight = 280 }: RichTextEditorProps) {
+export function RichTextEditor({ value, onChange, minHeight = 280, displayOnly = false }: RichTextEditorProps) {
   const [preview, setPreview] = useState(false);
   const [imageMessage, setImageMessage] = useState("");
   const [, refreshToolbar] = useState(0);
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [2, 3] } }), Image.configure({ allowBase64: false })],
     content: toRichHtml(value),
+    editable: !displayOnly,
     immediatelyRender: false,
     onUpdate: ({ editor: current }) => onChange(current.getHTML()),
     onSelectionUpdate: () => refreshToolbar((value) => value + 1),
@@ -48,6 +50,10 @@ export function RichTextEditor({ value, onChange, minHeight = 280 }: RichTextEdi
   useEffect(() => {
     if (editor && editor.getHTML() !== toRichHtml(value)) editor.commands.setContent(toRichHtml(value), { emitUpdate: false });
   }, [editor, value]);
+
+  useEffect(() => {
+    editor?.setEditable(!displayOnly);
+  }, [displayOnly, editor]);
 
   const addLink = useCallback(() => {
     if (!editor) return;
@@ -71,6 +77,8 @@ export function RichTextEditor({ value, onChange, minHeight = 280 }: RichTextEdi
   }, [editor]);
 
   if (!editor) return <div className="min-h-64 animate-pulse rounded-md bg-be-50 dark:bg-be-900" />;
+
+  if (displayOnly) return <EditorContent editor={editor} className="rich-editor-content rich-editor-preview" style={{ minHeight }} />;
 
   const buttonClass = "rounded border border-be-200 px-2.5 py-1.5 text-xs font-semibold text-be-800 hover:bg-be-100 disabled:opacity-40 dark:border-be-700 dark:text-zinc-200 dark:hover:bg-be-800";
   const run = (action: () => void) => { action(); refreshToolbar((value) => value + 1); };

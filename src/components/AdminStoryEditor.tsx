@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { STORY_CATEGORIES } from "@/lib/content-categories";
 import { RichTextEditor, toRichHtml } from "@/components/RichTextEditor";
 import { ContentHistoryControls } from "@/components/ContentHistoryControls";
+import { EditorialPreview } from "@/components/EditorialPreview";
 
 export type EditableStory = {
   id: string;
@@ -30,6 +31,8 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [historyVersion, setHistoryVersion] = useState(0);
+  const [showStoryPreview, setShowStoryPreview] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(story.image_url || (story.image_path ? `/api/admin/stories/${story.id}/image` : null));
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
   const [fields, setFields] = useState({
@@ -97,6 +100,20 @@ export function AdminStoryEditor({ story, availableStories, onSaved }: { story: 
   }
 
   const inputClass = "w-full rounded-md bg-be-50 px-3 py-2 text-sm text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white";
+
+  function togglePreview() {
+    if (showStoryPreview) {
+      setShowStoryPreview(false);
+      return;
+    }
+    if (imageFile) setPreviewImage(URL.createObjectURL(imageFile));
+    else setPreviewImage(story.image_url || (story.image_path ? `/api/admin/stories/${story.id}/image` : null));
+    setShowStoryPreview(true);
+  }
+
+  useEffect(() => () => {
+    if (previewImage?.startsWith("blob:")) URL.revokeObjectURL(previewImage);
+  }, [previewImage]);
 
 function toLocalDateTime(value: string) {
   const date = new Date(value);
@@ -173,8 +190,10 @@ function toLocalDateTime(value: string) {
       </div>
       <div className="mt-4 flex items-center gap-3">
         <button type="button" disabled={saving} onClick={() => void save()} className="rounded-full bg-be-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60">{saving ? "Saving…" : "Save story"}</button>
+        <button type="button" onClick={togglePreview} className="rounded-full border border-be-300 px-4 py-2 text-sm font-medium text-be-800 dark:border-be-600 dark:text-zinc-100">{showStoryPreview ? "Hide preview" : "Preview story"}</button>
         {message && <p role="status" className="text-sm text-be-600 dark:text-zinc-300">{message}</p>}
       </div>
+      {showStoryPreview && <div className="mt-5"><EditorialPreview category={fields.category} title={fields.title} subtitle={fields.subtitle} author={fields.author_name} date={fields.published_at} image={previewImage} content={fields.content} /></div>}
       </>}
     </details>
   );

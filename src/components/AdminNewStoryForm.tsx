@@ -3,6 +3,9 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { STORY_CATEGORIES } from "@/lib/content-categories";
 import { RichTextEditor } from "@/components/RichTextEditor";
+import { EditorialPreview } from "@/components/EditorialPreview";
+
+type NewStoryPreview = { title: string; subtitle: string; category: string; author: string; date: string; image: string | null; content: string };
 
 const fieldClass = "w-full rounded-md bg-be-50 px-3 py-2 text-sm text-be-900 outline-none ring-be-400 focus:ring-2 dark:bg-be-900 dark:text-white";
 
@@ -13,6 +16,11 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
   const [status, setStatus] = useState("draft");
   const [browserDraft, setBrowserDraft] = useState("");
   const [storageReady, setStorageReady] = useState(false);
+  const [preview, setPreview] = useState<NewStoryPreview | null>(null);
+
+  useEffect(() => () => {
+    if (preview?.image?.startsWith("blob:")) URL.revokeObjectURL(preview.image);
+  }, [preview]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -65,6 +73,7 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
       form.reset();
       setContent("");
       setStatus("draft");
+      setPreview(null);
       window.localStorage.removeItem("admin-new-story-body");
       setMessage("Story created.");
       onCreated();
@@ -98,9 +107,26 @@ export function AdminNewStoryForm({ onCreated }: { onCreated: () => void }) {
         <label className="flex items-center gap-2 text-sm text-be-700 dark:text-zinc-300"><input name="featured" type="checkbox" />Mark as featured (editorial flag only)</label>
         <div className="flex items-center gap-3 sm:col-span-2">
           <button disabled={busy} className="rounded-full bg-be-700 px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60">{busy ? "Saving…" : "Create story"}</button>
+          <button type="button" disabled={busy} onClick={(event) => {
+            const form = event.currentTarget.form;
+            if (!form) return;
+            const values = new FormData(form);
+            const selectedImage = values.get("image");
+            const image = selectedImage instanceof File && selectedImage.size ? URL.createObjectURL(selectedImage) : null;
+            setPreview({
+              title: String(values.get("title") || ""),
+              subtitle: String(values.get("subtitle") || ""),
+              category: String(values.get("category") || ""),
+              author: String(values.get("author_name") || ""),
+              date: status === "scheduled" ? String(values.get("scheduled_at") || "Scheduled publication") : new Date().toLocaleDateString(),
+              image,
+              content,
+            });
+          }} className="rounded-full border border-be-300 px-5 py-2.5 text-sm font-medium text-be-800 dark:border-be-600 dark:text-zinc-100">Preview story</button>
           {message && <p role="status" className="text-sm text-be-700 dark:text-zinc-300">{message}</p>}
         </div>
       </form>
+      {preview && <div className="mt-5"><EditorialPreview {...preview} /></div>}
     </details>
   );
 }

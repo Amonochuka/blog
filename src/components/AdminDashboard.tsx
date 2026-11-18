@@ -7,6 +7,7 @@ import { AdminStoryEditor, type EditableStory } from "@/components/AdminStoryEdi
 import { AdminBooksManager } from "@/components/AdminBooksManager";
 import { AdminNewStoryForm } from "@/components/AdminNewStoryForm";
 import { AdminCommentsPanel } from "@/components/AdminCommentsPanel";
+import { AdminProjectsManager } from "@/components/AdminProjectsManager";
 
 const inquiryTabs = [
   { id: "messages", label: "Messages", inquiryType: "general", emptyMessage: "No contact messages yet." },
@@ -60,7 +61,7 @@ type ContactMessage = {
 
 type Subscriber = { email: string; created_at: string };
 type BookOption = { slug: string; title: string };
-type Tab = "stories" | InquiryTabId | "newsletter" | "books" | "comments";
+type Tab = "stories" | InquiryTabId | "newsletter" | "books" | "projects" | "comments";
 
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -95,6 +96,7 @@ export function AdminDashboard() {
     { id: "newsletter", label: `Newsletter (${subscribers.length})` },
     { id: "comments", label: "Comments" },
     { id: "books", label: "Books" },
+    { id: "projects", label: "Projects" },
   ];
 
   const loadFeaturedBook = useCallback(async () => {
@@ -405,6 +407,8 @@ export function AdminDashboard() {
         <AdminBooksManager />
         </div>
       )}
+
+      {tab === "projects" && <AdminProjectsManager />}
 
       {tab === "comments" && <AdminCommentsPanel />}
     </section>

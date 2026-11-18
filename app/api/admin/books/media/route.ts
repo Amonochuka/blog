@@ -32,7 +32,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Upload a valid JPG, PNG, or WebP image." }, { status: 400 });
     }
 
-    const purpose = form.get("purpose") === "chapter" ? "chapters" : "covers";
+    const requestedPurpose = form.get("purpose");
+    const purpose = requestedPurpose === "chapter" ? "chapters" : requestedPurpose === "project" ? "projects" : "covers";
     const path = `${purpose}/${randomUUID()}.${extension === "jpeg" ? "jpg" : extension}`;
     const imageUrl = await uploadBookMedia(path, candidate, imageType.mime);
     return NextResponse.json({ success: true, imageUrl }, { status: 201 });
